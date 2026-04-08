@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coordination Structural Integrity Suite</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --violet:       #7c3aed;
+      --violet-mid:   #6d28d9;
+      --violet-light: #a78bfa;
+      --violet-pale:  #ede9fe;
+      --violet-faint: #f5f3ff;
+      --indigo-dark:  #1e1b4b;
+      --indigo-mid:   #4338ca;
+      --text:         #1e1b4b;
+      --muted:        #6b7280;
+      --border:       #ddd6fe;
+      --white:        #ffffff;
+      --green:        #059669;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      background: var(--violet-faint);
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 1.5rem 2rem;
+      text-align: center;
+    }
+
+    .site-header img {
+      width: 100%;
+      max-width: 680px;
+      height: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    .site-header h1 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--indigo-dark);
+      letter-spacing: -0.01em;
+      margin-bottom: 0.3rem;
+    }
+
+    .site-header p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .site-header a { color: var(--violet); text-decoration: none; }
+    .site-header a:hover { text-decoration: underline; }
+
+    /* ── Views ── */
+    .view { display: none; padding: 2.5rem 0 4rem; }
+    .view.active { display: block; }
+
+    /* ── Back button ── */
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--violet);
+      font-size: 0.875rem;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 1.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .back-btn:hover { text-decoration: underline; }
+
+    /* ── Gateway ── */
+    .gateway-heading {
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 1.75rem;
+      color: var(--indigo-dark);
+    }
+
+    .gateway-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 520px) {
+      .gateway-cards { grid-template-columns: 1fr; }
+    }
+
+    .gateway-card {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem 1.5rem;
+      cursor: pointer;
+      background: var(--white);
+      text-align: left;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+
+    .gateway-card:hover {
+      border-color: var(--violet-light);
+      box-shadow: 0 2px 14px rgba(124,58,237,0.12);
+    }
+
+    .gateway-card h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--indigo-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .gateway-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .gateway-card .arrow {
+      display: inline-block;
+      color: var(--violet);
+      margin-top: 1rem;
+      font-size: 1.1rem;
+    }
+
+    /* ── Instruction banner ── */
+    .instruction-banner {
+      background: var(--violet-pale);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 2rem;
+      font-size: 0.875rem;
+      color: var(--indigo-dark);
+      line-height: 1.5;
+    }
+
+    .instruction-banner strong { color: var(--violet); }
+
+    .instruction-steps {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      margin-top: 0.6rem;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      color: var(--indigo-dark);
+    }
+
+    .step-num {
+      background: var(--violet);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── Library groups ── */
+    .group { margin-bottom: 2.25rem; }
+
+    .group-heading {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .group-sub {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--violet-light);
+      margin: 1.1rem 0 0.5rem;
+    }
+
+    /* ── Prompt card ── */
+    .prompt-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      margin-bottom: 0.5rem;
+      background: var(--white);
+      transition: border-color 0.15s;
+    }
+
+    .prompt-card:hover { border-color: var(--violet-light); }
+
+    .prompt-card-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .prompt-card-info h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--indigo-dark);
+      margin-bottom: 0.15rem;
+    }
+
+    .prompt-card-info .use-on {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.4;
+      font-style: italic;
+    }
+
+    .copy-btn {
+      background: var(--violet);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.15s;
+      align-self: flex-start;
+    }
+
+    .copy-btn:hover { background: var(--violet-mid); }
+    .copy-btn:disabled { background: var(--muted); cursor: default; }
+    .copy-btn.copied { background: var(--green); }
+
+    .ai-launchers {
+      display: none;
+      margin-top: 0.65rem;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .ai-launchers.visible { display: flex; }
+
+    .ai-launchers-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-right: 0.1rem;
+    }
+
+    .ai-btn {
+      display: inline-flex;
+      align-items: center;
+      background: var(--violet-faint);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 0.25rem 0.65rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--indigo-dark);
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .ai-btn:hover {
+      border-color: var(--violet-light);
+      background: var(--violet-pale);
+    }
+
+    /* ── Guided view ── */
+    .guided-heading {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--indigo-dark);
+      margin-bottom: 1rem;
+    }
+
+    .guided-opt {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      margin-bottom: 0.45rem;
+      cursor: pointer;
+      background: var(--white);
+      font-size: 0.875rem;
+      color: var(--text);
+      text-align: left;
+      line-height: 1.45;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .guided-opt:hover {
+      border-color: var(--violet-light);
+      background: var(--violet-faint);
+    }
+
+    .guided-opt.selected {
+      border-color: var(--violet);
+      background: var(--violet-pale);
+    }
+
+    /* ── Result panel ── */
+    .result-panel {
+      display: none;
+      border: 2px solid var(--violet-light);
+      border-radius: 10px;
+      padding: 1.5rem;
+      background: var(--violet-faint);
+      margin-top: 1.5rem;
+    }
+
+    .result-panel.visible { display: block; }
+
+    .result-panel h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--indigo-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .result-why {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .result-instruction {
+      font-size: 0.82rem;
+      color: var(--indigo-dark);
+      margin-bottom: 0.85rem;
+      background: var(--violet-pale);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.6rem 0.85rem;
+    }
+
+    .result-copy-btn {
+      background: var(--violet);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.65rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .result-copy-btn:hover { background: var(--violet-mid); }
+    .result-copy-btn.copied { background: var(--green); }
+
+    .result-launchers {
+      display: none;
+      margin-top: 0.85rem;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .result-launchers.visible { display: flex; }
+
+    /* ── Footer ── */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .site-footer a { color: var(--violet); text-decoration: none; }
+    .site-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <img
+    src="https://raw.githubusercontent.com/coordination-structural-integrity-suite/suite/main/images/framework-relationships-0_1_0.svg"
+    alt="Five Frameworks — One Phenomenon: the foundational architecture of the Coordination Structural Integrity Suite"
+  >
+  <h1>Coordination Structural Integrity Suite</h1>
+  <p>Nine structural standards for coordination systems &nbsp;·&nbsp; CC BY 4.0 &nbsp;·&nbsp;
+    <a href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Standards repository</a>
+  </p>
+</header>
+
+<main>
+
+<!-- ════════════════════ GATEWAY ════════════════════ -->
+<section id="view-gateway" class="view active">
+  <div class="container">
+    <p class="gateway-heading">Have you used the Coordination Structural Integrity Suite before?</p>
+    <div class="gateway-cards">
+      <button class="gateway-card" onclick="showView('library')">
+        <h2>Yes, I know what I need</h2>
+        <p>Browse the full prompt library and copy any prompt directly to your clipboard.</p>
+        <span class="arrow">→</span>
+      </button>
+      <button class="gateway-card" onclick="showView('guided')">
+        <h2>No, help me find where to start</h2>
+        <p>Answer one question and get routed to the right prompt for your situation.</p>
+        <span class="arrow">→</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ LIBRARY ════════════════════ -->
+<section id="view-library" class="view">
+  <div class="container">
+    <button class="back-btn" onclick="showView('gateway')">← Back</button>
+
+    <div class="instruction-banner">
+      <strong>How to use these prompts:</strong> Copy the prompt first — before opening your AI.
+      <div class="instruction-steps">
+        <div class="step"><div class="step-num">1</div>Click Copy Prompt</div>
+        <div class="step"><div class="step-num">2</div>Open your AI in a new tab</div>
+        <div class="step"><div class="step-num">3</div>Paste and send</div>
+        <div class="step"><div class="step-num">4</div>Then describe your situation</div>
+      </div>
+    </div>
+
+    <!-- Start Here -->
+    <div class="group">
+      <div class="group-heading">Start Here</div>
+      <div id="card-triage"></div>
+    </div>
+
+    <!-- Suite-Level -->
+    <div class="group">
+      <div class="group-heading">Suite-Level Assessments</div>
+      <div id="card-suite-compressive"></div>
+      <div id="card-suite-generative"></div>
+      <div id="card-suite-full"></div>
+    </div>
+
+    <!-- Suite Documents -->
+    <div class="group">
+      <div class="group-heading">Suite Documents</div>
+      <div id="card-architecture-orientation"></div>
+      <div id="card-structural-patterns-primer"></div>
+      <div id="card-integration-guide"></div>
+      <div id="card-deployment-contexts"></div>
+      <div id="card-conflict-preconditions"></div>
+      <div id="card-six-v"></div>
+    </div>
+
+    <!-- Compressive Standards -->
+    <div class="group">
+      <div class="group-heading">Tensegrity Compressive Standards</div>
+
+      <div class="group-sub">Precision-First Design Standard</div>
+      <div id="card-precision-general"></div>
+      <div id="card-precision-governance"></div>
+      <div id="card-precision-software"></div>
+
+      <div class="group-sub">Adverse Signal Engagement Principle Core Standard</div>
+      <div id="card-adverse-org"></div>
+      <div id="card-adverse-regulatory"></div>
+      <div id="card-adverse-ai"></div>
+
+      <div class="group-sub">Structural Consent Legibility Standard</div>
+      <div id="card-consent"></div>
+
+      <div class="group-sub">Information Asymmetry Classification Standard</div>
+      <div id="card-info-asymmetry"></div>
+
+      <div class="group-sub">Structural Power Distribution Standard</div>
+      <div id="card-power-distribution"></div>
+
+      <div class="group-sub">Regenerative Accountability Standard</div>
+      <div id="card-regenerative-accountability"></div>
+    </div>
+
+    <!-- Generative Standards -->
+    <div class="group">
+      <div class="group-heading">Tensegrity Generative Standards</div>
+      <div id="card-sensemaking"></div>
+      <div id="card-four-batteries"></div>
+      <div id="card-conflict-transformation"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════ GUIDED ════════════════════ -->
+<section id="view-guided" class="view">
+  <div class="container">
+    <button class="back-btn" onclick="showView('gateway')">← Back</button>
+    <p class="guided-heading">What best describes why you are here?</p>
+
+    <button class="guided-opt" onclick="selectGuided(this, 'architecture-orientation',
+      'You are encountering this material for the first time. The Architecture Orientation prompt explains what the suite is, why it has the shape it does, and where you fit in it.')">
+      I am encountering this material for the first time and want to understand what it is
+    </button>
+
+    <button class="guided-opt" onclick="selectGuided(this, 'structural-patterns-primer',
+      'You can describe a recurring dynamic but not what is producing it. The Structural Patterns Primer identifies the structural pattern and tells you which standards address it.')">
+      I keep seeing the same problem in my organization and cannot explain what is producing it
+    </button>
+
+    <button class="guided-opt" onclick="selectGuided(this, 'triage',
+      'You are not sure which instrument fits. The Where Do I Start? triage assesses your situation and routes you to the right prompt, with a findings document you can save.')">
+      I am not sure where to start
+    </button>
+
+    <button class="guided-opt" onclick="selectGuided(this, 'deployment-contexts',
+      'You have a specific presenting situation and want the right standards combination for it. The Deployment Contexts prompt routes you to one of five named configurations.')">
+      I have a specific situation and want to know which standards combination to use
+    </button>
+
+    <button class="guided-opt" onclick="selectGuided(this, 'integration-guide',
+      'You are already adopting standards and want to know what to prioritize next. The Integration Guide identifies detection reliability concerns and names your next adoption step.')">
+      I am already using the suite and want to know what to do next
+    </button>
+
+    <button class="guided-opt" onclick="selectGuided(this, 'conflict-preconditions',
+      'You are planning a conflict transformation process. The Preconditions prompt produces a proceed/adjust/defer assessment for each structural precondition before you begin.')">
+      I am about to run a conflict transformation process and need to check readiness
+    </button>
+
+    <button class="guided-opt" onclick="selectGuided(this, 'six-v',
+      'You need to assess trust in a specific relationship or understand a past governance failure. The Six-V prompt walks the six-V sequence against your specific case.')">
+      I need to assess trust in a specific relationship or analyze a past failure
+    </button>
+
+    <div id="guided-result" class="result-panel">
+      <h3 id="result-name"></h3>
+      <p class="result-why" id="result-why"></p>
+      <p class="result-instruction">
+        <strong>Copy the prompt first.</strong> Then open your AI in a new tab, paste, and send. Once it responds, describe your situation.
+      </p>
+      <button class="result-copy-btn" id="result-copy-btn" onclick="copyResultPrompt()">Copy Prompt</button>
+      <div class="result-launchers" id="result-launchers"></div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <a href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Standards repository</a>
+  &nbsp;·&nbsp; Coordination Structural Integrity Suite &nbsp;·&nbsp; CC BY 4.0
+</footer>
+
+<script>
+const BASE = 'https://raw.githubusercontent.com/coordination-structural-integrity-suite/suite/main/';
+
+const AI_PLATFORMS = [
+  { name: 'Claude',      url: 'https://claude.ai/new' },
+  { name: 'ChatGPT',    url: 'https://chatgpt.com/' },
+  { name: 'Gemini',     url: 'https://gemini.google.com/' },
+  { name: 'Perplexity', url: 'https://www.perplexity.ai/' },
+];
+
+const PROMPTS = {
+  'triage': {
+    name: 'Where Do I Start?',
+    useOn: 'Use when you do not yet know which standard, document, or prompt is the right entry point. Produces a findings document you can save and return to.',
+    path: 'tensegrity-suite/prompts/suite/suite-triage-where-do-i-start-0_1_0.md'
+  },
+  'suite-compressive': {
+    name: 'Compressive Audit',
+    useOn: 'Any coordination system — runs all six Tensegrity Compressive Standards',
+    path: 'tensegrity-suite/prompts/suite/suite-compressive-audit-0_1_1.md'
+  },
+  'suite-generative': {
+    name: 'Generative Assessment',
+    useOn: 'Any coordination system — runs all three Tensegrity Generative Standards',
+    path: 'tensegrity-suite/prompts/suite/suite-generative-assessment-0_1_1.md'
+  },
+  'suite-full': {
+    name: 'Full Suite Audit',
+    useOn: 'Any coordination system — all nine standards with cross-layer interaction analysis',
+    path: 'tensegrity-suite/prompts/suite/suite-full-audit-0_1_1.md'
+  },
+  'architecture-orientation': {
+    name: 'Tensegrity Architecture Orientation',
+    useOn: 'Encountering the suite for the first time, or wanting to understand why it has the shape it does',
+    path: 'tensegrity-suite/prompts/tensegrity-architecture/tensegrity-architecture-orientation-0_1_0.md'
+  },
+  'structural-patterns-primer': {
+    name: 'Structural Patterns Primer',
+    useOn: 'When you can describe a recurring dynamic and want to know what structural pattern is producing it',
+    path: 'tensegrity-suite/prompts/structural-patterns-primer/structural-patterns-primer-recognition-0_1_0.md'
+  },
+  'integration-guide': {
+    name: 'Suite Integration Guide — Adoption Sequencing',
+    useOn: 'Already adopting standards and want to know what to prioritize next',
+    path: 'tensegrity-suite/prompts/integration-guide/integration-guide-adoption-sequencing-0_1_0.md'
+  },
+  'deployment-contexts': {
+    name: 'Suite Deployment Contexts — Combination Selection',
+    useOn: 'Ready to adopt and want a standards configuration matched to your specific context',
+    path: 'tensegrity-suite/prompts/deployment-contexts/deployment-contexts-combination-selection-0_1_0.md'
+  },
+  'conflict-preconditions': {
+    name: 'Conflict Transformation Preconditions',
+    useOn: 'Planning to run a conflict transformation process and need to check structural readiness',
+    path: 'tensegrity-suite/prompts/conflict-transformation-preconditions/conflict-transformation-preconditions-readiness-0_1_0.md'
+  },
+  'six-v': {
+    name: 'Six-V Trust Framework Application Guide',
+    useOn: 'Assessing a specific relationship for trust extension, or analyzing a past governance or security failure',
+    path: 'tensegrity-suite/prompts/six-v/six-v-application-guide-0_1_0.md'
+  },
+  'precision-general': {
+    name: 'Precision-First — General Audit',
+    useOn: 'Any document, specification, or standard',
+    path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-general-0_1_2.md'
+  },
+  'precision-governance': {
+    name: 'Precision-First — Governance Audit',
+    useOn: 'DAO proposals, bylaws, charters, policies, constitutions',
+    path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-governance-0_1_2.md'
+  },
+  'precision-software': {
+    name: 'Precision-First — Software Audit',
+    useOn: 'API contracts, requirements documents, schemas, technical designs',
+    path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-software-0_1_2.md'
+  },
+  'adverse-org': {
+    name: 'Adverse Signal — Organizational Audit',
+    useOn: 'Governance documents, policies, process descriptions',
+    path: 'tensegrity-suite/compressive/prompts/adverse-signal/organizational-adverse-signal-audit-0_1_1.md'
+  },
+  'adverse-regulatory': {
+    name: 'Adverse Signal — Regulatory Compliance Audit',
+    useOn: 'Compliance frameworks, regulatory submissions',
+    path: 'tensegrity-suite/compressive/prompts/adverse-signal/regulatory-compliance-adverse-signal-audit-0_1_1.md'
+  },
+  'adverse-ai': {
+    name: 'Adverse Signal — AI Systems Audit',
+    useOn: 'AI system designs, model documentation, feedback architectures',
+    path: 'tensegrity-suite/compressive/prompts/adverse-signal/ai-adverse-signal-audit-0_1_1.md'
+  },
+  'consent': {
+    name: 'Structural Consent Legibility Audit',
+    useOn: 'Governance documents, participation terms, consent architecture',
+    path: 'tensegrity-suite/compressive/prompts/structural-consent/structural-consent-audit-0_1_1.md'
+  },
+  'info-asymmetry': {
+    name: 'Information Asymmetry Classification Audit',
+    useOn: 'Coordination system descriptions, governance documents, platform architecture',
+    path: 'tensegrity-suite/compressive/prompts/information-asymmetry/information-asymmetry-audit-0_1_1.md'
+  },
+  'power-distribution': {
+    name: 'Structural Power Distribution Audit',
+    useOn: 'Governance documents, organizational descriptions, protocol architecture',
+    path: 'tensegrity-suite/compressive/prompts/structural-power-distribution/structural-power-distribution-audit-0_1_1.md'
+  },
+  'regenerative-accountability': {
+    name: 'Regenerative Accountability Audit',
+    useOn: 'Organizations or protocols — assesses return to harm-bearing parties against three validity conditions',
+    path: 'tensegrity-suite/compressive/prompts/regenerative-accountability/regenerative-accountability-audit-0_1_1.md'
+  },
+  'sensemaking': {
+    name: 'Sensemaking Presence Assessment',
+    useOn: 'Coordination systems, organizations, or processes',
+    path: 'tensegrity-suite/generative/prompts/sensemaking/sensemaking-presence-assessment-0_1_2.md'
+  },
+  'four-batteries': {
+    name: 'Four Batteries Presence Assessment',
+    useOn: 'Coordination systems or organizations',
+    path: 'tensegrity-suite/generative/prompts/four-batteries/four-batteries-presence-assessment-0_1_2.md'
+  },
+  'conflict-transformation': {
+    name: 'Conflict Transformation Presence Assessment',
+    useOn: 'Coordination systems or organizations',
+    path: 'tensegrity-suite/generative/prompts/conflict-transformation/conflict-transformation-presence-assessment-0_1_2.md'
+  },
+};
+
+// ── Render all prompt cards ──
+function aiLaunchersHTML() {
+  return '<span class="ai-launchers-label">Open your AI:</span>' +
+    AI_PLATFORMS.map(p =>
+      `<a href="${p.url}" target="_blank" rel="noopener" class="ai-btn">${p.name} ↗</a>`
+    ).join('');
+}
+
+function renderCard(id) {
+  const p = PROMPTS[id];
+  if (!p) return;
+  const el = document.getElementById('card-' + id);
+  if (!el) return;
+  el.innerHTML = `
+    <div class="prompt-card">
+      <div class="prompt-card-row">
+        <div class="prompt-card-info">
+          <h3>${p.name}</h3>
+          <p class="use-on">${p.useOn}</p>
+        </div>
+        <button class="copy-btn" onclick="copyCard('${id}', this, this.closest('.prompt-card').querySelector('.ai-launchers'))">
+          Copy Prompt
+        </button>
+      </div>
+      <div class="ai-launchers">${aiLaunchersHTML()}</div>
+    </div>
+  `;
+}
+
+Object.keys(PROMPTS).forEach(renderCard);
+
+// ── View switching ──
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── Copy helpers ──
+async function fetchAndCopy(path) {
+  const res = await fetch(BASE + path);
+  if (!res.ok) throw new Error('fetch failed');
+  const text = await res.text();
+  await navigator.clipboard.writeText(text);
+  return text;
+}
+
+async function copyCard(id, btn, launchersEl) {
+  const p = PROMPTS[id];
+  if (!p) return;
+  btn.disabled = true;
+  btn.textContent = 'Loading…';
+  try {
+    await fetchAndCopy(p.path);
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    launchersEl.classList.add('visible');
+    setTimeout(() => {
+      btn.textContent = 'Copy Prompt';
+      btn.classList.remove('copied');
+      btn.disabled = false;
+    }, 3500);
+  } catch {
+    btn.textContent = 'Failed — try again';
+    btn.disabled = false;
+  }
+}
+
+// ── Guided path ──
+let currentGuidedId = null;
+
+function selectGuided(optEl, promptId, why) {
+  document.querySelectorAll('.guided-opt').forEach(o => o.classList.remove('selected'));
+  optEl.classList.add('selected');
+  currentGuidedId = promptId;
+
+  const p = PROMPTS[promptId];
+  document.getElementById('result-name').textContent = p.name;
+  document.getElementById('result-why').textContent = why;
+
+  const btn = document.getElementById('result-copy-btn');
+  btn.textContent = 'Copy Prompt';
+  btn.classList.remove('copied');
+  btn.disabled = false;
+
+  const launchers = document.getElementById('result-launchers');
+  launchers.classList.remove('visible');
+  launchers.innerHTML = aiLaunchersHTML();
+
+  document.getElementById('guided-result').classList.add('visible');
+  document.getElementById('guided-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+async function copyResultPrompt() {
+  if (!currentGuidedId) return;
+  const p = PROMPTS[currentGuidedId];
+  const btn = document.getElementById('result-copy-btn');
+  btn.disabled = true;
+  btn.textContent = 'Loading…';
+  try {
+    await fetchAndCopy(p.path);
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    document.getElementById('result-launchers').classList.add('visible');
+    setTimeout(() => {
+      btn.textContent = 'Copy Prompt';
+      btn.classList.remove('copied');
+      btn.disabled = false;
+    }, 3500);
+  } catch {
+    btn.textContent = 'Failed — try again';
+    btn.disabled = false;
+  }
+}
+</script>
+
+</body>
+</html>
