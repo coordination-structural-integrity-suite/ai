@@ -8,24 +8,24 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --violet:       #7c3aed;
-      --violet-mid:   #6d28d9;
-      --violet-light: #a78bfa;
-      --violet-pale:  #ede9fe;
-      --violet-faint: #f5f3ff;
-      --indigo-dark:  #1e1b4b;
-      --indigo-mid:   #4338ca;
-      --text:         #1e1b4b;
-      --muted:        #6b7280;
-      --border:       #ddd6fe;
-      --white:        #ffffff;
-      --green:        #059669;
+      --bg:           #0a0d1a;
+      --bg-card:      #12172a;
+      --bg-elevated:  #1a2035;
+      --bg-banner:    #0f1525;
+      --cyan:         #22d3ee;
+      --cyan-dark:    #0891b2;
+      --gold:         #f59e0b;
+      --text:         #e2e8f0;
+      --muted:        #6b7a99;
+      --border:       #1e2a45;
+      --border-light: #2a3a5c;
+      --green:        #10b981;
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       color: var(--text);
-      background: var(--white);
+      background: var(--bg);
       line-height: 1.6;
     }
 
@@ -37,7 +37,7 @@
 
     /* ── Header ── */
     .site-header {
-      background: var(--violet-faint);
+      background: var(--bg-card);
       border-bottom: 1px solid var(--border);
       padding: 1.25rem 1.5rem;
       display: flex;
@@ -55,7 +55,7 @@
     .site-header-text h1 {
       font-size: 1.1rem;
       font-weight: 700;
-      color: var(--indigo-dark);
+      color: var(--text);
       letter-spacing: -0.01em;
       margin-bottom: 0.15rem;
     }
@@ -65,7 +65,7 @@
       font-size: 0.8rem;
     }
 
-    .site-header a { color: var(--violet); text-decoration: none; }
+    .site-header a { color: var(--cyan); text-decoration: none; }
     .site-header a:hover { text-decoration: underline; }
 
     /* ── Views ── */
@@ -76,7 +76,7 @@
     .back-btn {
       background: none;
       border: none;
-      color: var(--violet);
+      color: var(--cyan);
       font-size: 0.875rem;
       cursor: pointer;
       padding: 0;
@@ -93,7 +93,7 @@
       font-weight: 600;
       text-align: center;
       margin-bottom: 1.75rem;
-      color: var(--indigo-dark);
+      color: var(--text);
     }
 
     .gateway-cards {
@@ -111,21 +111,21 @@
       border-radius: 12px;
       padding: 1.75rem 1.5rem;
       cursor: pointer;
-      background: var(--white);
+      background: var(--bg-card);
       text-align: left;
       transition: border-color 0.15s, box-shadow 0.15s;
       width: 100%;
     }
 
     .gateway-card:hover {
-      border-color: var(--violet-light);
-      box-shadow: 0 2px 14px rgba(124,58,237,0.12);
+      border-color: var(--cyan);
+      box-shadow: 0 2px 14px rgba(34,211,238,0.1);
     }
 
     .gateway-card h2 {
       font-size: 1rem;
       font-weight: 700;
-      color: var(--indigo-dark);
+      color: var(--text);
       margin-bottom: 0.5rem;
     }
 
@@ -137,24 +137,24 @@
 
     .gateway-card .arrow {
       display: inline-block;
-      color: var(--violet);
+      color: var(--cyan);
       margin-top: 1rem;
       font-size: 1.1rem;
     }
 
     /* ── Instruction banner ── */
     .instruction-banner {
-      background: var(--violet-pale);
-      border: 1px solid var(--border);
+      background: var(--bg-banner);
+      border: 1px solid var(--border-light);
       border-radius: 8px;
       padding: 1rem 1.25rem;
       margin-bottom: 2rem;
       font-size: 0.875rem;
-      color: var(--indigo-dark);
+      color: var(--text);
       line-height: 1.5;
     }
 
-    .instruction-banner strong { color: var(--violet); }
+    .instruction-banner strong { color: var(--cyan); }
 
     .instruction-steps {
       display: flex;
@@ -168,12 +168,12 @@
       align-items: center;
       gap: 0.4rem;
       font-size: 0.82rem;
-      color: var(--indigo-dark);
+      color: var(--text);
     }
 
     .step-num {
-      background: var(--violet);
-      color: white;
+      background: var(--cyan);
+      color: var(--bg);
       width: 20px;
       height: 20px;
       border-radius: 50%;
@@ -204,8 +204,9 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.07em;
-      color: var(--violet-light);
+      color: var(--cyan);
       margin: 1.1rem 0 0.5rem;
+      opacity: 0.75;
     }
 
     /* ── Prompt card ── */
@@ -214,11 +215,11 @@
       border-radius: 8px;
       padding: 0.9rem 1.1rem;
       margin-bottom: 0.5rem;
-      background: var(--white);
+      background: var(--bg-card);
       transition: border-color 0.15s;
     }
 
-    .prompt-card:hover { border-color: var(--violet-light); }
+    .prompt-card:hover { border-color: var(--border-light); }
 
     .prompt-card-row {
       display: flex;
@@ -230,7 +231,7 @@
     .prompt-card-info h3 {
       font-size: 0.9rem;
       font-weight: 600;
-      color: var(--indigo-dark);
+      color: var(--text);
       margin-bottom: 0.15rem;
     }
 
@@ -242,13 +243,13 @@
     }
 
     .copy-btn {
-      background: var(--violet);
-      color: white;
+      background: var(--cyan);
+      color: var(--bg);
       border: none;
       border-radius: 6px;
       padding: 0.4rem 0.9rem;
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
       flex-shrink: 0;
@@ -256,9 +257,9 @@
       align-self: flex-start;
     }
 
-    .copy-btn:hover { background: var(--violet-mid); }
-    .copy-btn:disabled { background: var(--muted); cursor: default; }
-    .copy-btn.copied { background: var(--green); }
+    .copy-btn:hover { background: var(--cyan-dark); color: white; }
+    .copy-btn:disabled { background: var(--muted); cursor: default; color: var(--bg); }
+    .copy-btn.copied { background: var(--green); color: white; }
 
     .ai-launchers {
       display: none;
@@ -279,27 +280,27 @@
     .ai-btn {
       display: inline-flex;
       align-items: center;
-      background: var(--violet-faint);
-      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-light);
       border-radius: 5px;
       padding: 0.25rem 0.65rem;
       font-size: 0.78rem;
       font-weight: 500;
-      color: var(--indigo-dark);
+      color: var(--text);
       text-decoration: none;
       transition: border-color 0.15s, background 0.15s;
     }
 
     .ai-btn:hover {
-      border-color: var(--violet-light);
-      background: var(--violet-pale);
+      border-color: var(--cyan);
+      color: var(--cyan);
     }
 
     /* ── Guided view ── */
     .guided-heading {
       font-size: 1.05rem;
       font-weight: 600;
-      color: var(--indigo-dark);
+      color: var(--text);
       margin-bottom: 1rem;
     }
 
@@ -310,7 +311,7 @@
       padding: 0.85rem 1.1rem;
       margin-bottom: 0.45rem;
       cursor: pointer;
-      background: var(--white);
+      background: var(--bg-card);
       font-size: 0.875rem;
       color: var(--text);
       text-align: left;
@@ -319,22 +320,22 @@
     }
 
     .guided-opt:hover {
-      border-color: var(--violet-light);
-      background: var(--violet-faint);
+      border-color: var(--border-light);
+      background: var(--bg-elevated);
     }
 
     .guided-opt.selected {
-      border-color: var(--violet);
-      background: var(--violet-pale);
+      border-color: var(--cyan);
+      background: var(--bg-elevated);
     }
 
     /* ── Result panel ── */
     .result-panel {
       display: none;
-      border: 2px solid var(--violet-light);
+      border: 2px solid var(--cyan);
       border-radius: 10px;
       padding: 1.5rem;
-      background: var(--violet-faint);
+      background: var(--bg-elevated);
       margin-top: 1.5rem;
     }
 
@@ -343,7 +344,7 @@
     .result-panel h3 {
       font-size: 1rem;
       font-weight: 700;
-      color: var(--indigo-dark);
+      color: var(--text);
       margin-bottom: 0.3rem;
     }
 
@@ -356,17 +357,17 @@
 
     .result-instruction {
       font-size: 0.82rem;
-      color: var(--indigo-dark);
+      color: var(--text);
       margin-bottom: 0.85rem;
-      background: var(--violet-pale);
-      border: 1px solid var(--border);
+      background: var(--bg-banner);
+      border: 1px solid var(--border-light);
       border-radius: 6px;
       padding: 0.6rem 0.85rem;
     }
 
     .result-copy-btn {
-      background: var(--violet);
-      color: white;
+      background: var(--cyan);
+      color: var(--bg);
       border: none;
       border-radius: 8px;
       padding: 0.65rem 1.4rem;
@@ -376,8 +377,8 @@
       transition: background 0.15s;
     }
 
-    .result-copy-btn:hover { background: var(--violet-mid); }
-    .result-copy-btn.copied { background: var(--green); }
+    .result-copy-btn:hover { background: var(--cyan-dark); color: white; }
+    .result-copy-btn.copied { background: var(--green); color: white; }
 
     .result-launchers {
       display: none;
@@ -398,7 +399,7 @@
       color: var(--muted);
     }
 
-    .site-footer a { color: var(--violet); text-decoration: none; }
+    .site-footer a { color: var(--cyan); text-decoration: none; }
     .site-footer a:hover { text-decoration: underline; }
   </style>
 </head>
