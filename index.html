@@ -39,28 +39,30 @@
     .site-header {
       background: var(--violet-faint);
       border-bottom: 1px solid var(--border);
-      padding: 2.5rem 1.5rem 2rem;
-      text-align: center;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     .site-header img {
-      width: 100%;
-      max-width: 680px;
-      height: auto;
-      margin-bottom: 1.5rem;
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      flex-shrink: 0;
     }
 
-    .site-header h1 {
-      font-size: 1.45rem;
+    .site-header-text h1 {
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--indigo-dark);
       letter-spacing: -0.01em;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.15rem;
     }
 
-    .site-header p {
+    .site-header-text p {
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 
     .site-header a { color: var(--violet); text-decoration: none; }
@@ -403,14 +405,13 @@
 <body>
 
 <header class="site-header">
-  <img
-    src="https://raw.githubusercontent.com/coordination-structural-integrity-suite/suite/main/images/framework-relationships-0_1_0.svg"
-    alt="Five Frameworks — One Phenomenon: the foundational architecture of the Coordination Structural Integrity Suite"
-  >
-  <h1>Coordination Structural Integrity Suite</h1>
-  <p>Nine structural standards for coordination systems &nbsp;·&nbsp; CC BY 4.0 &nbsp;·&nbsp;
-    <a href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Standards repository</a>
-  </p>
+  <img src="csis-pfp.png" alt="Coordination Structural Integrity Suite">
+  <div class="site-header-text">
+    <h1>Coordination Structural Integrity Suite</h1>
+    <p>Nine structural standards for coordination systems &nbsp;·&nbsp; CC BY 4.0 &nbsp;·&nbsp;
+      <a href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Standards repository</a>
+    </p>
+  </div>
 </header>
 
 <main>
