@@ -2,7 +2,7 @@
 
 This is the prompt launcher for the [Coordination Structural Integrity Suite](https://github.com/coordination-structural-integrity-suite/suite).
 
-**Live site:** https://coordination-structural-integrity-suite.github.io
+**Live site:** https://coordination-structural-integrity-suite.github.io/ai
 
 The launcher helps you find the right prompt, copy it to your clipboard, and open your preferred AI to use it — without any accounts, logins, or credits required from this site. You use your own AI.
 
