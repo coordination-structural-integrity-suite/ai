@@ -15,11 +15,13 @@
       --cyan:         #22d3ee;
       --cyan-dark:    #0891b2;
       --gold:         #f59e0b;
+      --gold-dark:    #b45309;
       --text:         #e2e8f0;
       --muted:        #6b7a99;
       --border:       #1e2a45;
       --border-light: #2a3a5c;
       --green:        #10b981;
+      --green-dark:   #059669;
     }
 
     body {
@@ -88,12 +90,12 @@
     .back-btn:hover { text-decoration: underline; }
 
     /* ── Gateway ── */
-    .gateway-heading {
-      font-size: 1.2rem;
-      font-weight: 600;
+    .gateway-description {
       text-align: center;
-      margin-bottom: 1.75rem;
-      color: var(--text);
+      color: var(--muted);
+      font-size: 0.875rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
     }
 
     .gateway-cards {
@@ -109,7 +111,7 @@
     .gateway-card {
       border: 2px solid var(--border);
       border-radius: 12px;
-      padding: 1.75rem 1.5rem;
+      padding: 1.5rem;
       cursor: pointer;
       background: var(--bg-card);
       text-align: left;
@@ -117,30 +119,124 @@
       width: 100%;
     }
 
-    .gateway-card:hover {
-      border-color: var(--cyan);
-      box-shadow: 0 2px 14px rgba(34,211,238,0.1);
+    .gateway-card .card-icon {
+      margin-bottom: 0.85rem;
+      display: block;
     }
 
     .gateway-card h2 {
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
     }
 
     .gateway-card p {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--muted);
       line-height: 1.5;
     }
 
     .gateway-card .arrow {
       display: inline-block;
-      color: var(--cyan);
-      margin-top: 1rem;
-      font-size: 1.1rem;
+      margin-top: 0.85rem;
+      font-size: 1rem;
     }
+
+    /* Color variants */
+    .gateway-card--cyan:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 2px 14px rgba(34,211,238,0.1);
+    }
+    .gateway-card--cyan .arrow { color: var(--cyan); }
+
+    .gateway-card--gold:hover {
+      border-color: var(--gold);
+      box-shadow: 0 2px 14px rgba(245,158,11,0.1);
+    }
+    .gateway-card--gold .arrow { color: var(--gold); }
+
+    .gateway-card--green:hover {
+      border-color: var(--green);
+      box-shadow: 0 2px 14px rgba(16,185,129,0.1);
+    }
+    .gateway-card--green .arrow { color: var(--green); }
+
+    .gateway-card--muted:hover {
+      border-color: var(--border-light);
+      box-shadow: none;
+    }
+    .gateway-card--muted .arrow { color: var(--muted); }
+
+    /* ── Selected prompt view ── */
+    .selected-heading {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .selected-sub {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .selected-instruction {
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .selected-instruction--cyan {
+      background: rgba(34,211,238,0.07);
+      border: 1px solid rgba(34,211,238,0.25);
+    }
+
+    .selected-instruction--gold {
+      background: rgba(245,158,11,0.07);
+      border: 1px solid rgba(245,158,11,0.25);
+    }
+
+    .selected-instruction--green {
+      background: rgba(16,185,129,0.07);
+      border: 1px solid rgba(16,185,129,0.25);
+    }
+
+    .selected-copy-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 0.7rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .selected-copy-btn--cyan { background: var(--cyan); color: var(--bg); }
+    .selected-copy-btn--cyan:hover { background: var(--cyan-dark); color: white; }
+    .selected-copy-btn--gold { background: var(--gold); color: var(--bg); }
+    .selected-copy-btn--gold:hover { background: var(--gold-dark); color: white; }
+    .selected-copy-btn--green { background: var(--green); color: var(--bg); }
+    .selected-copy-btn--green:hover { background: var(--green-dark); color: white; }
+    .selected-copy-btn.copied { background: var(--green) !important; color: white !important; }
+    .selected-copy-btn:disabled { opacity: 0.6; cursor: default; }
+
+    .selected-launchers {
+      display: none;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+    .selected-launchers.visible { display: flex; }
 
     /* ── Instruction banner ── */
     .instruction-banner {
@@ -420,20 +516,73 @@
 <!-- ════════════════════ GATEWAY ════════════════════ -->
 <section id="view-gateway" class="view active">
   <div class="container">
-    <p class="gateway-heading">Have you used the Coordination Structural Integrity Suite before?</p>
-    <p style="text-align:center; color:var(--muted); font-size:0.85rem; margin-top:-1rem; margin-bottom:1.5rem;">The suite is nine structural standards for coordination systems — tools for understanding what your organization's structure is actually doing, where it is missing, and what that means.</p>
+    <p class="gateway-description">Nine structural standards for coordination systems — tools for understanding what your organization's structure is actually doing, where it is missing, and what that means.</p>
     <div class="gateway-cards">
-      <button class="gateway-card" onclick="showView('library')">
-        <h2>Yes, I know what I need</h2>
-        <p>Browse the full prompt library and copy any prompt directly to your clipboard.</p>
+
+      <button class="gateway-card gateway-card--cyan" onclick="showSelected('explore', 'cyan')">
+        <span class="card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+            <circle cx="12" cy="12" r="1" fill="#22d3ee"/>
+          </svg>
+        </span>
+        <h2>Guide Me Through Understanding My Organization's Situation</h2>
+        <p>Describe what's happening. The AI listens in plain language, helps you understand what's structurally occurring, and tells you where to go next.</p>
         <span class="arrow">→</span>
       </button>
-      <button class="gateway-card" onclick="showView('guided')">
-        <h2>No, help me find where to start</h2>
-        <p>Answer one question and get routed to the right prompt for your situation.</p>
+
+      <button class="gateway-card gateway-card--gold" onclick="showSelected('assessment-new', 'gold')">
+        <span class="card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2"/>
+            <path d="M9 7h6M9 11h6M9 15h4"/>
+            <path d="M15 15l2 2 3-3" stroke="#f59e0b"/>
+          </svg>
+        </span>
+        <h2>Full Standards and Gap Analysis For My Organization</h2>
+        <p>A structured five-stage process across all nine coordination standards. Each session produces a document you bring to the next.</p>
         <span class="arrow">→</span>
       </button>
+
+      <button class="gateway-card gateway-card--green" onclick="showSelected('assessment-return', 'green')">
+        <span class="card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+        </span>
+        <h2>Pick Up Where I Left Off</h2>
+        <p>Have your last session's document ready to paste. The prompt resumes from where you stopped.</p>
+        <span class="arrow">→</span>
+      </button>
+
+      <button class="gateway-card gateway-card--muted" onclick="showView('library')">
+        <span class="card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6b7a99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="2.5" rx="1"/>
+            <rect x="3" y="10.75" width="18" height="2.5" rx="1"/>
+            <rect x="3" y="16.5" width="18" height="2.5" rx="1"/>
+          </svg>
+        </span>
+        <h2>Explore the Full Prompt Library</h2>
+        <p>Browse and copy any prompt directly. All instruments across all nine standards.</p>
+        <span class="arrow">→</span>
+      </button>
+
     </div>
+  </div>
+</section>
+
+<!-- ════════════════════ SELECTED PROMPT ════════════════════ -->
+<section id="view-selected" class="view">
+  <div class="container">
+    <button class="back-btn" onclick="showView('gateway')">← Back</button>
+    <h2 class="selected-heading" id="selected-heading"></h2>
+    <p class="selected-sub" id="selected-sub"></p>
+    <div class="selected-instruction" id="selected-instruction"></div>
+    <button class="selected-copy-btn" id="selected-copy-btn" onclick="copySelected()">Copy Prompt</button>
+    <div class="selected-launchers" id="selected-launchers"></div>
   </div>
 </section>
 
@@ -443,15 +592,12 @@
     <button class="back-btn" onclick="showView('gateway')">← Back</button>
 
     <div class="instruction-banner">
-      <strong>Two starting points.</strong> The <strong style="color:var(--text)">Explore prompt</strong> listens to your situation in plain language, addresses the conformance assumption before orientation begins, and develops the structural vocabulary the assessment process presupposes — use it first. The <strong style="color:var(--text)">Coordination Structural Integrity Suite Assessment</strong> is a five-stage process: foundation check, self-assessment across all nine standards, gap mapping, and advancement planning — each stage produces a document you carry to the next session. Both are in Start Here below.
-      <div style="margin-top:0.75rem; padding-top:0.75rem; border-top:1px solid var(--border-light);">
-        <strong>How to use any prompt:</strong> Copy first, then open your AI.
-        <div class="instruction-steps">
-          <div class="step"><div class="step-num">1</div>Click Copy Prompt</div>
-          <div class="step"><div class="step-num">2</div>Open your AI in a new tab</div>
-          <div class="step"><div class="step-num">3</div>Paste and send</div>
-          <div class="step"><div class="step-num">4</div>Then describe your situation</div>
-        </div>
+      <strong>How to use these prompts:</strong> Copy the prompt first — before opening your AI.
+      <div class="instruction-steps">
+        <div class="step"><div class="step-num">1</div>Click Copy Prompt</div>
+        <div class="step"><div class="step-num">2</div>Open your AI in a new tab</div>
+        <div class="step"><div class="step-num">3</div>Paste and send</div>
+        <div class="step"><div class="step-num">4</div>Then describe your situation</div>
       </div>
     </div>
 
@@ -464,13 +610,9 @@
 
     <!-- CSIS Assessment -->
     <div class="group">
-      <div class="group-heading">Coordination Structural Integrity Suite Assessment</div>
-      <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.85rem; line-height:1.5;">Five sequential stages. Each produces a document — bring it to the next session. Start with Stage 1 and work forward. Best after completing the Explore prompt.</p>
-      <div id="card-assessment-stage-1"></div>
-      <div id="card-assessment-stage-2"></div>
-      <div id="card-assessment-stage-3"></div>
-      <div id="card-assessment-stage-4"></div>
-      <div id="card-assessment-stage-5"></div>
+      <div class="group-heading">Full Standards and Gap Analysis</div>
+      <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.85rem; line-height:1.5;">One prompt, five stages. Paste your prior session's output to resume where you left off. Start fresh and the prompt begins with Stage 1.</p>
+      <div id="card-assessment"></div>
     </div>
 
     <!-- Suite-Level -->
@@ -537,13 +679,13 @@
     <p class="guided-heading">What best describes why you are here?</p>
 
     <button class="guided-opt" onclick="selectGuided(this, 'explore',
-      'The Explore prompt listens to what you describe, addresses the conformance-assumption arrival pattern before any orientation work begins, routes you to the right instrument, and produces an exploration findings document you can save and carry forward.')">
+      'The Explore prompt listens to what you describe, addresses the conformance-assumption arrival pattern before any orientation work begins, and produces an exploration findings document you can carry forward.')">
       I am new to this and want to understand what the suite is and whether it applies to my situation
     </button>
 
-    <button class="guided-opt" onclick="selectGuided(this, 'assessment-stage-1',
-      'The Coordination Structural Integrity Suite Assessment is a five-stage structured process. Stage 1 orients you to the full process before any assessment begins. Best after completing the Explore prompt — it builds on the vocabulary and structural self-knowledge that exploration develops.')">
-      I want to formally assess my organization across all nine standards and produce a gap map
+    <button class="guided-opt" onclick="selectGuided(this, 'assessment',
+      'The Full Standards and Gap Analysis is a five-stage structured process. It begins with process orientation and consent, works through all nine standards, and produces a gap map with an advancement plan.')">
+      I want to run a full standards and gap analysis of my organization
     </button>
 
     <button class="guided-opt" onclick="selectGuided(this, 'structural-patterns-primer',
@@ -617,30 +759,10 @@ const PROMPTS = {
     useOn: 'For direct routing when you already know which standard or prompt you need. Produces a findings document you can save and return to. If you are new or unsure, use the Explore prompt above instead.',
     path: 'tensegrity-suite/prompts/suite/suite-triage-where-do-i-start-0_1_1.md'
   },
-  'assessment-stage-1': {
-    name: 'Coordination Structural Integrity Suite Assessment — Stage 1: Process Orientation',
-    useOn: 'Stage 1 of 5. Orients you to the full five-stage process, establishes what you are hoping to understand, and presents the data consent statement. Output: process summary. Best after completing the Explore prompt.',
-    path: 'tensegrity-suite/prompts/suite/suite-assessment-stage-1-orientation-0_1_0.md'
-  },
-  'assessment-stage-2': {
-    name: 'Coordination Structural Integrity Suite Assessment — Stage 2: Structural Foundation Check',
-    useOn: 'Stage 2 of 5. Assesses which of the six coordination commons components are present, partial, or absent in your actual practice. Output: commons components inventory.',
-    path: 'tensegrity-suite/prompts/suite/suite-assessment-stage-2-foundation-check-0_1_0.md'
-  },
-  'assessment-stage-3': {
-    name: 'Coordination Structural Integrity Suite Assessment — Stage 3: Standards Self-Assessment',
-    useOn: 'Stage 3 of 5. For each of the nine standards, assesses where your organization currently stands against what the standard requires. Multi-session. Output: standards self-assessment with structured finding per standard.',
-    path: 'tensegrity-suite/prompts/suite/suite-assessment-stage-3-self-assessment-0_1_0.md'
-  },
-  'assessment-stage-4': {
-    name: 'Coordination Structural Integrity Suite Assessment — Stage 4: Gap Map and Priorities',
-    useOn: 'Stage 4 of 5. Synthesizes your Stage 2 and Stage 3 findings into your three most structurally significant gaps, with gap type and what addressing each would look like. Output: gap map.',
-    path: 'tensegrity-suite/prompts/suite/suite-assessment-stage-4-gap-map-0_1_0.md'
-  },
-  'assessment-stage-5': {
-    name: 'Coordination Structural Integrity Suite Assessment — Stage 5: Advancement and Future Framing',
-    useOn: 'Stage 5 of 5. Consolidates findings, establishes concrete next steps for each priority gap, and frames a six-month re-assessment. Output: advancement summary.',
-    path: 'tensegrity-suite/prompts/suite/suite-assessment-stage-5-advancement-0_1_0.md'
+  'assessment': {
+    name: 'Full Standards and Gap Analysis',
+    useOn: 'One prompt, five stages: foundation check, self-assessment across all nine standards, gap mapping, and advancement planning. Paste your prior session output to resume. Start fresh and Stage 1 begins automatically.',
+    path: 'tensegrity-suite/prompts/suite/suite-assessment-0_1_0.md'
   },
   'suite-compressive': {
     name: 'Compressive Audit',
@@ -754,7 +876,83 @@ const PROMPTS = {
   },
 };
 
-// ── Render all prompt cards ──
+// ── Selected prompt view ──
+const SELECTED_CONFIG = {
+  'explore': {
+    promptId: 'explore',
+    color: 'cyan',
+    heading: 'Guide Me Through Understanding My Organization\'s Situation',
+    sub: 'The AI listens to what you describe in plain language and helps you understand what\'s structurally occurring.',
+    instruction: '<strong>After sending this prompt, describe your organization and situation in your own words.</strong> What is happening, what brought you here, and what you are trying to understand. The AI will orient from there and tell you where to go next.'
+  },
+  'assessment-new': {
+    promptId: 'assessment',
+    color: 'gold',
+    heading: 'Full Standards and Gap Analysis For My Organization',
+    sub: 'A five-stage structured process across all nine coordination standards, with a downloadable output at each stage.',
+    instruction: '<strong>Starting fresh?</strong> Send this prompt, then describe your organization. The AI will begin Stage 1 — process orientation and consent — before any assessment work begins. If you have completed the Explore prompt, mention that and paste your exploration findings document.'
+  },
+  'assessment-return': {
+    promptId: 'assessment',
+    color: 'green',
+    heading: 'Pick Up Where I Left Off',
+    sub: 'The prompt identifies where you are and resumes from there.',
+    instruction: '<strong>Have your most recent stage output document ready.</strong> Send this prompt, then paste that document in your next message. The AI will read it, confirm where you are in the five-stage process, and continue from there. You do not need to re-run any prior stages.'
+  }
+};
+
+let currentSelectedConfig = null;
+
+function showSelected(configKey, color) {
+  const cfg = SELECTED_CONFIG[configKey];
+  currentSelectedConfig = cfg;
+
+  document.getElementById('selected-heading').textContent = cfg.heading;
+  document.getElementById('selected-sub').textContent = cfg.sub;
+
+  const instrEl = document.getElementById('selected-instruction');
+  instrEl.innerHTML = cfg.instruction;
+  instrEl.className = 'selected-instruction selected-instruction--' + cfg.color;
+
+  const btn = document.getElementById('selected-copy-btn');
+  btn.textContent = 'Copy Prompt';
+  btn.className = 'selected-copy-btn selected-copy-btn--' + cfg.color;
+  btn.disabled = false;
+
+  document.getElementById('selected-launchers').classList.remove('visible');
+  document.getElementById('selected-launchers').innerHTML =
+    '<span class="ai-launchers-label">Then open your AI:</span>' +
+    AI_PLATFORMS.map(p => `<a href="${p.url}" target="_blank" rel="noopener" class="ai-btn">${p.name} ↗</a>`).join('');
+
+  showView('selected');
+}
+
+async function copySelected() {
+  if (!currentSelectedConfig) return;
+  const p = PROMPTS[currentSelectedConfig.promptId];
+  const btn = document.getElementById('selected-copy-btn');
+  btn.disabled = true;
+  btn.textContent = 'Loading…';
+  try {
+    const res = await fetch(BASE + p.path);
+    if (!res.ok) throw new Error('fetch failed');
+    const text = await res.text();
+    await navigator.clipboard.writeText(text);
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    document.getElementById('selected-launchers').classList.add('visible');
+    setTimeout(() => {
+      btn.textContent = 'Copy Prompt';
+      btn.classList.remove('copied');
+      btn.disabled = false;
+    }, 3500);
+  } catch {
+    btn.textContent = 'Failed — try again';
+    btn.disabled = false;
+  }
+}
+
+// ── Render all library prompt cards ──
 function aiLaunchersHTML() {
   return '<span class="ai-launchers-label">Open your AI:</span>' +
     AI_PLATFORMS.map(p =>
