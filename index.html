@@ -421,6 +421,7 @@
 <section id="view-gateway" class="view active">
   <div class="container">
     <p class="gateway-heading">Have you used the Coordination Structural Integrity Suite before?</p>
+    <p style="text-align:center; color:var(--muted); font-size:0.85rem; margin-top:-1rem; margin-bottom:1.5rem;">The suite is nine structural standards for coordination systems — tools for understanding what your organization's structure is actually doing, where it is missing, and what that means.</p>
     <div class="gateway-cards">
       <button class="gateway-card" onclick="showView('library')">
         <h2>Yes, I know what I need</h2>
@@ -442,12 +443,15 @@
     <button class="back-btn" onclick="showView('gateway')">← Back</button>
 
     <div class="instruction-banner">
-      <strong>How to use these prompts:</strong> Copy the prompt first — before opening your AI.
-      <div class="instruction-steps">
-        <div class="step"><div class="step-num">1</div>Click Copy Prompt</div>
-        <div class="step"><div class="step-num">2</div>Open your AI in a new tab</div>
-        <div class="step"><div class="step-num">3</div>Paste and send</div>
-        <div class="step"><div class="step-num">4</div>Then describe your situation</div>
+      <strong>Two starting points.</strong> The <strong style="color:var(--text)">Explore prompt</strong> orients you to your structural situation and routes you to the right instrument — use it if you are new or unsure. The <strong style="color:var(--text)">Coordination Structural Integrity Suite Assessment</strong> takes you through a five-stage structured process and produces a gap map — use it when you are ready to formally assess. Both are in Start Here below.
+      <div style="margin-top:0.75rem; padding-top:0.75rem; border-top:1px solid var(--border-light);">
+        <strong>How to use any prompt:</strong> Copy first, then open your AI.
+        <div class="instruction-steps">
+          <div class="step"><div class="step-num">1</div>Click Copy Prompt</div>
+          <div class="step"><div class="step-num">2</div>Open your AI in a new tab</div>
+          <div class="step"><div class="step-num">3</div>Paste and send</div>
+          <div class="step"><div class="step-num">4</div>Then describe your situation</div>
+        </div>
       </div>
     </div>
 
@@ -461,6 +465,7 @@
     <!-- CSIS Assessment -->
     <div class="group">
       <div class="group-heading">Coordination Structural Integrity Suite Assessment</div>
+      <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.85rem; line-height:1.5;">Five sequential stages. Each produces a document — bring it to the next session. Start with Stage 1 and work forward. Best after completing the Explore prompt.</p>
       <div id="card-assessment-stage-1"></div>
       <div id="card-assessment-stage-2"></div>
       <div id="card-assessment-stage-3"></div>
@@ -608,8 +613,8 @@ const PROMPTS = {
     path: 'tensegrity-suite/prompts/suite/suite-explore-coordination-structural-integrity-suite-0_1_0.md'
   },
   'triage': {
-    name: 'Where Do I Start? (legacy triage)',
-    useOn: 'Direct routing when you already know which standard or prompt you need. Produces a findings document. Use the Explore prompt instead if you are new or unsure.',
+    name: 'Where Do I Start? — Routing Triage',
+    useOn: 'For direct routing when you already know which standard or prompt you need. Produces a findings document you can save and return to. If you are new or unsure, use the Explore prompt above instead.',
     path: 'tensegrity-suite/prompts/suite/suite-triage-where-do-i-start-0_1_1.md'
   },
   'assessment-stage-1': {
