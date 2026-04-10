@@ -454,7 +454,18 @@
     <!-- Start Here -->
     <div class="group">
       <div class="group-heading">Start Here</div>
+      <div id="card-explore"></div>
       <div id="card-triage"></div>
+    </div>
+
+    <!-- CSIS Assessment -->
+    <div class="group">
+      <div class="group-heading">Coordination Structural Integrity Suite Assessment</div>
+      <div id="card-assessment-stage-1"></div>
+      <div id="card-assessment-stage-2"></div>
+      <div id="card-assessment-stage-3"></div>
+      <div id="card-assessment-stage-4"></div>
+      <div id="card-assessment-stage-5"></div>
     </div>
 
     <!-- Suite-Level -->
@@ -520,9 +531,14 @@
     <button class="back-btn" onclick="showView('gateway')">← Back</button>
     <p class="guided-heading">What best describes why you are here?</p>
 
-    <button class="guided-opt" onclick="selectGuided(this, 'architecture-orientation',
-      'You are encountering this material for the first time. The Architecture Orientation prompt explains what the suite is, why it has the shape it does, and where you fit in it.')">
-      I am encountering this material for the first time and want to understand what it is
+    <button class="guided-opt" onclick="selectGuided(this, 'explore',
+      'The Explore prompt listens to what you describe, addresses the conformance-assumption arrival pattern before any orientation work begins, routes you to the right instrument, and produces an exploration findings document you can save and carry forward.')">
+      I am new to this and want to understand what the suite is and whether it applies to my situation
+    </button>
+
+    <button class="guided-opt" onclick="selectGuided(this, 'assessment-stage-1',
+      'The Coordination Structural Integrity Suite Assessment is a five-stage structured process. Stage 1 orients you to the full process before any assessment begins. Best after completing the Explore prompt — it builds on the vocabulary and structural self-knowledge that exploration develops.')">
+      I want to formally assess my organization across all nine standards and produce a gap map
     </button>
 
     <button class="guided-opt" onclick="selectGuided(this, 'structural-patterns-primer',
@@ -530,9 +546,9 @@
       I keep seeing the same problem in my organization and cannot explain what is producing it
     </button>
 
-    <button class="guided-opt" onclick="selectGuided(this, 'triage',
-      'You are not sure which instrument fits. The Where Do I Start? triage assesses your situation and routes you to the right prompt, with a findings document you can save.')">
-      I am not sure where to start
+    <button class="guided-opt" onclick="selectGuided(this, 'architecture-orientation',
+      'The Architecture Orientation prompt explains what the suite is, why it has the shape it does — the tensegrity model, the compressive and generative distinction, and why each standard is where it is.')">
+      I want to understand the conceptual architecture of the suite before using it
     </button>
 
     <button class="guided-opt" onclick="selectGuided(this, 'deployment-contexts',
@@ -586,10 +602,40 @@ const AI_PLATFORMS = [
 ];
 
 const PROMPTS = {
+  'explore': {
+    name: 'Explore the Coordination Structural Integrity Suite',
+    useOn: 'New to the suite, unsure whether it applies, or want to understand your structural situation before committing to a formal process. Addresses the conformance-assumption arrival pattern. Produces an exploration findings document you can carry into the assessment process.',
+    path: 'tensegrity-suite/prompts/suite/suite-explore-coordination-structural-integrity-suite-0_1_0.md'
+  },
   'triage': {
-    name: 'Where Do I Start?',
-    useOn: 'Use when you do not yet know which standard, document, or prompt is the right entry point. Produces a findings document you can save and return to.',
+    name: 'Where Do I Start? (legacy triage)',
+    useOn: 'Direct routing when you already know which standard or prompt you need. Produces a findings document. Use the Explore prompt instead if you are new or unsure.',
     path: 'tensegrity-suite/prompts/suite/suite-triage-where-do-i-start-0_1_1.md'
+  },
+  'assessment-stage-1': {
+    name: 'Coordination Structural Integrity Suite Assessment — Stage 1: Process Orientation',
+    useOn: 'Stage 1 of 5. Orients you to the full five-stage process, establishes what you are hoping to understand, and presents the data consent statement. Output: process summary. Best after completing the Explore prompt.',
+    path: 'tensegrity-suite/prompts/suite/suite-assessment-stage-1-orientation-0_1_0.md'
+  },
+  'assessment-stage-2': {
+    name: 'Coordination Structural Integrity Suite Assessment — Stage 2: Structural Foundation Check',
+    useOn: 'Stage 2 of 5. Assesses which of the six coordination commons components are present, partial, or absent in your actual practice. Output: commons components inventory.',
+    path: 'tensegrity-suite/prompts/suite/suite-assessment-stage-2-foundation-check-0_1_0.md'
+  },
+  'assessment-stage-3': {
+    name: 'Coordination Structural Integrity Suite Assessment — Stage 3: Standards Self-Assessment',
+    useOn: 'Stage 3 of 5. For each of the nine standards, assesses where your organization currently stands against what the standard requires. Multi-session. Output: standards self-assessment with structured finding per standard.',
+    path: 'tensegrity-suite/prompts/suite/suite-assessment-stage-3-self-assessment-0_1_0.md'
+  },
+  'assessment-stage-4': {
+    name: 'Coordination Structural Integrity Suite Assessment — Stage 4: Gap Map and Priorities',
+    useOn: 'Stage 4 of 5. Synthesizes your Stage 2 and Stage 3 findings into your three most structurally significant gaps, with gap type and what addressing each would look like. Output: gap map.',
+    path: 'tensegrity-suite/prompts/suite/suite-assessment-stage-4-gap-map-0_1_0.md'
+  },
+  'assessment-stage-5': {
+    name: 'Coordination Structural Integrity Suite Assessment — Stage 5: Advancement and Future Framing',
+    useOn: 'Stage 5 of 5. Consolidates findings, establishes concrete next steps for each priority gap, and frames a six-month re-assessment. Output: advancement summary.',
+    path: 'tensegrity-suite/prompts/suite/suite-assessment-stage-5-advancement-0_1_0.md'
   },
   'suite-compressive': {
     name: 'Compressive Audit',
