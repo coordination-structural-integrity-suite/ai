@@ -556,7 +556,7 @@
           </svg>
         </span>
         <h2>Full Standards and Gap Analysis For My Organization</h2>
-        <p>A structured five-stage process across all nine coordination standards. Each session produces a document you bring to the next.</p>
+        <p>A structured five-stage process across all ten coordination standards. Each session produces a document you bring to the next.</p>
         <span class="arrow">→</span>
       </button>
 
@@ -581,7 +581,7 @@
           </svg>
         </span>
         <h2>Explore the Full Prompt Library</h2>
-        <p>Browse and copy any prompt directly. All instruments across all nine standards.</p>
+        <p>Browse and copy any prompt directly. All instruments across all ten standards.</p>
         <span class="arrow">→</span>
       </button>
 
@@ -679,6 +679,9 @@
 
       <div class="group-sub">Regenerative Obligation Standard</div>
       <div id="card-regenerative-accountability"></div>
+
+      <div class="group-sub">Coordination Scaling Standard</div>
+      <div id="card-coordination-scaling"></div>
     </div>
 
     <!-- Generative Standards -->
@@ -704,7 +707,7 @@
     </button>
 
     <button class="guided-opt" onclick="selectGuided(this, 'assessment',
-      'The Full Standards and Gap Analysis is a five-stage structured process. It begins with process orientation and consent, works through all nine standards, and produces a gap map with an advancement plan.')">
+      'The Full Standards and Gap Analysis is a five-stage structured process. It begins with process orientation and consent, works through all ten standards, and produces a gap map with an advancement plan.')">
       I want to run a full standards and gap analysis of my organization
     </button>
 
@@ -781,12 +784,12 @@ const PROMPTS = {
   },
   'assessment': {
     name: 'Full Standards and Gap Analysis',
-    useOn: 'One prompt, five stages: foundation check, self-assessment across all nine standards, gap mapping, and advancement planning. Paste your prior session output to resume. Start fresh and Stage 1 begins automatically.',
+    useOn: 'One prompt, five stages: foundation check, self-assessment across all ten standards, gap mapping, and advancement planning. Paste your prior session output to resume. Start fresh and Stage 1 begins automatically.',
     path: 'tensegrity-suite/prompts/suite/suite-assessment-0_1_0.md'
   },
   'suite-compressive': {
     name: 'Compressive Audit',
-    useOn: 'Any coordination system — runs all six Tensegrity Compressive Standards',
+    useOn: 'Any coordination system — runs all seven Tensegrity Compressive Standards',
     path: 'tensegrity-suite/prompts/suite/suite-compressive-audit-0_1_1.md'
   },
   'suite-generative': {
@@ -796,7 +799,7 @@ const PROMPTS = {
   },
   'suite-full': {
     name: 'Full Suite Audit',
-    useOn: 'Any coordination system — all nine standards with cross-layer interaction analysis',
+    useOn: 'Any coordination system — all ten standards with cross-layer interaction analysis',
     path: 'tensegrity-suite/prompts/suite/suite-full-audit-0_1_1.md'
   },
   'architecture-orientation': {
@@ -879,6 +882,11 @@ const PROMPTS = {
     useOn: 'Organizations or protocols — assesses return to harm-bearing parties against three validity conditions',
     path: 'tensegrity-suite/compressive/prompts/regenerative-obligation/regenerative-obligation-audit-0_1_2.md'
   },
+  'coordination-scaling': {
+    name: 'Coordination Scaling Audit',
+    useOn: 'Any coordination unit — assesses whether Board conditions for all crossed Radius thresholds are installed and Dome conditions are absent',
+    path: 'tensegrity-suite/compressive/prompts/coordination-scaling/coordination-scaling-audit-0_1_0.md'
+  },
   'sensemaking': {
     name: 'Sensemaking Presence Assessment',
     useOn: 'Coordination systems, organizations, or processes',
@@ -909,7 +917,7 @@ const SELECTED_CONFIG = {
     promptId: 'assessment',
     color: 'gold',
     heading: 'Full Standards and Gap Analysis For My Organization',
-    sub: 'A five-stage structured process across all nine coordination standards, with a downloadable output at each stage.',
+    sub: 'A five-stage structured process across all ten coordination standards, with a downloadable output at each stage.',
     instruction: '<strong>Starting fresh?</strong> Send this prompt, then describe your organization. The AI will begin Stage 1 — process orientation and consent — before any assessment work begins. If you have completed the Explore prompt, mention that and paste your exploration findings document.'
   },
   'assessment-return': {
