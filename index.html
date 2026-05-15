@@ -530,7 +530,7 @@
 <!-- ════════════════════ GATEWAY ════════════════════ -->
 <section id="view-gateway" class="view active">
   <div class="container">
-    <p class="gateway-description">Nine structural standards for coordination systems — tools for understanding what your organization's structure is actually doing, where it is missing, and what that means.</p>
+    <p class="gateway-description">Nine structural standards for coordination systems: tools for understanding what your organization's structure is actually doing, where it is missing, and what that means.</p>
 
     <div class="gateway-cards">
 
@@ -612,7 +612,7 @@
     <button class="back-btn" onclick="showView('gateway')">← Back</button>
 
     <div class="instruction-banner">
-      <strong>How to use these prompts:</strong> Copy the prompt first — before opening your AI.
+      <strong>How to use these prompts:</strong> Copy the prompt first, before opening your AI.
       <div class="instruction-steps">
         <div class="step"><div class="step-num">1</div>Click Copy Prompt</div>
         <div class="step"><div class="step-num">2</div>Open your AI in a new tab</div>
@@ -717,7 +717,7 @@
     </button>
 
     <button class="guided-opt" onclick="selectGuided(this, 'architecture-orientation',
-      'The Architecture Orientation prompt explains what the suite is, why it has the shape it does — the tensegrity model, the compressive and generative distinction, and why each standard is where it is.')">
+      'The Architecture Orientation prompt explains what the suite is, why it has the shape it does: the tensegrity model, the compressive and generative distinction, and why each standard is where it is.')">
       I want to understand the conceptual architecture of the suite before using it
     </button>
 
@@ -778,7 +778,7 @@ const PROMPTS = {
     path: 'tensegrity-suite/prompts/suite/suite-explore-coordination-structural-integrity-suite-0_1_0.md'
   },
   'triage': {
-    name: 'Where Do I Start? — Routing Triage',
+    name: 'Where Do I Start? - Routing Triage',
     useOn: 'For direct routing when you already know which standard or prompt you need. Produces a findings document you can save and return to. If you are new or unsure, use the Explore prompt above instead.',
     path: 'tensegrity-suite/prompts/suite/suite-triage-where-do-i-start-0_1_1.md'
   },
@@ -789,17 +789,17 @@ const PROMPTS = {
   },
   'suite-compressive': {
     name: 'Compressive Audit',
-    useOn: 'Any coordination system — runs all seven Tensegrity Compressive Standards',
-    path: 'tensegrity-suite/prompts/suite/suite-compressive-audit-0_1_1.md'
+    useOn: 'Any coordination system; runs all seven Tensegrity Compressive Standards',
+    path: 'tensegrity-suite/prompts/suite/suite-compressive-audit-0_1_2.md'
   },
   'suite-generative': {
     name: 'Generative Assessment',
-    useOn: 'Any coordination system — runs all three Tensegrity Generative Standards',
+    useOn: 'Any coordination system; runs all three Tensegrity Generative Standards',
     path: 'tensegrity-suite/prompts/suite/suite-generative-assessment-0_1_1.md'
   },
   'suite-full': {
     name: 'Full Suite Audit',
-    useOn: 'Any coordination system — all ten standards with cross-layer interaction analysis',
+    useOn: 'Any coordination system; all ten standards with cross-layer interaction analysis',
     path: 'tensegrity-suite/prompts/suite/suite-full-audit-0_1_1.md'
   },
   'architecture-orientation': {
@@ -813,12 +813,12 @@ const PROMPTS = {
     path: 'tensegrity-suite/prompts/structural-patterns-primer/structural-patterns-primer-recognition-0_1_0.md'
   },
   'integration-guide': {
-    name: 'Suite Integration Guide — Adoption Sequencing',
+    name: 'Suite Integration Guide: Adoption Sequencing',
     useOn: 'Already adopting standards and want to know what to prioritize next',
     path: 'tensegrity-suite/prompts/integration-guide/integration-guide-adoption-sequencing-0_1_0.md'
   },
   'deployment-contexts': {
-    name: 'Suite Deployment Contexts — Combination Selection',
+    name: 'Suite Deployment Contexts: Combination Selection',
     useOn: 'Ready to adopt and want a standards configuration matched to your specific context',
     path: 'tensegrity-suite/prompts/deployment-contexts/deployment-contexts-combination-selection-0_1_0.md'
   },
@@ -833,32 +833,32 @@ const PROMPTS = {
     path: 'tensegrity-suite/prompts/six-v/six-v-application-guide-0_1_0.md'
   },
   'precision-general': {
-    name: 'Precision-First — General Audit',
+    name: 'Precision-First: General Audit',
     useOn: 'Any document, specification, or standard',
     path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-general-0_1_4.md'
   },
   'precision-governance': {
-    name: 'Precision-First — Governance Audit',
+    name: 'Precision-First: Governance Audit',
     useOn: 'DAO proposals, bylaws, charters, policies, constitutions',
     path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-governance-0_1_4.md'
   },
   'precision-software': {
-    name: 'Precision-First — Software Audit',
+    name: 'Precision-First: Software Audit',
     useOn: 'API contracts, requirements documents, schemas, technical designs',
     path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-software-0_1_4.md'
   },
   'adverse-org': {
-    name: 'Adverse Signal — Organizational Audit',
+    name: 'Adverse Signal: Organizational Audit',
     useOn: 'Governance documents, policies, process descriptions',
     path: 'tensegrity-suite/compressive/prompts/adverse-signal/organizational-adverse-signal-audit-0_1_1.md'
   },
   'adverse-regulatory': {
-    name: 'Adverse Signal — Regulatory Compliance Audit',
+    name: 'Adverse Signal: Regulatory Compliance Audit',
     useOn: 'Compliance frameworks, regulatory submissions',
     path: 'tensegrity-suite/compressive/prompts/adverse-signal/regulatory-compliance-adverse-signal-audit-0_1_1.md'
   },
   'adverse-ai': {
-    name: 'Adverse Signal — AI Systems Audit',
+    name: 'Adverse Signal: AI Systems Audit',
     useOn: 'AI system designs, model documentation, feedback architectures',
     path: 'tensegrity-suite/compressive/prompts/adverse-signal/ai-adverse-signal-audit-0_1_1.md'
   },
@@ -879,12 +879,12 @@ const PROMPTS = {
   },
   'regenerative-accountability': {
     name: 'Regenerative Obligation Audit',
-    useOn: 'Organizations or protocols — assesses return to harm-bearing parties against three validity conditions; includes cross-reference to Frame Language Vocabulary Audit for documents making regenerative claims',
+    useOn: 'Organizations or protocols; assesses return to harm-bearing parties against three validity conditions; includes cross-reference to Frame Language Vocabulary Audit for documents making regenerative claims',
     path: 'tensegrity-suite/compressive/prompts/regenerative-obligation/regenerative-obligation-audit-0_1_4.md'
   },
   'coordination-scaling': {
     name: 'Coordination Scaling Audit',
-    useOn: 'Any coordination unit — assesses whether Board conditions for all crossed Radius thresholds are installed and Dome conditions are absent',
+    useOn: 'Any coordination unit; assesses whether Board conditions for all crossed Radius thresholds are installed and Dome conditions are absent',
     path: 'tensegrity-suite/compressive/prompts/coordination-scaling/coordination-scaling-audit-0_1_0.md'
   },
   'sensemaking': {
@@ -904,7 +904,7 @@ const PROMPTS = {
   },
   'frame-language': {
     name: 'Frame Language Vocabulary Audit',
-    useOn: 'Governance documents, charters, constitutions, proposal templates, dispute resolution processes, or regenerative/regen community documents — audits for vocabulary that imports structural assumptions the document\'s stated purpose does not intend; includes a regen-specific audit (Regen Reality Check) for documents making regenerative claims',
+    useOn: 'Governance documents, charters, constitutions, proposal templates, dispute resolution processes, or regenerative/regen community documents; audits for vocabulary that imports structural assumptions the document\'s stated purpose does not intend; includes a regen-specific audit (Regen Reality Check) for documents making regenerative claims',
     path: 'tensegrity-suite/prompts/frame-language/frame-language-vocabulary-audit-0_1_0.md'
   },
 };
@@ -923,7 +923,7 @@ const SELECTED_CONFIG = {
     color: 'gold',
     heading: 'Full Standards and Gap Analysis For My Organization',
     sub: 'A five-stage structured process across all ten coordination standards, with a downloadable output at each stage.',
-    instruction: '<strong>Starting fresh?</strong> Send this prompt, then describe your organization. The AI will begin Stage 1 — process orientation and consent — before any assessment work begins. If you have completed the Explore prompt, mention that and paste your exploration findings document.'
+    instruction: '<strong>Starting fresh?</strong> Send this prompt, then describe your organization. The AI will begin Stage 1 (process orientation and consent) before any assessment work begins. If you have completed the Explore prompt, mention that and paste your exploration findings document.'
   },
   'assessment-return': {
     promptId: 'assessment',
@@ -980,7 +980,7 @@ async function copySelected() {
       btn.disabled = false;
     }, 3500);
   } catch {
-    btn.textContent = 'Failed — try again';
+    btn.textContent = 'Failed, try again';
     btn.disabled = false;
   }
 }
@@ -1048,7 +1048,7 @@ async function copyCard(id, btn, launchersEl) {
       btn.disabled = false;
     }, 3500);
   } catch {
-    btn.textContent = 'Failed — try again';
+    btn.textContent = 'Failed, try again';
     btn.disabled = false;
   }
 }
@@ -1095,7 +1095,7 @@ async function copyResultPrompt() {
       btn.disabled = false;
     }, 3500);
   } catch {
-    btn.textContent = 'Failed — try again';
+    btn.textContent = 'Failed, try again';
     btn.disabled = false;
   }
 }
