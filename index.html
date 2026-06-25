@@ -519,7 +519,7 @@
   <img src="csis-pfp.png" alt="Coordination Structural Integrity Suite">
   <div class="site-header-text">
     <h1>Coordination Structural Integrity Suite</h1>
-    <p>Nine structural standards for coordination systems &nbsp;·&nbsp; CC BY 4.0 &nbsp;·&nbsp;
+    <p>Ten structural standards for coordination systems &nbsp;·&nbsp; CC BY 4.0 &nbsp;·&nbsp;
       <a href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Standards repository</a>
     </p>
   </div>
@@ -530,7 +530,7 @@
 <!-- ════════════════════ GATEWAY ════════════════════ -->
 <section id="view-gateway" class="view active">
   <div class="container">
-    <p class="gateway-description">Nine structural standards for coordination systems: tools for understanding what your organization's structure is actually doing, where it is missing, and what that means.</p>
+    <p class="gateway-description">Ten structural standards for coordination systems: tools for understanding what your organization's structure is actually doing, where it is missing, and what that means.</p>
 
     <div class="gateway-cards">
 
@@ -654,6 +654,13 @@
       <div id="card-six-v"></div>
     </div>
 
+    <!-- Dimensional Frame Language -->
+    <div class="group">
+      <div class="group-heading">Dimensional Frame Language</div>
+      <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.85rem; line-height:1.5;">The foundational vocabulary substrate the standards rest on (Frame Language for short). The audit checks a document's language for structural assumptions its stated purpose does not intend.</p>
+      <div id="card-frame-language"></div>
+    </div>
+
     <!-- Compressive Standards -->
     <div class="group">
       <div class="group-heading">Tensegrity Compressive Standards</div>
@@ -739,6 +746,11 @@
     <button class="guided-opt" onclick="selectGuided(this, 'six-v',
       'You need to assess trust in a specific relationship or understand a past governance failure. The Six-V prompt walks the six-V sequence against your specific case.')">
       I need to assess trust in a specific relationship or analyze a past failure
+    </button>
+
+    <button class="guided-opt" onclick="selectGuided(this, 'frame-language',
+      'The Frame Language Vocabulary Audit examines governance, charter, proposal, or regenerative documents for vocabulary that imports structural assumptions the stated purpose does not intend. It includes a regen-specific Regen Reality Check for documents making regenerative claims.')">
+      I want to check whether a document's language imports structural assumptions it does not intend
     </button>
 
     <div id="guided-result" class="result-panel">
