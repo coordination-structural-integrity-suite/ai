@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Standards · Coordination Structural Integrity Suite</title>
+<meta name="description" content="The full text of all ten Coordination Structural Integrity Suite standards, the tensegrity architecture behind the compressive and generative distinction, and the Dimensional Frame Language substrate they rest on. CC BY 4.0.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Geist:wght@300..600&family=Geist+Mono:wght@300..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="temper-theme.css">
+<script>
+  try{var s=JSON.parse(localStorage.getItem("temper")||"{}");
+  document.documentElement.dataset.theme=s.mode||"system";}catch(e){
+  document.documentElement.dataset.theme="system";}
+</script>
+<style>
+  :root{
+    --gen:#823631; --gen-hover:#6F2521; --gen-subtle:#FFD3CE; --gen-solid:#9A4C45;
+    --serif:"Fraunces",Georgia,serif; --sans:"Geist",system-ui,sans-serif; --mono:"Geist Mono",ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme]), [data-theme="system"]{ --gen:#E69086; --gen-hover:#FEA69C; --gen-subtle:#411C19; --gen-solid:#AB5B54 }
+  }
+  [data-theme="light"]{ --gen:#823631; --gen-hover:#6F2521; --gen-subtle:#FFD3CE; --gen-solid:#9A4C45 }
+  [data-theme="soft-light"]{ --gen:#732924; --gen-hover:#5F1614; --gen-subtle:#F0BEB8; --gen-solid:#9A4C45 }
+  [data-theme="soft-dark"]{ --gen:#F7A096; --gen-hover:#FFBEB7; --gen-subtle:#502A26; --gen-solid:#AB5B54 }
+  [data-theme="dark"]{ --gen:#E69086; --gen-hover:#FEA69C; --gen-subtle:#411C19; --gen-solid:#AB5B54 }
+  :root, [data-theme]{
+    --paper:var(--color-bg-base); --paper2:var(--color-bg-subtle); --panel:var(--color-surface);
+    --ink:var(--color-text-primary); --dim:var(--color-text-secondary); --faint:var(--color-text-tertiary);
+    --iron:var(--color-accent); --iron-soft:var(--color-accent-solid);
+    --ox:var(--gen); --ox-soft:var(--gen-solid);
+    --hair:color-mix(in srgb, var(--color-border) 85%, transparent);
+    --hair2:color-mix(in srgb, var(--color-border) 45%, transparent);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper); color:var(--ink); font-family:var(--sans); font-weight:300; line-height:1.62; -webkit-font-smoothing:antialiased; overflow-x:hidden; position:relative}
+  ::selection{background:var(--color-selection)}
+  a{color:inherit}
+  .mono{font-family:var(--mono); text-transform:uppercase; letter-spacing:.18em; font-size:11px; color:var(--faint)}
+  .wrap{max-width:960px; margin:0 auto; padding:0 clamp(20px,5vw,36px); position:relative}
+  #lattice-base{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.045}
+  #lattice-base svg{width:100%; height:100%; display:block}
+  .lat-strut{stroke:var(--iron)} .lat-cable{stroke:var(--ox)} .lat-node{fill:var(--ink)}
+  .rail{position:absolute; top:0; bottom:0; left:clamp(10px,2.6vw,44px); width:2px; z-index:1; pointer-events:none;
+    background:linear-gradient(180deg, transparent 0, var(--ox-soft) 90px, var(--ox-soft) calc(100% - 90px), transparent 100%); opacity:.3}
+  @media(max-width:900px){ .rail{display:none} }
+  main{position:relative; z-index:2}
+
+  nav{position:sticky; top:0; z-index:50; backdrop-filter:blur(8px); background:color-mix(in srgb, var(--paper) 84%, transparent); border-bottom:1px solid var(--hair)}
+  nav .wrap{max-width:1400px}
+  .nav-in{display:flex; align-items:center; justify-content:space-between; height:62px; gap:14px}
+  .brand{font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase; text-decoration:none; color:var(--ink); white-space:nowrap}
+  .brand b{color:var(--iron); font-weight:500}
+  @media(max-width:1180px){ .brand .bfull{display:none} }
+  .eyebrow{display:flex; align-items:center; gap:14px; font-family:var(--mono); text-transform:uppercase; font-size:11.5px; letter-spacing:.2em; color:var(--iron); font-weight:500}
+  .eyebrow .n{color:var(--ox); flex:none}
+  .eyebrow::after{content:""; flex:1; height:1px; background:var(--hair); min-width:40px}
+  .tabs{display:flex; gap:4px; align-items:center}
+  .tab{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); padding:8px 12px; border:1px solid transparent; border-radius:2px; text-decoration:none; transition:.25s}
+  .tab:hover{color:var(--ink); border-color:var(--hair)}
+  .tab.here{color:var(--ink); border-color:var(--hair)}
+  @media(max-width:680px){ .tabs .tab{display:none} .tabs .tab.keep{display:inline-block} }
+  .modes{display:flex; gap:2px; margin-left:12px; border:1px solid var(--hair); border-radius:3px; padding:2px}
+  .mode{font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); background:transparent; border:none; border-radius:2px; padding:6px 8px; cursor:pointer; transition:.2s}
+  .mode:hover{color:var(--ink)}
+  .mode.on{background:var(--color-accent-subtle); color:var(--ink)}
+
+  header.page{padding:clamp(48px,7vw,76px) 0 clamp(16px,3vw,24px)}
+  h1{font-family:var(--serif); font-weight:300; font-size:clamp(32px,5.4vw,54px); line-height:1.06; letter-spacing:-.015em}
+  h1 em{font-style:italic; color:var(--ox)}
+  .lede{margin-top:18px; font-size:16.5px; color:var(--dim); max-width:660px}
+  .lede a{color:var(--iron); text-decoration:none; border-bottom:1px solid var(--hair)}
+  .lede a:hover{border-color:var(--iron)}
+
+  section{padding:clamp(40px,6vw,60px) 0; border-top:1px solid var(--hair2); position:relative}
+  section:first-of-type{border-top:none}
+  h2{font-family:var(--serif); font-weight:330; font-size:clamp(22px,3vw,30px); letter-spacing:-.01em; margin:12px 0 0}
+  p.body{color:var(--dim); font-size:15.5px; margin:16px 0 0; max-width:680px}
+  p.body strong{color:var(--ink); font-weight:420}
+
+  .std-group{margin:30px 0 0}
+  .std-group-head{display:flex; align-items:center; gap:12px; padding-bottom:12px; border-bottom:2px solid}
+  .std-group.compressive .std-group-head{border-color:var(--iron)}
+  .std-group.generative .std-group-head{border-color:var(--ox)}
+  .std-group-head .glyph{flex:none; width:34px; height:18px}
+  .std-group-head h3{font-family:var(--serif); font-weight:400; font-size:19px}
+  .std-group.compressive h3 em{color:var(--iron); font-style:normal}
+  .std-group.generative h3 em{color:var(--ox); font-style:normal}
+  .std-group-head .sub{margin-left:auto; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+
+  .std{padding:22px 2px 24px; border-bottom:1px solid var(--hair2)}
+  .std .head{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap}
+  .std h4{font-family:var(--serif); font-weight:420; font-size:18px; letter-spacing:-.005em}
+  .std .ver{font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; color:var(--faint)}
+  .std .read{margin-left:auto; font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--iron); text-decoration:none; border:1px solid var(--hair); border-radius:2px; padding:6px 10px; transition:.2s; flex:none}
+  .std .read:hover{border-color:var(--iron)}
+  .std blockquote{margin:12px 0 0; padding:0 0 0 18px; border-left:2px solid; font-size:14.5px; color:var(--dim); line-height:1.65; max-width:660px}
+  .std-group.compressive .std blockquote{border-color:var(--iron-soft)}
+  .std-group.generative .std blockquote{border-color:var(--ox-soft)}
+  .std blockquote .src{display:block; margin-top:6px; font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint)}
+  .std .gloss{margin:10px 0 0; font-size:14px; color:var(--dim); max-width:660px}
+  .std .gloss b{color:var(--ink); font-weight:420}
+
+  .docs{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--hair2); border:1px solid var(--hair); margin:26px 0 0; border-radius:3px; overflow:hidden}
+  @media(max-width:720px){ .docs{grid-template-columns:1fr} }
+  .doc{background:var(--panel); padding:20px 22px; text-decoration:none; transition:background .25s; display:block}
+  .doc:hover{background:var(--color-surface-hover)}
+  .doc h3{font-family:var(--serif); font-weight:400; font-size:16.5px; color:var(--ink); margin-bottom:5px}
+  .doc p{font-size:13px; color:var(--dim); line-height:1.55}
+  .doc .k{font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--iron); display:block; margin-bottom:8px}
+
+  footer{border-top:1px solid var(--hair); padding:40px 0 54px; position:relative; z-index:2}
+  .foot{display:flex; justify-content:space-between; gap:26px; flex-wrap:wrap; align-items:flex-start}
+  .foot-note{color:var(--faint); font-size:12.5px; max-width:380px; line-height:1.7}
+  .foot-links{display:flex; gap:22px; flex-wrap:wrap}
+  .foot-links a{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); text-decoration:none}
+  .foot-links a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div id="lattice-base" aria-hidden="true">
+  <svg width="100%" height="100%">
+    <defs>
+      <pattern id="latb" width="340" height="300" patternUnits="userSpaceOnUse">
+        <g class="lat-strut" stroke-width="2.6" opacity="0.75">
+          <line x1="40" y1="250" x2="120" y2="90"/><line x1="150" y1="270" x2="260" y2="140"/><line x1="230" y1="60" x2="320" y2="200"/>
+        </g>
+        <g class="lat-cable" stroke-width="1" opacity="0.65" fill="none">
+          <path d="M40 250 Q 100 268 150 270"/><path d="M120 90 Q 175 60 230 60"/><path d="M120 90 Q 190 120 260 140"/>
+          <path d="M260 140 Q 290 170 320 200"/><path d="M40 250 Q 135 230 320 200"/>
+        </g>
+        <g class="lat-node" opacity="0.6">
+          <circle cx="40" cy="250" r="3"/><circle cx="120" cy="90" r="3"/><circle cx="150" cy="270" r="3"/>
+          <circle cx="260" cy="140" r="3"/><circle cx="230" cy="60" r="3"/><circle cx="320" cy="200" r="3"/>
+        </g>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#latb)"/>
+  </svg>
+</div>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="brand" href="./"><b>CSIS</b><span class="bfull"> · Coordination Structural Integrity Suite</span></a>
+    <div class="tabs">
+      <a class="tab" href="use.html">Use the Suite</a>
+      <a class="tab keep here" href="standards.html">Standards</a>
+      <a class="tab keep" href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Repo ↗</a>
+      <div class="modes" role="group" aria-label="Appearance mode">
+        <button class="mode" data-mode="system" title="Follow the system">Sys</button>
+        <button class="mode" data-mode="light" title="Light">L</button>
+        <button class="mode" data-mode="soft-light" title="Soft Light">SL</button>
+        <button class="mode" data-mode="soft-dark" title="Soft Dark">SD</button>
+        <button class="mode" data-mode="dark" title="Dark">D</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+<div class="rail" aria-hidden="true"></div>
+
+<header class="page">
+  <div class="wrap">
+    <div class="mono eyebrow">The canonical texts</div>
+    <h1>The <em>standards.</em></h1>
+    <p class="lede">All ten standards in full, at their current published versions, with the architecture that relates them and the vocabulary substrate they rest on. Everything is CC BY 4.0 in the <a href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">standards repository</a>; each entry below quotes the standard's own statement of purpose and links to its canonical text.</p>
+  </div>
+</header>
+
+<!-- architecture -->
+<section id="architecture">
+  <div class="wrap">
+    <div class="mono eyebrow"><span class="n">01</span>The architecture</div>
+    <h2>Why the suite has the shape it does.</h2>
+    <p class="body">The suite is organized on a tensegrity model. Seven <strong>compressive</strong> standards resist force: they hold their form under adversarial pressure, the way struts hold under load. Three <strong>generative</strong> standards produce capacity: they carry tension the way cables do, connecting everything and keeping the rigid members in relation. Neither class functions alone, and the architecture documents below derive the model, name the structural patterns it detects, and sequence adoption.</p>
+    <p class="body">One standard is prior to the rest: the Precision-First Design Standard is the suite's meta-standard, and every other standard's conformance language is held to it.</p>
+    <div class="docs">
+      <a class="doc" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/overview/tensegrity-architecture-0_1_3.md" target="_blank" rel="noopener">
+        <span class="k">Overview</span><h3>Tensegrity Architecture</h3><p>The model itself: why compressive and generative, and why each standard is where it is.</p>
+      </a>
+      <a class="doc" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/overview/suite-structural-patterns-primer-0_1_2.md" target="_blank" rel="noopener">
+        <span class="k">Overview</span><h3>Structural Patterns Primer</h3><p>The recurring dynamics the suite detects, named as patterns with their producing structures.</p>
+      </a>
+      <a class="doc" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/overview/suite-integration-guide-0_1_1.md" target="_blank" rel="noopener">
+        <span class="k">Overview</span><h3>Suite Integration Guide</h3><p>Adoption sequencing: what to install first and what each installation makes detectable.</p>
+      </a>
+      <a class="doc" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/overview/suite-deployment-contexts-0_1_0.md" target="_blank" rel="noopener">
+        <span class="k">Overview</span><h3>Deployment Contexts</h3><p>Five named standards configurations, matched to presenting situations.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- compressive -->
+<section id="compressive">
+  <div class="wrap">
+    <div class="mono eyebrow" style="margin-bottom:26px"><span class="n">02</span>The struts</div>
+    <div class="std-group compressive">
+      <div class="std-group-head">
+        <svg class="glyph" viewBox="0 0 34 18"><line x1="3" y1="15" x2="31" y2="3" style="stroke:var(--iron)" stroke-width="5" stroke-linecap="round"/></svg>
+        <h3><em>Compressive</em> standards</h3><span class="sub">Seven struts</span>
+      </div>
+
+      <div class="std">
+        <div class="head"><h4>Precision-First Design Standard</h4><span class="ver">v2.4.3</span>
+          <a class="read" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/compressive/standards/standards-3_0-precision-first-2_4_3.md" target="_blank" rel="noopener">Read the standard ↗</a></div>
+        <blockquote>"This standard addresses precision failure in two directions. A precision deficit occurs when instrument terms are under-specified: violations become undetectable and the gaps remain permanently exploitable. A precision imposition occurs when an instrument is over-specified: compliance can be demonstrated while the coordination purpose remains unserved."<span class="src">Abstract</span></blockquote>
+        <p class="gloss"><b>In brief:</b> the suite's meta-standard. Every term made operational, so a violation is detectable instead of arguable; all nine other standards rest on it.</p>
+      </div>
+
+      <div class="std">
+        <div class="head"><h4>Adverse-Signal Engagement Principle Core Standard</h4><span class="ver">v0.7.13</span>
+          <a class="read" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/compressive/standards/standards-3_0-adverse-signal-engagement-0_7_13.md" target="_blank" rel="noopener">Read the standard ↗</a></div>
+        <blockquote>"Adverse signals must be treated as primary inputs to coordination and security, not as nuisances to be minimized."<span class="src">Definition, §2.1</span></blockquote>
+        <p class="gloss"><b>In brief:</b> the unwelcome signal treated as a primary input, not noise: a structural obligation to engage it before the failure it predicts arrives.</p>
+      </div>
+
+      <div class="std">
+        <div class="head"><h4>Structural Consent Legibility Standard</h4><span class="ver">v0.3.25</span>
+          <a class="read" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/compressive/standards/standards-3_0-structural-consent-0_3_25.md" target="_blank" rel="noopener">Read the standard ↗</a></div>
+        <blockquote>"Every governance system claims to act with the consent of its participants. Very few can demonstrate it. The gap between claimed consent and verifiable consent is not a philosophical distinction. It is the structural condition through which extraction operates inside systems designed to prevent it."<span class="src">Purpose, §1</span></blockquote>
+        <p class="gloss"><b>In brief:</b> every consent-bearing interaction made legible along two axes: who is acting, and who benefits from the action.</p>
+      </div>
+
+      <div class="std">
+        <div class="head"><h4>Information Asymmetry Classification Standard</h4><span class="ver">v0.1.26</span>
+          <a class="read" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/compressive/standards/standards-3_0-information-asymmetry-0_1_26.md" target="_blank" rel="noopener">Read the standard ↗</a></div>
+        <blockquote>"This standard specifies a six-class taxonomy as the precise structural answer: a framework that names the distinct information asymmetry conditions that coordination systems produce, enabling them to be detected, challenged, and structurally closed."<span class="src">Preamble, §1</span></blockquote>
+        <p class="gloss"><b>In brief:</b> six named classes of informational advantage, so the gap you could not name can be detected, challenged, and closed.</p>
+      </div>
+
+      <div class="std">
+        <div class="head"><h4>Structural Power Obligation Standard</h4><span class="ver">v0.1.26</span>
+          <a class="read" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/compressive/standards/standards-3_0-structural-power-obligation-0_1_26.md" target="_blank" rel="noopener">Read the standard ↗</a></div>
+        <blockquote>"Power in coordination systems accumulates across at least three independent dimensions: where formal authority sits, who has the practical capacity to coordinate and integrate decisions, and how interpretive work is distributed across the system."<span class="src">Purpose, §1</span></blockquote>
+        <p class="gloss"><b>In brief:</b> power measured on three independent dimensions, so concentration becomes detectable instead of indefinitely arguable.</p>
+      </div>
+
+      <div class="std">
+        <div class="head"><h4>Regenerative Obligation Standard</h4><span class="ver">v0.1.8</span>
+          <a class="read" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/compressive/standards/standards-3_0-regenerative-obligation-0_1_8.md" target="_blank" rel="noopener">Read the standard ↗</a></div>
+        <blockquote>"It establishes that extraction is a structural violation when it is not matched by a proportional regenerative return that meets three conditions: non-fungibility, proximity, and embeddedness in the relationship that generated the extraction obligation. It does not prohibit extraction; it specifies the conditions under which extraction is architecturally valid."<span class="src">Preamble, §1</span></blockquote>
+        <p class="gloss"><b>In brief:</b> what draws on contributors' capacity must return it: proportional, in kind, and inside the relationship it drew from.</p>
+      </div>
+
+      <div class="std">
+        <div class="head"><h4>Coordination Scaling Standard</h4><span class="ver">v0.1.5</span>
+          <a class="read" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/compressive/standards/standards-3_0-coordination-scaling-0_1_5.md" target="_blank" rel="noopener">Read the standard ↗</a></div>
+        <blockquote>"A coordination system that works at fifteen people will not work the same way at fifty. A system that works at fifty will face structural breaks at one hundred fifty that it is not designed to survive."<span class="src">Preamble</span></blockquote>
+        <p class="gloss"><b>In brief:</b> scale-blindness treated as a precision deficit; the thresholds named, and the conditions for crossing each one made a conformance obligation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- generative -->
+<section id="generative">
+  <div class="wrap">
+    <div class="mono eyebrow" style="margin-bottom:26px"><span class="n">03</span>The cables</div>
+    <div class="std-group generative">
+      <div class="std-group-head">
+        <svg class="glyph" viewBox="0 0 34 18"><path d="M2 5 Q 17 18 32 5" fill="none" style="stroke:var(--ox)" stroke-width="2"/></svg>
+        <h3><em>Generative</em> standards</h3><span class="sub">Three cables</span>
+      </div>
+
+      <div class="std">
+        <div class="head"><h4>Sensemaking Standard</h4><span class="ver">v1.1.23</span>
+          <a class="read" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/generative/standards/standards-3_0-sensemaking-1_1_23.md" target="_blank" rel="noopener">Read the standard ↗</a></div>
+        <blockquote>"Sensemaking is the process that produces shared language. This standard specifies what sensemaking must structurally provide in any coordination system, without prescribing method."<span class="src">Abstract</span></blockquote>
+        <p class="gloss"><b>In brief:</b> five structural invariants that distinguish genuinely shared language from assumed understanding, so coordination is real rather than a coincidence of motion.</p>
+      </div>
+
+      <div class="std">
+        <div class="head"><h4>Four Batteries Capacity Standard</h4><span class="ver">v0.3.7</span>
+          <a class="read" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/generative/standards/standards-3_0-four-batteries-capacity-0_3_7.md" target="_blank" rel="noopener">Read the standard ↗</a></div>
+        <blockquote>"The capacity that coordination depends on, personal energy, relational trust, meaningful contribution, and alignment with purpose, depletes under sustained pressure without structural conditions for renewal. What gets named as individual burnout is often organizational infrastructure failure: the absence of structural conditions for regeneration."<span class="src">Purpose and Scope, §1</span></blockquote>
+        <p class="gloss"><b>In brief:</b> personal, relational, contribution, mission: the four stores coordination runs on, each with a charge and a developmental state the organization is obligated to condition for.</p>
+      </div>
+
+      <div class="std">
+        <div class="head"><h4>Conflict Transformation Standard</h4><span class="ver">v0.2.10</span>
+          <a class="read" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/generative/standards/standards-3_0-conflict-transformation-0_2_10.md" target="_blank" rel="noopener">Read the standard ↗</a></div>
+        <blockquote>"Litigation terminates a conflict by producing a winner and a loser. Transformation converts the friction between parties into developmental signal, changes both parties, and strengthens the coordination medium rather than depleting it."<span class="src">Abstract</span></blockquote>
+        <p class="gloss"><b>In brief:</b> the structural preconditions under which conflict reorganizes the system instead of cycling; a companion specification covers readiness assessment before any process begins.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- substrate -->
+<section id="substrate">
+  <div class="wrap">
+    <div class="mono eyebrow"><span class="n">04</span>The substrate</div>
+    <h2>The vocabulary the standards rest on.</h2>
+    <p class="body">Under the ten standards sits Dimensional Frame Language: the foundational vocabulary specification that keeps the standards' own terms from importing structural assumptions their stated purposes do not intend. It is the discipline the suite applies to itself.</p>
+    <div class="docs">
+      <a class="doc" href="https://github.com/coordination-structural-integrity-suite/suite/blob/main/tensegrity-suite/overview/frame-language-foundational-vocabulary-specification-1_0_0.md" target="_blank" rel="noopener">
+        <span class="k">Specification</span><h3>Frame Language Foundational Vocabulary</h3><p>The specification itself, v1.0.0: the vocabulary substrate every standard's conformance language is held to.</p>
+      </a>
+      <a class="doc" href="https://frame-language-analyzer.vercel.app" target="_blank" rel="noopener">
+        <span class="k">Live tool</span><h3>Frame Language Analyzer</h3><p>The running analyzer: paste a document and audit its vocabulary for unearned structural weight.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="foot-note">Coordination Structural Integrity Suite · the canonical texts, CC BY 4.0. The standards establish the floor; the verdict stays yours.</p>
+    <div class="foot-links">
+      <a href="./">The Structure</a>
+      <a href="use.html">Use the Suite</a>
+      <a href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Repository ↗</a>
+      <a href="https://github.com/durgadasji/temper" target="_blank" rel="noopener">Tuned by TEMPER ↗</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btns = document.querySelectorAll('.mode');
+  function mark(m){ btns.forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-mode') === m); }); }
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var m = b.getAttribute('data-mode');
+      document.documentElement.dataset.theme = m;
+      try{ var s = JSON.parse(localStorage.getItem('temper')||'{}'); s.mode = m; localStorage.setItem('temper', JSON.stringify(s)); }catch(e){}
+      mark(m);
+    });
+  });
+  mark(document.documentElement.dataset.theme || 'system');
+})();
+</script>
+</body>
+</html>

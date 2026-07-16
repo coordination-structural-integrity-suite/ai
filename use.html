@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Use the Suite · Coordination Structural Integrity Suite</title>
+<meta name="description" content="The practitioner tools of the Coordination Structural Integrity Suite: guided routing from your situation, the full prompt library across all ten standards, and the five-stage gap analysis with session resumption. Copy a prompt, open your AI, run it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Geist:wght@300..600&family=Geist+Mono:wght@300..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="temper-theme.css">
+<script>
+  try{var s=JSON.parse(localStorage.getItem("temper")||"{}");
+  document.documentElement.dataset.theme=s.mode||"system";}catch(e){
+  document.documentElement.dataset.theme="system";}
+</script>
+<style>
+  :root{
+    --gen:#823631; --gen-hover:#6F2521; --gen-subtle:#FFD3CE; --gen-solid:#9A4C45;
+    --serif:"Fraunces",Georgia,serif; --sans:"Geist",system-ui,sans-serif; --mono:"Geist Mono",ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme]), [data-theme="system"]{ --gen:#E69086; --gen-hover:#FEA69C; --gen-subtle:#411C19; --gen-solid:#AB5B54 }
+  }
+  [data-theme="light"]{ --gen:#823631; --gen-hover:#6F2521; --gen-subtle:#FFD3CE; --gen-solid:#9A4C45 }
+  [data-theme="soft-light"]{ --gen:#732924; --gen-hover:#5F1614; --gen-subtle:#F0BEB8; --gen-solid:#9A4C45 }
+  [data-theme="soft-dark"]{ --gen:#F7A096; --gen-hover:#FFBEB7; --gen-subtle:#502A26; --gen-solid:#AB5B54 }
+  [data-theme="dark"]{ --gen:#E69086; --gen-hover:#FEA69C; --gen-subtle:#411C19; --gen-solid:#AB5B54 }
+  :root, [data-theme]{
+    --paper:var(--color-bg-base); --paper2:var(--color-bg-subtle); --panel:var(--color-surface);
+    --ink:var(--color-text-primary); --dim:var(--color-text-secondary); --faint:var(--color-text-tertiary);
+    --iron:var(--color-accent); --iron-soft:var(--color-accent-solid);
+    --ox:var(--gen); --ox-soft:var(--gen-solid);
+    --hair:color-mix(in srgb, var(--color-border) 85%, transparent);
+    --hair2:color-mix(in srgb, var(--color-border) 45%, transparent);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper); color:var(--ink); font-family:var(--sans); font-weight:300; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; position:relative}
+  ::selection{background:var(--color-selection)}
+  a{color:inherit}
+  .mono{font-family:var(--mono); text-transform:uppercase; letter-spacing:.18em; font-size:11px; color:var(--faint)}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 clamp(20px,5vw,36px); position:relative}
+  #lattice-base{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.045}
+  #lattice-base svg{width:100%; height:100%; display:block}
+  .lat-strut{stroke:var(--iron)} .lat-cable{stroke:var(--ox)} .lat-node{fill:var(--ink)}
+  .rail{position:absolute; top:0; bottom:0; left:clamp(10px,2.6vw,44px); width:2px; z-index:1; pointer-events:none;
+    background:linear-gradient(180deg, transparent 0, var(--ox-soft) 90px, var(--ox-soft) calc(100% - 90px), transparent 100%); opacity:.3}
+  @media(max-width:900px){ .rail{display:none} }
+  main{position:relative; z-index:2}
+
+  nav{position:sticky; top:0; z-index:50; backdrop-filter:blur(8px); background:color-mix(in srgb, var(--paper) 84%, transparent); border-bottom:1px solid var(--hair)}
+  nav .wrap{max-width:1400px}
+  .nav-in{display:flex; align-items:center; justify-content:space-between; height:62px; gap:14px}
+  .brand{font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase; text-decoration:none; color:var(--ink); white-space:nowrap}
+  .brand b{color:var(--iron); font-weight:500}
+  @media(max-width:1180px){ .brand .bfull{display:none} }
+  .eyebrow{display:flex; align-items:center; gap:14px; font-family:var(--mono); text-transform:uppercase; font-size:11.5px; letter-spacing:.2em; color:var(--iron); font-weight:500}
+  .eyebrow .n{color:var(--ox); flex:none}
+  .eyebrow::after{content:""; flex:1; height:1px; background:var(--hair); min-width:40px}
+  .tabs{display:flex; gap:4px; align-items:center}
+  .tab{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); padding:8px 12px; border:1px solid transparent; border-radius:2px; text-decoration:none; transition:.25s}
+  .tab:hover{color:var(--ink); border-color:var(--hair)}
+  .tab.here{color:var(--ink); border-color:var(--hair)}
+  @media(max-width:680px){ .tabs .tab{display:none} .tabs .tab.keep{display:inline-block} }
+  .modes{display:flex; gap:2px; margin-left:12px; border:1px solid var(--hair); border-radius:3px; padding:2px}
+  .mode{font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); background:transparent; border:none; border-radius:2px; padding:6px 8px; cursor:pointer; transition:.2s}
+  .mode:hover{color:var(--ink)}
+  .mode.on{background:var(--color-accent-subtle); color:var(--ink)}
+
+  header.page{padding:clamp(48px,7vw,76px) 0 clamp(20px,3vw,30px)}
+  h1{font-family:var(--serif); font-weight:300; font-size:clamp(32px,5.4vw,54px); line-height:1.06; letter-spacing:-.015em}
+  h1 em{font-style:italic; color:var(--ox)}
+  .lede{margin-top:18px; font-size:16.5px; color:var(--dim); max-width:640px}
+
+  .howto{margin:30px 0 0; background:var(--panel); border:1px solid var(--hair); border-radius:4px; padding:18px 22px; display:flex; gap:10px 34px; flex-wrap:wrap; align-items:center}
+  .howto .lbl{font-family:var(--mono); font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--ox); flex:none}
+  .step{display:flex; align-items:center; gap:9px; font-size:13.5px; color:var(--dim)}
+  .step .n{flex:none; width:20px; height:20px; border:1px solid var(--iron); border-radius:50%; display:grid; place-items:center; font-family:var(--mono); font-size:10px; color:var(--iron)}
+
+  section{padding:clamp(40px,6vw,60px) 0; border-top:1px solid var(--hair2); position:relative}
+  section:first-of-type{border-top:none}
+  h2{font-family:var(--serif); font-weight:330; font-size:clamp(22px,3vw,30px); letter-spacing:-.01em; margin:12px 0 0}
+  .sec-note{margin:12px 0 0; font-size:14.5px; color:var(--dim); max-width:640px}
+
+  .paths{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hair2); border:1px solid var(--hair); margin:28px 0 0; border-radius:3px; overflow:hidden}
+  @media(max-width:820px){ .paths{grid-template-columns:1fr} }
+  .path{background:var(--panel); padding:24px 22px 26px; display:flex; flex-direction:column; gap:10px}
+  .path .k{font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase}
+  .path:nth-child(1) .k{color:var(--iron)} .path:nth-child(2) .k{color:var(--ox)} .path:nth-child(3) .k{color:var(--faint)}
+  .path h3{font-family:var(--serif); font-weight:400; font-size:18px; line-height:1.3}
+  .path p{font-size:13.5px; color:var(--dim); line-height:1.55; flex:1}
+
+  .copybtn{font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); background:transparent; border:1px solid var(--hair); border-radius:2px; padding:10px 15px; cursor:pointer; transition:.2s; align-self:flex-start}
+  .copybtn:hover{color:var(--ink); border-color:var(--iron)}
+  .copybtn.done{color:var(--iron); border-color:var(--iron)}
+  .copybtn:disabled{opacity:.55; cursor:wait}
+  .launchers{display:none; gap:8px; flex-wrap:wrap; align-items:center; margin-top:4px}
+  .launchers.visible{display:flex}
+  .launchers .lbl{font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint)}
+  .ai-btn{font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); text-decoration:none; border:1px solid var(--hair); border-radius:2px; padding:6px 10px; transition:.2s}
+  .ai-btn:hover{color:var(--ink); border-color:var(--iron)}
+
+  .guided{margin:28px 0 0; display:flex; flex-direction:column; gap:8px; max-width:760px}
+  .gopt{text-align:left; font-family:var(--sans); font-weight:300; font-size:15px; color:var(--ink); background:var(--panel); border:1px solid var(--hair); border-radius:3px; padding:15px 18px; cursor:pointer; transition:.2s; line-height:1.5}
+  .gopt:hover{border-color:var(--iron)}
+  .gopt.sel{border-color:var(--iron); background:var(--color-surface-hover)}
+  .gresult{display:none; margin-top:14px; background:var(--panel); border:1px solid var(--iron-soft); border-radius:4px; padding:20px 22px}
+  .gresult.visible{display:block}
+  .gresult h3{font-family:var(--serif); font-weight:400; font-size:18px; margin-bottom:6px}
+  .gresult .why{font-size:14px; color:var(--dim); margin-bottom:12px; line-height:1.55}
+  .gresult .inst{font-size:13.5px; color:var(--dim); margin-bottom:14px}
+  .gresult .inst b{color:var(--ink); font-weight:420}
+
+  .group{margin:34px 0 0}
+  .group-head{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ox); padding-bottom:10px; border-bottom:2px solid var(--ox-soft)}
+  .group.iron .group-head{color:var(--iron); border-color:var(--iron-soft)}
+  .group-note{margin:10px 0 0; font-size:13px; color:var(--faint); max-width:640px}
+  .cards{margin-top:6px}
+  .pcard{display:flex; gap:18px; align-items:flex-start; justify-content:space-between; padding:16px 2px; border-bottom:1px solid var(--hair2); flex-wrap:wrap}
+  .pcard .txt{max-width:640px}
+  .pcard h3{font-family:var(--serif); font-weight:400; font-size:16.5px; margin-bottom:4px}
+  .pcard p{font-size:13px; color:var(--dim); line-height:1.55}
+  .pcard .side{display:flex; flex-direction:column; gap:8px; align-items:flex-end}
+
+  footer{border-top:1px solid var(--hair); padding:40px 0 54px; position:relative; z-index:2}
+  .foot{display:flex; justify-content:space-between; gap:26px; flex-wrap:wrap; align-items:flex-start}
+  .foot-note{color:var(--faint); font-size:12.5px; max-width:380px; line-height:1.7}
+  .foot-links{display:flex; gap:22px; flex-wrap:wrap}
+  .foot-links a{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); text-decoration:none}
+  .foot-links a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div id="lattice-base" aria-hidden="true">
+  <svg width="100%" height="100%">
+    <defs>
+      <pattern id="latb" width="340" height="300" patternUnits="userSpaceOnUse">
+        <g class="lat-strut" stroke-width="2.6" opacity="0.75">
+          <line x1="40" y1="250" x2="120" y2="90"/><line x1="150" y1="270" x2="260" y2="140"/><line x1="230" y1="60" x2="320" y2="200"/>
+        </g>
+        <g class="lat-cable" stroke-width="1" opacity="0.65" fill="none">
+          <path d="M40 250 Q 100 268 150 270"/><path d="M120 90 Q 175 60 230 60"/><path d="M120 90 Q 190 120 260 140"/>
+          <path d="M260 140 Q 290 170 320 200"/><path d="M40 250 Q 135 230 320 200"/>
+        </g>
+        <g class="lat-node" opacity="0.6">
+          <circle cx="40" cy="250" r="3"/><circle cx="120" cy="90" r="3"/><circle cx="150" cy="270" r="3"/>
+          <circle cx="260" cy="140" r="3"/><circle cx="230" cy="60" r="3"/><circle cx="320" cy="200" r="3"/>
+        </g>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#latb)"/>
+  </svg>
+</div>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="brand" href="./"><b>CSIS</b><span class="bfull"> · Coordination Structural Integrity Suite</span></a>
+    <div class="tabs">
+      <a class="tab keep here" href="use.html">Use the Suite</a>
+      <a class="tab" href="standards.html">Standards</a>
+      <a class="tab keep" href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Repo ↗</a>
+      <div class="modes" role="group" aria-label="Appearance mode">
+        <button class="mode" data-mode="system" title="Follow the system">Sys</button>
+        <button class="mode" data-mode="light" title="Light">L</button>
+        <button class="mode" data-mode="soft-light" title="Soft Light">SL</button>
+        <button class="mode" data-mode="soft-dark" title="Soft Dark">SD</button>
+        <button class="mode" data-mode="dark" title="Dark">D</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+<div class="rail" aria-hidden="true"></div>
+
+<header class="page">
+  <div class="wrap">
+    <div class="mono eyebrow">The practitioner tools</div>
+    <h1>Use the <em>suite.</em></h1>
+    <p class="lede">Every instrument here runs in the AI you already use. Nothing to install, nothing to sign up for. Copy the prompt, open your AI, paste, send, then describe your situation in plain language.</p>
+    <div class="howto">
+      <span class="lbl">The order matters</span>
+      <div class="step"><span class="n">1</span>Copy the prompt first</div>
+      <div class="step"><span class="n">2</span>Open your AI in a new tab</div>
+      <div class="step"><span class="n">3</span>Paste and send</div>
+      <div class="step"><span class="n">4</span>Then describe your situation</div>
+    </div>
+  </div>
+</header>
+
+<!-- three paths -->
+<section id="start">
+  <div class="wrap">
+    <div class="mono eyebrow"><span class="n">01</span>Start here</div>
+    <h2>Three ways in.</h2>
+    <div class="paths">
+      <div class="path">
+        <span class="k">New here</span>
+        <h3>Understand your situation first</h3>
+        <p>The Explore prompt listens to what you describe, helps you understand what is structurally occurring, and tells you where to go next. It produces a findings document you can carry into the full assessment later.</p>
+        <button class="copybtn" data-prompt="explore">Copy Prompt</button>
+        <div class="launchers"></div>
+      </div>
+      <div class="path">
+        <span class="k">Ready for the full picture</span>
+        <h3>Full standards and gap analysis</h3>
+        <p>One prompt, five stages, across all ten standards: process orientation and consent, self-assessment, gap mapping, and an advancement plan. Each stage produces a document you bring to the next session.</p>
+        <button class="copybtn" data-prompt="assessment">Copy Prompt</button>
+        <div class="launchers"></div>
+      </div>
+      <div class="path">
+        <span class="k">Returning</span>
+        <h3>Pick up where you left off</h3>
+        <p>Send the same assessment prompt, then paste your most recent stage output document. The AI reads it, confirms where you are in the five stages, and continues. No prior stage is re-run.</p>
+        <button class="copybtn" data-prompt="assessment">Copy Prompt</button>
+        <div class="launchers"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- guided routing -->
+<section id="guided">
+  <div class="wrap">
+    <div class="mono eyebrow"><span class="n">02</span>Route from your situation</div>
+    <h2>Route from your situation.</h2>
+    <p class="sec-note">Pick the line that sounds like you. It opens the right instrument with instructions for running it.</p>
+    <div class="guided" id="guided-list"></div>
+    <div class="gresult" id="gresult">
+      <h3 id="gr-name"></h3>
+      <p class="why" id="gr-why"></p>
+      <p class="inst"><b>Copy the prompt first.</b> Then open your AI in a new tab, paste, and send. Once it responds, describe your situation.</p>
+      <button class="copybtn" id="gr-copy">Copy Prompt</button>
+      <div class="launchers" id="gr-launchers"></div>
+    </div>
+  </div>
+</section>
+
+<!-- full library -->
+<section id="library">
+  <div class="wrap">
+    <div class="mono eyebrow"><span class="n">03</span>The full library</div>
+    <h2>Every instrument, all ten standards.</h2>
+    <p class="sec-note">Each prompt fetches its current published version from the standards repository, so what you copy is always the canonical release.</p>
+    <div id="library-groups"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="foot-note">Coordination Structural Integrity Suite · practitioner tools. Everything here is CC BY 4.0 and runs in any AI. The instruments establish what is structurally there; the verdict stays yours.</p>
+    <div class="foot-links">
+      <a href="./">The Structure</a>
+      <a href="standards.html">The Standards</a>
+      <a href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Repository ↗</a>
+      <a href="https://github.com/durgadasji/temper" target="_blank" rel="noopener">Tuned by TEMPER ↗</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const BASE = 'https://raw.githubusercontent.com/coordination-structural-integrity-suite/suite/main/';
+const AI_PLATFORMS = [
+  { name: 'Claude',     url: 'https://claude.ai/new' },
+  { name: 'ChatGPT',    url: 'https://chatgpt.com/' },
+  { name: 'Gemini',     url: 'https://gemini.google.com/' },
+  { name: 'Perplexity', url: 'https://www.perplexity.ai/' },
+];
+const PROMPTS = {
+  'explore': { name: 'Explore the Coordination Structural Integrity Suite', useOn: 'New to the suite, unsure whether it applies, or want to understand your structural situation before committing to a formal process. Produces an exploration findings document you can carry into the assessment process.', path: 'tensegrity-suite/prompts/suite/suite-explore-coordination-structural-integrity-suite-0_1_0.md' },
+  'triage': { name: 'Where Do I Start? - Routing Triage', useOn: 'For direct routing when you already know which standard or prompt you need. Produces a findings document you can save and return to. If you are new or unsure, use the Explore prompt instead.', path: 'tensegrity-suite/prompts/suite/suite-triage-where-do-i-start-0_1_1.md' },
+  'assessment': { name: 'Full Standards and Gap Analysis', useOn: 'One prompt, five stages: foundation check, self-assessment across all ten standards, gap mapping, and advancement planning. Paste your prior session output to resume. Start fresh and Stage 1 begins automatically.', path: 'tensegrity-suite/prompts/suite/suite-assessment-0_1_1.md' },
+  'suite-compressive': { name: 'Compressive Audit', useOn: 'Any coordination system; runs all seven Tensegrity Compressive Standards', path: 'tensegrity-suite/prompts/suite/suite-compressive-audit-0_1_4.md' },
+  'suite-generative': { name: 'Generative Assessment', useOn: 'Any coordination system; runs all three Tensegrity Generative Standards', path: 'tensegrity-suite/prompts/suite/suite-generative-assessment-0_1_1.md' },
+  'suite-full': { name: 'Full Suite Audit', useOn: 'Any coordination system; all ten standards with cross-layer interaction analysis', path: 'tensegrity-suite/prompts/suite/suite-full-audit-0_1_2.md' },
+  'architecture-orientation': { name: 'Tensegrity Architecture Orientation', useOn: 'Encountering the suite for the first time, or wanting to understand why it has the shape it does', path: 'tensegrity-suite/prompts/tensegrity-architecture/tensegrity-architecture-orientation-0_1_0.md' },
+  'structural-patterns-primer': { name: 'Structural Patterns Primer', useOn: 'When you can describe a recurring dynamic and want to know what structural pattern is producing it', path: 'tensegrity-suite/prompts/structural-patterns-primer/structural-patterns-primer-recognition-0_1_0.md' },
+  'integration-guide': { name: 'Suite Integration Guide: Adoption Sequencing', useOn: 'Already adopting standards and want to know what to prioritize next', path: 'tensegrity-suite/prompts/integration-guide/integration-guide-adoption-sequencing-0_1_0.md' },
+  'deployment-contexts': { name: 'Suite Deployment Contexts: Combination Selection', useOn: 'Ready to adopt and want a standards configuration matched to your specific context', path: 'tensegrity-suite/prompts/deployment-contexts/deployment-contexts-combination-selection-0_1_0.md' },
+  'conflict-preconditions': { name: 'Conflict Transformation Preconditions', useOn: 'Planning to run a conflict transformation process and need to check structural readiness', path: 'tensegrity-suite/prompts/conflict-transformation-preconditions/conflict-transformation-preconditions-readiness-0_1_0.md' },
+  'six-v': { name: 'Six-V Trust Framework Application Guide', useOn: 'Assessing a specific relationship for trust extension, or analyzing a past governance or security failure', path: 'tensegrity-suite/prompts/six-v/six-v-application-guide-0_1_0.md' },
+  'precision-general': { name: 'Precision-First: General Audit', useOn: 'Any document, specification, or standard', path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-general-0_1_6.md' },
+  'precision-governance': { name: 'Precision-First: Governance Audit', useOn: 'DAO proposals, bylaws, charters, policies, constitutions', path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-governance-0_1_6.md' },
+  'precision-software': { name: 'Precision-First: Software Audit', useOn: 'API contracts, requirements documents, schemas, technical designs', path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-software-0_1_6.md' },
+  'adverse-org': { name: 'Adverse Signal: Organizational Audit', useOn: 'Governance documents, policies, process descriptions', path: 'tensegrity-suite/compressive/prompts/adverse-signal/organizational-adverse-signal-audit-0_1_1.md' },
+  'adverse-regulatory': { name: 'Adverse Signal: Regulatory Compliance Audit', useOn: 'Compliance frameworks, regulatory submissions', path: 'tensegrity-suite/compressive/prompts/adverse-signal/regulatory-compliance-adverse-signal-audit-0_1_1.md' },
+  'adverse-ai': { name: 'Adverse Signal: AI Systems Audit', useOn: 'AI system designs, model documentation, feedback architectures', path: 'tensegrity-suite/compressive/prompts/adverse-signal/ai-adverse-signal-audit-0_1_1.md' },
+  'consent': { name: 'Structural Consent Legibility Audit', useOn: 'Governance documents, participation terms, consent architecture', path: 'tensegrity-suite/compressive/prompts/structural-consent/structural-consent-audit-0_1_1.md' },
+  'info-asymmetry': { name: 'Information Asymmetry Classification Audit', useOn: 'Coordination system descriptions, governance documents, platform architecture', path: 'tensegrity-suite/compressive/prompts/information-asymmetry/information-asymmetry-audit-0_1_1.md' },
+  'power-distribution': { name: 'Structural Power Obligation Audit', useOn: 'Governance documents, organizational descriptions, protocol architecture', path: 'tensegrity-suite/compressive/prompts/structural-power-obligation/structural-power-obligation-audit-0_1_2.md' },
+  'regenerative-accountability': { name: 'Regenerative Obligation Audit', useOn: 'Organizations or protocols; assesses return to harm-bearing parties against three validity conditions; cross-references the Frame Language Vocabulary Audit for documents making regenerative claims', path: 'tensegrity-suite/compressive/prompts/regenerative-obligation/regenerative-obligation-audit-0_1_4.md' },
+  'coordination-scaling': { name: 'Coordination Scaling Audit', useOn: 'Any coordination unit; assesses whether Board conditions for all crossed Radius thresholds are installed and Dome conditions are absent', path: 'tensegrity-suite/compressive/prompts/coordination-scaling/coordination-scaling-audit-0_1_0.md' },
+  'sensemaking': { name: 'Sensemaking Presence Assessment', useOn: 'Coordination systems, organizations, or processes', path: 'tensegrity-suite/generative/prompts/sensemaking/sensemaking-presence-assessment-0_1_2.md' },
+  'four-batteries': { name: 'Four Batteries Presence Assessment', useOn: 'Coordination systems or organizations', path: 'tensegrity-suite/generative/prompts/four-batteries/four-batteries-presence-assessment-0_1_2.md' },
+  'conflict-transformation': { name: 'Conflict Transformation Presence Assessment', useOn: 'Coordination systems or organizations', path: 'tensegrity-suite/generative/prompts/conflict-transformation/conflict-transformation-presence-assessment-0_1_2.md' },
+  'frame-language': { name: 'Frame Language Vocabulary Audit', useOn: 'Governance documents, charters, constitutions, proposal templates, dispute resolution processes, or regenerative community documents; audits for vocabulary that imports structural assumptions the stated purpose does not intend; includes the Regen Reality Check for documents making regenerative claims', path: 'tensegrity-suite/prompts/frame-language/frame-language-vocabulary-audit-0_1_0.md' },
+};
+
+const GUIDED = [
+  { id:'explore', label:'I am new to this and want to understand what the suite is and whether it applies to my situation', why:'The Explore prompt listens to what you describe and produces an exploration findings document you can carry forward.' },
+  { id:'assessment', label:'I want to run a full standards and gap analysis of my organization', why:'A five-stage structured process: process orientation and consent, all ten standards, a gap map, and an advancement plan.' },
+  { id:'structural-patterns-primer', label:'I keep seeing the same problem and cannot explain what is producing it', why:'The Structural Patterns Primer identifies the structural pattern and names which standards address it.' },
+  { id:'architecture-orientation', label:'I want to understand the conceptual architecture of the suite before using it', why:'The Architecture Orientation explains the tensegrity model, the compressive and generative distinction, and why each standard is where it is.' },
+  { id:'deployment-contexts', label:'I have a specific situation and want to know which standards combination to use', why:'The Deployment Contexts prompt routes you to one of five named configurations.' },
+  { id:'integration-guide', label:'I am already using the suite and want to know what to do next', why:'The Integration Guide identifies detection reliability concerns and names your next adoption step.' },
+  { id:'conflict-preconditions', label:'I am about to run a conflict transformation process and need to check readiness', why:'The Preconditions prompt produces a proceed, adjust, or defer assessment for each structural precondition before you begin.' },
+  { id:'six-v', label:'I need to assess trust in a specific relationship or analyze a past failure', why:'The Six-V prompt walks the six-V sequence against your specific case.' },
+  { id:'frame-language', label:'I want to check whether a document’s language imports structural assumptions it does not intend', why:'The Frame Language Vocabulary Audit examines the document’s vocabulary, with the Regen Reality Check for regenerative claims.' },
+];
+
+const GROUPS = [
+  { title:'Start here', cls:'', note:null, ids:['explore','triage'] },
+  { title:'Full standards and gap analysis', cls:'', note:'One prompt, five stages. Paste your prior session output to resume; start fresh and Stage 1 begins automatically.', ids:['assessment'] },
+  { title:'Suite-level assessments', cls:'', note:null, ids:['suite-compressive','suite-generative','suite-full'] },
+  { title:'Suite documents', cls:'', note:null, ids:['architecture-orientation','structural-patterns-primer','integration-guide','deployment-contexts','conflict-preconditions','six-v'] },
+  { title:'Dimensional Frame Language', cls:'', note:'The foundational vocabulary substrate the standards rest on. The audit checks a document’s language for structural assumptions its stated purpose does not intend.', ids:['frame-language'] },
+  { title:'Tensegrity compressive standards', cls:'iron', note:'The struts: standards that resist force.', ids:['precision-general','precision-governance','precision-software','adverse-org','adverse-regulatory','adverse-ai','consent','info-asymmetry','power-distribution','regenerative-accountability','coordination-scaling'] },
+  { title:'Tensegrity generative standards', cls:'', note:'The cables: standards that produce capacity.', ids:['sensemaking','four-batteries','conflict-transformation'] },
+];
+
+function launchersHTML(){
+  return '<span class="lbl">Then open your AI:</span>' +
+    AI_PLATFORMS.map(p => '<a href="'+p.url+'" target="_blank" rel="noopener" class="ai-btn">'+p.name+' ↗</a>').join('');
+}
+
+async function copyPrompt(btn, id){
+  const p = PROMPTS[id];
+  btn.disabled = true; const old = btn.textContent; btn.textContent = 'Loading…';
+  try{
+    const res = await fetch(BASE + p.path);
+    if(!res.ok) throw new Error('fetch failed');
+    await navigator.clipboard.writeText(await res.text());
+    btn.textContent = '✓ Copied'; btn.classList.add('done'); btn.disabled = false;
+    const l = btn.parentElement.querySelector('.launchers');
+    if(l){ l.innerHTML = launchersHTML(); l.classList.add('visible'); }
+    setTimeout(function(){ btn.textContent = old; btn.classList.remove('done'); }, 3500);
+  }catch(e){ btn.textContent = 'Failed, try again'; btn.disabled = false; }
+}
+
+document.querySelectorAll('.copybtn[data-prompt]').forEach(function(btn){
+  btn.addEventListener('click', function(){ copyPrompt(btn, btn.getAttribute('data-prompt')); });
+});
+
+// guided
+(function(){
+  var list = document.getElementById('guided-list');
+  GUIDED.forEach(function(g){
+    var b = document.createElement('button');
+    b.className = 'gopt'; b.textContent = g.label;
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.gopt').forEach(function(x){ x.classList.remove('sel'); });
+      b.classList.add('sel');
+      document.getElementById('gr-name').textContent = PROMPTS[g.id].name;
+      document.getElementById('gr-why').textContent = g.why;
+      var copy = document.getElementById('gr-copy');
+      copy.onclick = function(){ copyPrompt(copy, g.id); };
+      document.getElementById('gr-launchers').classList.remove('visible');
+      document.getElementById('gresult').classList.add('visible');
+      document.getElementById('gresult').scrollIntoView({behavior:'smooth', block:'nearest'});
+    });
+    list.appendChild(b);
+  });
+})();
+
+// library
+(function(){
+  var root = document.getElementById('library-groups');
+  GROUPS.forEach(function(g){
+    var d = document.createElement('div');
+    d.className = 'group ' + g.cls;
+    var html = '<div class="group-head">' + g.title + '</div>';
+    if(g.note) html += '<p class="group-note">' + g.note + '</p>';
+    html += '<div class="cards">' + g.ids.map(function(id){
+      var p = PROMPTS[id];
+      return '<div class="pcard"><div class="txt"><h3>' + p.name + '</h3><p><b>Use on:</b> ' + p.useOn + '</p></div>' +
+        '<div class="side"><button class="copybtn" data-prompt="' + id + '">Copy Prompt</button><div class="launchers"></div></div></div>';
+    }).join('') + '</div>';
+    d.innerHTML = html;
+    root.appendChild(d);
+  });
+  root.querySelectorAll('.copybtn[data-prompt]').forEach(function(btn){
+    btn.addEventListener('click', function(){ copyPrompt(btn, btn.getAttribute('data-prompt')); });
+  });
+})();
+
+// TEMPER mode switcher
+(function(){
+  var btns = document.querySelectorAll('.mode');
+  function mark(m){ btns.forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-mode') === m); }); }
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var m = b.getAttribute('data-mode');
+      document.documentElement.dataset.theme = m;
+      try{ var s = JSON.parse(localStorage.getItem('temper')||'{}'); s.mode = m; localStorage.setItem('temper', JSON.stringify(s)); }catch(e){}
+      mark(m);
+    });
+  });
+  mark(document.documentElement.dataset.theme || 'system');
+})();
+</script>
+</body>
+</html>

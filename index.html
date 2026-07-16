@@ -1,1117 +1,683 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coordination Structural Integrity Suite</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:           #0a0d1a;
-      --bg-card:      #12172a;
-      --bg-elevated:  #1a2035;
-      --bg-banner:    #0f1525;
-      --cyan:         #22d3ee;
-      --cyan-dark:    #0891b2;
-      --gold:         #f59e0b;
-      --gold-dark:    #b45309;
-      --text:         #e2e8f0;
-      --muted:        #6b7a99;
-      --border:       #1e2a45;
-      --border-light: #2a3a5c;
-      --green:        #10b981;
-      --green-dark:   #059669;
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coordination Structural Integrity Suite</title>
+<meta name="description" content="Ten structural standards for coordination systems. What keeps happening in your organization has a structure underneath it. The suite is the atlas of that structure and the instruments for repairing it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Geist:wght@300..600&family=Geist+Mono:wght@300..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="temper-theme.css">
+<script>
+  /* TEMPER pre-paint: apply the stored mode before styles resolve (no flash) */
+  try{var s=JSON.parse(localStorage.getItem("temper")||"{}");
+  document.documentElement.dataset.theme=s.mode||"system";}catch(e){
+  document.documentElement.dataset.theme="system";}
+</script>
+<style>
+  /*
+   * Chrome is TEMPER: every UI color below reads a semantic token from
+   * temper-theme.css and re-solves across all five modes. The page adds one
+   * thing of its own: a second solved accent family (generative, oxblood
+   * #863A34) derived with TEMPER's brandToFamily, hue held, lightness solved
+   * per background. The compressive pole rides TEMPER's default Iron accent.
+   */
+  :root{
+    --gen:#823631; --gen-hover:#6F2521; --gen-subtle:#FFD3CE; --gen-solid:#9A4C45;
+    --serif:"Fraunces",Georgia,serif; --sans:"Geist",system-ui,sans-serif; --mono:"Geist Mono",ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme]), [data-theme="system"]{
+      --gen:#E69086; --gen-hover:#FEA69C; --gen-subtle:#411C19; --gen-solid:#AB5B54;
     }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    /* ── Header ── */
-    .site-header {
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border);
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .site-header img {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      flex-shrink: 0;
-    }
-
-    .site-header-text h1 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.01em;
-      margin-bottom: 0.15rem;
-    }
-
-    .site-header-text p {
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-
-    .site-header a { color: var(--cyan); text-decoration: none; }
-    .site-header a:hover { text-decoration: underline; }
-
-    /* ── Views ── */
-    .view { display: none; padding: 2.5rem 0 4rem; }
-    .view.active { display: block; }
-
-    /* ── Back button ── */
-    .back-btn {
-      background: none;
-      border: none;
-      color: var(--cyan);
-      font-size: 0.875rem;
-      cursor: pointer;
-      padding: 0;
-      margin-bottom: 1.75rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-    .back-btn:hover { text-decoration: underline; }
-
-    /* ── Gateway ── */
-    .gateway-description {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.875rem;
-      margin-bottom: 1.25rem;
-      line-height: 1.6;
-    }
-
-    .foundation-block {
-      background: var(--bg-banner);
-      border: 1px solid var(--border-light);
-      border-radius: 8px;
-      padding: 1.25rem 1.5rem;
-      margin-top: 2rem;
-      color: var(--text);
-      line-height: 1.7;
-    }
-
-    .foundation-block p + p {
-      margin-top: 0.85rem;
-    }
-
-    .gateway-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    @media (max-width: 520px) {
-      .gateway-cards { grid-template-columns: 1fr; }
-    }
-
-    .gateway-card {
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      cursor: pointer;
-      background: var(--bg-card);
-      text-align: left;
-      transition: border-color 0.15s, box-shadow 0.15s;
-      width: 100%;
-    }
-
-    .gateway-card .card-icon {
-      margin-bottom: 0.85rem;
-      display: block;
-    }
-
-    .gateway-card h2 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 0.4rem;
-      line-height: 1.3;
-    }
-
-    .gateway-card p {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .gateway-card .arrow {
-      display: inline-block;
-      margin-top: 0.85rem;
-      font-size: 1rem;
-    }
-
-    /* Color variants */
-    .gateway-card--cyan:hover {
-      border-color: var(--cyan);
-      box-shadow: 0 2px 14px rgba(34,211,238,0.1);
-    }
-    .gateway-card--cyan .arrow { color: var(--cyan); }
-
-    .gateway-card--gold:hover {
-      border-color: var(--gold);
-      box-shadow: 0 2px 14px rgba(245,158,11,0.1);
-    }
-    .gateway-card--gold .arrow { color: var(--gold); }
-
-    .gateway-card--green:hover {
-      border-color: var(--green);
-      box-shadow: 0 2px 14px rgba(16,185,129,0.1);
-    }
-    .gateway-card--green .arrow { color: var(--green); }
-
-    .gateway-card--muted:hover {
-      border-color: var(--border-light);
-      box-shadow: none;
-    }
-    .gateway-card--muted .arrow { color: var(--muted); }
-
-    /* ── Selected prompt view ── */
-    .selected-heading {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 0.25rem;
-    }
-
-    .selected-sub {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-    }
-
-    .selected-instruction {
-      border-radius: 8px;
-      padding: 0.9rem 1.1rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.875rem;
-      color: var(--text);
-      line-height: 1.5;
-    }
-
-    .selected-instruction--cyan {
-      background: rgba(34,211,238,0.07);
-      border: 1px solid rgba(34,211,238,0.25);
-    }
-
-    .selected-instruction--gold {
-      background: rgba(245,158,11,0.07);
-      border: 1px solid rgba(245,158,11,0.25);
-    }
-
-    .selected-instruction--green {
-      background: rgba(16,185,129,0.07);
-      border: 1px solid rgba(16,185,129,0.25);
-    }
-
-    .selected-copy-btn {
-      border: none;
-      border-radius: 8px;
-      padding: 0.7rem 1.5rem;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      display: block;
-      margin-bottom: 0.75rem;
-    }
-
-    .selected-copy-btn--cyan { background: var(--cyan); color: var(--bg); }
-    .selected-copy-btn--cyan:hover { background: var(--cyan-dark); color: white; }
-    .selected-copy-btn--gold { background: var(--gold); color: var(--bg); }
-    .selected-copy-btn--gold:hover { background: var(--gold-dark); color: white; }
-    .selected-copy-btn--green { background: var(--green); color: var(--bg); }
-    .selected-copy-btn--green:hover { background: var(--green-dark); color: white; }
-    .selected-copy-btn.copied { background: var(--green) !important; color: white !important; }
-    .selected-copy-btn:disabled { opacity: 0.6; cursor: default; }
-
-    .selected-launchers {
-      display: none;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 0.5rem;
-    }
-    .selected-launchers.visible { display: flex; }
-
-    /* ── Instruction banner ── */
-    .instruction-banner {
-      background: var(--bg-banner);
-      border: 1px solid var(--border-light);
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-      margin-bottom: 2rem;
-      font-size: 0.875rem;
-      color: var(--text);
-      line-height: 1.5;
-    }
-
-    .instruction-banner strong { color: var(--cyan); }
-
-    .instruction-steps {
-      display: flex;
-      gap: 1.25rem;
-      flex-wrap: wrap;
-      margin-top: 0.6rem;
-    }
-
-    .step {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.82rem;
-      color: var(--text);
-    }
-
-    .step-num {
-      background: var(--cyan);
-      color: var(--bg);
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    /* ── Library groups ── */
-    .group { margin-bottom: 2.25rem; }
-
-    .group-heading {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: var(--muted);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.5rem;
-      margin-bottom: 0.85rem;
-    }
-
-    .group-sub {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--cyan);
-      margin: 1.1rem 0 0.5rem;
-      opacity: 0.75;
-    }
-
-    /* ── Prompt card ── */
-    .prompt-card {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.9rem 1.1rem;
-      margin-bottom: 0.5rem;
-      background: var(--bg-card);
-      transition: border-color 0.15s;
-    }
-
-    .prompt-card:hover { border-color: var(--border-light); }
-
-    .prompt-card-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    .prompt-card-info h3 {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 0.15rem;
-    }
-
-    .prompt-card-info .use-on {
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.4;
-      font-style: italic;
-    }
-
-    .copy-btn {
-      background: var(--cyan);
-      color: var(--bg);
-      border: none;
-      border-radius: 6px;
-      padding: 0.4rem 0.9rem;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: background 0.15s;
-      align-self: flex-start;
-    }
-
-    .copy-btn:hover { background: var(--cyan-dark); color: white; }
-    .copy-btn:disabled { background: var(--muted); cursor: default; color: var(--bg); }
-    .copy-btn.copied { background: var(--green); color: white; }
-
-    .ai-launchers {
-      display: none;
-      margin-top: 0.65rem;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      align-items: center;
-    }
-
-    .ai-launchers.visible { display: flex; }
-
-    .ai-launchers-label {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-right: 0.1rem;
-    }
-
-    .ai-btn {
-      display: inline-flex;
-      align-items: center;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-light);
-      border-radius: 5px;
-      padding: 0.25rem 0.65rem;
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--text);
-      text-decoration: none;
-      transition: border-color 0.15s, background 0.15s;
-    }
-
-    .ai-btn:hover {
-      border-color: var(--cyan);
-      color: var(--cyan);
-    }
-
-    /* ── Guided view ── */
-    .guided-heading {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 1rem;
-    }
-
-    .guided-opt {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.85rem 1.1rem;
-      margin-bottom: 0.45rem;
-      cursor: pointer;
-      background: var(--bg-card);
-      font-size: 0.875rem;
-      color: var(--text);
-      text-align: left;
-      line-height: 1.45;
-      transition: border-color 0.15s, background 0.15s;
-    }
-
-    .guided-opt:hover {
-      border-color: var(--border-light);
-      background: var(--bg-elevated);
-    }
-
-    .guided-opt.selected {
-      border-color: var(--cyan);
-      background: var(--bg-elevated);
-    }
-
-    /* ── Result panel ── */
-    .result-panel {
-      display: none;
-      border: 2px solid var(--cyan);
-      border-radius: 10px;
-      padding: 1.5rem;
-      background: var(--bg-elevated);
-      margin-top: 1.5rem;
-    }
-
-    .result-panel.visible { display: block; }
-
-    .result-panel h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 0.3rem;
-    }
-
-    .result-why {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 1.1rem;
-      line-height: 1.5;
-    }
-
-    .result-instruction {
-      font-size: 0.82rem;
-      color: var(--text);
-      margin-bottom: 0.85rem;
-      background: var(--bg-banner);
-      border: 1px solid var(--border-light);
-      border-radius: 6px;
-      padding: 0.6rem 0.85rem;
-    }
-
-    .result-copy-btn {
-      background: var(--cyan);
-      color: var(--bg);
-      border: none;
-      border-radius: 8px;
-      padding: 0.65rem 1.4rem;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-
-    .result-copy-btn:hover { background: var(--cyan-dark); color: white; }
-    .result-copy-btn.copied { background: var(--green); color: white; }
-
-    .result-launchers {
-      display: none;
-      margin-top: 0.85rem;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .result-launchers.visible { display: flex; }
-
-    /* ── Footer ── */
-    .site-footer {
-      border-top: 1px solid var(--border);
-      padding: 1.5rem;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .site-footer a { color: var(--cyan); text-decoration: none; }
-    .site-footer a:hover { text-decoration: underline; }
-  </style>
+  }
+  [data-theme="light"]{ --gen:#823631; --gen-hover:#6F2521; --gen-subtle:#FFD3CE; --gen-solid:#9A4C45 }
+  [data-theme="soft-light"]{ --gen:#732924; --gen-hover:#5F1614; --gen-subtle:#F0BEB8; --gen-solid:#9A4C45 }
+  [data-theme="soft-dark"]{ --gen:#F7A096; --gen-hover:#FFBEB7; --gen-subtle:#502A26; --gen-solid:#AB5B54 }
+  [data-theme="dark"]{ --gen:#E69086; --gen-hover:#FEA69C; --gen-subtle:#411C19; --gen-solid:#AB5B54 }
+
+  /* aliases: the page's original vocabulary, now resolved by TEMPER */
+  :root, [data-theme]{
+    --paper:var(--color-bg-base); --paper2:var(--color-bg-subtle); --panel:var(--color-surface);
+    --ink:var(--color-text-primary); --dim:var(--color-text-secondary); --faint:var(--color-text-tertiary);
+    --iron:var(--color-accent); --iron-soft:var(--color-accent-solid); --iron-wash:color-mix(in srgb, var(--color-accent) 9%, transparent);
+    --ox:var(--gen); --ox-soft:var(--gen-solid); --ox-wash:color-mix(in srgb, var(--gen) 8%, transparent);
+    --hair:color-mix(in srgb, var(--color-border) 85%, transparent);
+    --hair2:color-mix(in srgb, var(--color-border) 45%, transparent);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper); color:var(--ink); font-family:var(--sans); font-weight:300; line-height:1.62; -webkit-font-smoothing:antialiased; overflow-x:hidden; position:relative}
+  ::selection{background:var(--color-selection)}
+  a{color:inherit}
+  .mono{font-family:var(--mono); text-transform:uppercase; letter-spacing:.18em; font-size:11px; color:var(--faint)}
+  .wrap{max-width:1060px; margin:0 auto; padding:0 clamp(20px,5vw,36px); position:relative}
+  .narrow{max-width:720px}
+
+  /* ── grain, keyed to the mode's own text color ── */
+  body::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+    background-image:radial-gradient(color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px);
+    background-size:5px 5px}
+
+  /* ── the two solved inks, driving every figure ── */
+  .lat-strut{stroke:var(--iron)} .lat-cable{stroke:var(--ox)} .lat-node{fill:var(--ink)}
+  .plate-svg .cable{stroke:var(--ox)}
+  .plate-svg .strut-bar{stroke:var(--iron)}
+  .plate-svg .strut-core{stroke:var(--paper)}
+  .plate-svg .node-fill{fill:var(--ink)} .plate-svg .node-ring{stroke:var(--ink)}
+  .plate-svg .shadowline{stroke:var(--ink)}
+  .plate-svg .lead-iron line{stroke:var(--iron)} .plate-svg .lead-iron circle{fill:var(--iron)}
+  .plate-svg .lead-gen line{stroke:var(--ox)} .plate-svg .lead-gen circle{fill:var(--ox)}
+  .plate-svg .lt-iron{fill:var(--iron)} .plate-svg .lt-gen{fill:var(--ox)} .plate-svg .lt-faint{fill:var(--faint)}
+
+  /* ── the lattice: always faintly present, amplified under the reader's lens ── */
+  #lattice-base{position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.06}
+  #lattice-base svg, #lattice svg{width:100%; height:100%; display:block}
+  #lattice{position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0; transition:opacity .6s ease;
+    -webkit-mask-image:radial-gradient(circle 230px at var(--gx,50%) var(--gy,50%), #000 0%, #000 22%, transparent 68%);
+    mask-image:radial-gradient(circle 230px at var(--gx,50%) var(--gy,50%), #000 0%, #000 22%, transparent 68%)}
+  body.lens-on #lattice{opacity:.55}
+  @media (hover:none){ #lattice{display:none} }
+
+  /* ── the continuous cable: tension runs the whole page ── */
+  .rail{position:absolute; top:0; bottom:0; left:clamp(10px,2.6vw,44px); width:2px; z-index:1; pointer-events:none;
+    background:linear-gradient(180deg, transparent 0, var(--ox-soft) 90px, var(--ox-soft) calc(100% - 90px), transparent 100%); opacity:.34}
+  @media(max-width:900px){ .rail{display:none} }
+
+  main{position:relative; z-index:2}
+
+  /* ── nav ── */
+  nav{position:sticky; top:0; z-index:50; backdrop-filter:blur(8px); background:color-mix(in srgb, var(--paper) 84%, transparent); border-bottom:1px solid var(--hair)}
+  nav .wrap{max-width:1400px}
+  .nav-in{display:flex; align-items:center; justify-content:space-between; height:62px; gap:14px}
+  .brand{font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase; text-decoration:none; color:var(--ink); white-space:nowrap}
+  .brand b{color:var(--iron); font-weight:500}
+  @media(max-width:1180px){ .brand .bfull{display:none} }
+  .tabs{display:flex; gap:4px; align-items:center}
+  .tab{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); padding:8px 12px; border:1px solid transparent; border-radius:2px; text-decoration:none; transition:.25s}
+  .tab:hover{color:var(--ink); border-color:var(--hair)}
+  .tab .soon{font-size:8px; vertical-align:super; margin-left:4px; color:var(--faint)}
+  @media(max-width:680px){ .tabs .tab{display:none} .tabs .tab.keep{display:inline-block} }
+  .modes{display:flex; gap:2px; margin-left:12px; border:1px solid var(--hair); border-radius:3px; padding:2px}
+  .mode{font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); background:transparent; border:none; border-radius:2px; padding:6px 8px; cursor:pointer; transition:.2s}
+  .mode:hover{color:var(--ink)}
+  .mode.on{background:var(--color-accent-subtle); color:var(--ink)}
+
+  /* ── shared section chrome ── */
+  section{padding:clamp(56px,8.5vw,88px) 0; border-top:1px solid var(--hair2); position:relative}
+  section:first-of-type{border-top:none}
+  /* a strut crossing the cable at each section boundary */
+  section::before{content:""; position:absolute; top:-7px; left:clamp(4px,2vw,32px); width:26px; height:13px;
+    border:1.5px solid var(--iron); border-radius:2px; background:var(--paper); transform:rotate(-14deg); opacity:.55}
+  @media(max-width:900px){ section::before{display:none} }
+  /* section markers: the findable layer of the hierarchy */
+  .eyebrow{display:flex; align-items:center; gap:14px; font-size:11.5px; letter-spacing:.2em; color:var(--iron); font-weight:500}
+  .eyebrow .n{color:var(--ox); flex:none}
+  .eyebrow::after{content:""; flex:1; height:1px; background:var(--hair); min-width:40px}
+  h2{font-family:var(--serif); font-weight:320; font-size:clamp(24px,3.2vw,34px); line-height:1.14; letter-spacing:-.012em; margin:16px 0 0}
+  p.body{color:var(--dim); font-size:16.5px; margin:18px 0 0; max-width:680px}
+  p.body strong{color:var(--ink); font-weight:420}
+
+  /* reveal on scroll */
+  .rv{opacity:0; transform:translateY(18px); transition:opacity .8s ease, transform .8s ease}
+  .rv.in{opacity:1; transform:none}
+  @media (prefers-reduced-motion:reduce){ .rv{opacity:1; transform:none; transition:none} #lattice{display:none} }
+
+  /* ── term annotations: nothing assumed, everything defined where it stands ── */
+  .term{border-bottom:1px dotted var(--faint); cursor:help; position:relative; font-style:normal}
+  .term:hover{color:var(--iron); border-bottom-color:var(--iron)}
+  .term .tip{position:absolute; left:0; bottom:calc(100% + 10px); width:300px; background:var(--panel); border:1px solid var(--hair); border-radius:3px; padding:13px 15px; font-family:var(--sans); font-size:13px; line-height:1.55; color:var(--dim); font-weight:300; opacity:0; visibility:hidden; transform:translateY(4px); transition:.2s; z-index:60; box-shadow:var(--shadow-md)}
+  .term .tip .lbl{display:block; font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--iron); margin-bottom:6px}
+  .term:hover .tip, .term.open .tip{opacity:1; visibility:visible; transform:none}
+
+  /* ── hero: recognition ── */
+  .hero{padding:clamp(72px,10vw,120px) 0 clamp(48px,7vw,72px)}
+  .hero-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,420px); gap:clamp(28px,5vw,64px); align-items:start}
+  @media(max-width:920px){ .hero-grid{grid-template-columns:1fr} .hero-fig{display:none} }
+  .hero-fig{position:relative; padding-top:34px}
+  .hero-fig svg{display:block; width:100%; height:auto; animation:heroFloat 11s ease-in-out infinite alternate}
+  @keyframes heroFloat{from{transform:translateY(0)}to{transform:translateY(-14px)}}
+  @media (prefers-reduced-motion:reduce){ .hero-fig svg{animation:none} }
+  .hero-fig .cable{stroke:var(--ox)} .hero-fig .strut-bar{stroke:var(--iron)} .hero-fig .strut-core{stroke:var(--paper)}
+  .hero-fig .node-fill{fill:var(--ink)} .hero-fig .node-ring{stroke:var(--ink)}
+  .hero-fig .fig-note{margin:20px auto 0; max-width:330px; font-size:12.5px; color:var(--faint); line-height:1.6; text-align:center}
+  .hero-fig .fig-note b{color:var(--dim); font-weight:420}
+  h1{font-family:var(--serif); font-weight:300; font-size:clamp(40px,7.4vw,84px); line-height:1.02; letter-spacing:-.02em; max-width:14ch}
+  h1 em{font-style:italic; color:var(--ox)}
+  .hero .lede{margin-top:26px; font-size:clamp(16px,2vw,19px); color:var(--dim); max-width:640px}
+  .stats{margin-top:30px; display:flex; flex-wrap:wrap; gap:8px 24px; font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .stats b{color:var(--dim); font-weight:500}
+  .solves{margin-top:42px; max-width:720px; border-top:1px solid var(--hair)}
+  .solves-head{padding:14px 2px 10px; color:var(--ox); letter-spacing:.16em; font-size:10px}
+  .solve{display:flex; gap:18px; align-items:baseline; justify-content:space-between; padding:12px 2px; border-bottom:1px solid var(--hair2)}
+  .solve .f{font-family:var(--serif); font-style:italic; font-weight:340; font-size:clamp(14.5px,1.8vw,17.5px); color:var(--dim); line-height:1.35}
+  .solve .s{flex:none; max-width:44%; text-align:right; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--iron); line-height:1.5; background:var(--color-accent-subtle); padding:6px 10px; border-radius:2px}
+
+  /* ── the belief ── */
+  .belief blockquote{margin:34px 0 0; padding:26px 30px; border-left:2.5px solid var(--ox); background:linear-gradient(90deg, var(--ox-wash), transparent 70%); max-width:700px}
+  .belief blockquote p{font-family:var(--serif); font-weight:340; font-size:clamp(18px,2.4vw,23px); line-height:1.45; color:var(--ink)}
+  .belief blockquote p em{color:var(--ox); font-style:italic}
+
+  /* ── one repair, worked ── */
+  .case{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hair2); border:1px solid var(--hair); margin:38px 0 0; border-radius:3px; overflow:hidden}
+  @media(max-width:760px){ .case{grid-template-columns:1fr} }
+  .case-step{background:var(--panel); padding:26px 24px 28px; position:relative}
+  .case-step .k{font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; margin-bottom:12px; display:block}
+  .case-step:nth-child(1) .k{color:var(--faint)}
+  .case-step:nth-child(2) .k{color:var(--iron)}
+  .case-step:nth-child(3) .k{color:var(--ox)}
+  .case-step p{font-size:14.5px; color:var(--dim); line-height:1.6}
+  .case-step p b{color:var(--ink); font-weight:420}
+  .case-after{margin:22px 0 0; font-size:15px; color:var(--dim); max-width:660px}
+  .case-after b{color:var(--ink); font-weight:420}
+
+  /* ── the plate ── */
+  .platewrap{margin:44px 0 0; background:var(--panel); border:1px solid var(--hair); border-radius:3px; padding:clamp(20px,4vw,40px) clamp(16px,3.5vw,36px) 26px; position:relative}
+  .platewrap::before,.platewrap::after{content:""; position:absolute; width:14px; height:14px; border-color:var(--ink); border-style:solid; opacity:.5}
+  .platewrap::before{top:8px; left:8px; border-width:1px 0 0 1px}
+  .platewrap::after{bottom:8px; right:8px; border-width:0 1px 1px 0}
+  .plate-svg{display:block; width:100%; max-width:760px; height:auto; margin:0 auto}
+  .figcap{font-family:var(--mono); font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--faint); text-align:center; margin:16px 0 0}
+  .figcap b{color:var(--dim); font-weight:500}
+
+  /* member highlighting */
+  .plate-svg .strut{transition:opacity .35s}
+  .plate-svg .cable{transition:opacity .35s}
+  .platewrap.hl-strut .cable{opacity:.16}
+  .platewrap.hl-cable .strut{opacity:.16}
+  .platewrap.hl-cable .shadowline{opacity:.06}
+  .platewrap.hl-strut .shadowline{opacity:.06}
+
+  /* ── the members ── */
+  .members{display:grid; grid-template-columns:1fr 1fr; gap:clamp(20px,4vw,44px); margin:40px 0 0; align-items:start}
+  @media(max-width:820px){ .members{grid-template-columns:1fr} }
+  .member-col .colhead{display:flex; align-items:center; gap:12px; padding:0 0 14px; border-bottom:2px solid; cursor:pointer}
+  .member-col.compressive .colhead{border-color:var(--iron)}
+  .member-col.generative .colhead{border-color:var(--ox)}
+  .colhead .glyph{flex:none; width:34px; height:18px}
+  .colhead h3{font-family:var(--serif); font-weight:400; font-size:19px; letter-spacing:-.01em}
+  .member-col.compressive h3 em{color:var(--iron); font-style:normal}
+  .member-col.generative h3 em{color:var(--ox); font-style:normal}
+  .colhead .sub{margin-left:auto; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .member-list{list-style:none; margin:6px 0 0}
+  .member-list li{padding:13px 2px; border-bottom:1px solid var(--hair2); font-size:14.5px; color:var(--dim); line-height:1.5}
+  .member-list li b{display:block; color:var(--ink); font-weight:420; font-size:15px; margin-bottom:2px}
+  .members-note{margin:26px 0 0; font-size:14px; color:var(--faint); max-width:640px}
+
+  /* ── one discipline ── */
+  .discover p.big{font-family:var(--serif); font-weight:330; font-size:clamp(19px,2.6vw,25px); line-height:1.42; color:var(--ink); max-width:26em; margin:24px 0 0}
+  .discover p.big em{font-style:italic; color:var(--iron)}
+
+  /* ── foundation ── */
+  .foundation{background:linear-gradient(180deg, var(--paper) 0%, var(--paper2) 100%)}
+  .foundation .bind{margin:34px 0 0; padding:30px 32px; border:1px solid var(--hair); border-radius:3px; background:var(--panel); position:relative; max-width:760px}
+  .foundation .bind::before{content:""; position:absolute; left:-1px; top:18px; bottom:18px; width:3px;
+    background:linear-gradient(180deg, var(--iron) 0%, var(--iron) 42%, var(--ox) 58%, var(--ox) 100%)}
+  .foundation .bind p{font-size:15.5px; color:var(--dim); line-height:1.65}
+  .foundation .bind p + p{margin-top:16px}
+  .foundation .bind p strong{color:var(--ink); font-weight:440}
+  .foundation .cred{font-family:var(--serif); font-style:italic; font-weight:340; font-size:clamp(19px,2.6vw,24px); color:var(--ink); margin:30px 0 0}
+  .foundation .cred b{color:var(--ox); font-weight:400; font-style:normal}
+
+  /* ── edges ── */
+  .edges ul{list-style:none; margin:26px 0 0; max-width:680px}
+  .edges li{padding:14px 0 14px 30px; border-bottom:1px solid var(--hair2); font-size:15px; color:var(--dim); position:relative; line-height:1.6}
+  .edges li::before{content:""; position:absolute; left:2px; top:23px; width:14px; height:1.5px; background:var(--ox)}
+  .edges li b{color:var(--ink); font-weight:420}
+
+  /* ── start now + doors ── */
+  .startcard{margin:36px 0 0; background:var(--panel); border:1px solid var(--iron-soft); border-radius:4px; padding:24px 26px; display:flex; gap:22px; align-items:center; justify-content:space-between; flex-wrap:wrap; max-width:760px}
+  .startcard .txt{max-width:520px}
+  .startcard .lvl{font-family:var(--mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase; color:var(--iron)}
+  .startcard h3{font-family:var(--serif); font-weight:400; font-size:19px; margin:7px 0 5px}
+  .startcard p{color:var(--dim); font-size:14px}
+  .copybtn{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); background:transparent; border:1px solid var(--hair); border-radius:2px; padding:11px 17px; cursor:pointer; transition:.2s}
+  .copybtn:hover{color:var(--ink); border-color:var(--iron)}
+  .copybtn.done{color:var(--iron); border-color:var(--iron)}
+  .doors{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hair2); border:1px solid var(--hair); margin:40px 0 0; border-radius:3px; overflow:hidden}
+  @media(max-width:760px){ .doors{grid-template-columns:1fr} }
+  .door{background:var(--panel); padding:26px 24px 28px; text-decoration:none; transition:background .25s; display:block}
+  .door:hover{background:var(--paper2)}
+  .door .k{font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--iron); display:block; margin-bottom:11px}
+  .door h3{font-family:var(--serif); font-weight:400; font-size:19px; color:var(--ink); margin-bottom:7px}
+  .door p{font-size:13.5px; color:var(--dim); line-height:1.55}
+  .door .soon{font-size:8.5px; vertical-align:super; color:var(--faint); margin-left:5px; letter-spacing:.05em}
+
+  footer{border-top:1px solid var(--hair); padding:46px 0 60px; position:relative; z-index:2}
+  .foot{display:flex; justify-content:space-between; gap:26px; flex-wrap:wrap; align-items:flex-start}
+  .foot-note{color:var(--faint); font-size:12.5px; max-width:380px; line-height:1.7}
+  .foot-links{display:flex; gap:22px; flex-wrap:wrap}
+  .foot-links a{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); text-decoration:none}
+  .foot-links a:hover{color:var(--ink)}
+</style>
 </head>
 <body>
 
-<header class="site-header">
-  <img src="csis-pfp.png" alt="Coordination Structural Integrity Suite">
-  <div class="site-header-text">
-    <h1>Coordination Structural Integrity Suite</h1>
-    <p>Ten structural standards for coordination systems &nbsp;·&nbsp; CC BY 4.0 &nbsp;·&nbsp;
-      <a href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Standards repository</a>
-    </p>
+<!-- the lattice behind the page: always faintly there, amplified under the lens -->
+<div id="lattice-base" aria-hidden="true">
+  <svg width="100%" height="100%">
+    <defs>
+      <pattern id="latb" width="340" height="300" patternUnits="userSpaceOnUse">
+        <g class="lat-strut" stroke-width="2.6" opacity="0.75">
+          <line x1="40" y1="250" x2="120" y2="90"/>
+          <line x1="150" y1="270" x2="260" y2="140"/>
+          <line x1="230" y1="60" x2="320" y2="200"/>
+        </g>
+        <g class="lat-cable" stroke-width="1" opacity="0.65" fill="none">
+          <path d="M40 250 Q 100 268 150 270"/>
+          <path d="M120 90 Q 175 60 230 60"/>
+          <path d="M120 90 Q 190 120 260 140"/>
+          <path d="M260 140 Q 290 170 320 200"/>
+          <path d="M40 250 Q 135 230 320 200"/>
+        </g>
+        <g class="lat-node" opacity="0.6">
+          <circle cx="40" cy="250" r="3"/><circle cx="120" cy="90" r="3"/><circle cx="150" cy="270" r="3"/>
+          <circle cx="260" cy="140" r="3"/><circle cx="230" cy="60" r="3"/><circle cx="320" cy="200" r="3"/>
+        </g>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#latb)"/>
+  </svg>
+</div>
+<div id="lattice" aria-hidden="true">
+  <svg width="100%" height="100%">
+    <defs>
+      <pattern id="lat" width="340" height="300" patternUnits="userSpaceOnUse">
+        <g class="lat-strut" stroke-width="2.6" opacity="0.75">
+          <line x1="40" y1="250" x2="120" y2="90"/>
+          <line x1="150" y1="270" x2="260" y2="140"/>
+          <line x1="230" y1="60" x2="320" y2="200"/>
+        </g>
+        <g class="lat-cable" stroke-width="1" opacity="0.65" fill="none">
+          <path d="M40 250 Q 100 268 150 270"/>
+          <path d="M120 90 Q 175 60 230 60"/>
+          <path d="M120 90 Q 190 120 260 140"/>
+          <path d="M260 140 Q 290 170 320 200"/>
+          <path d="M40 250 Q 135 230 320 200"/>
+        </g>
+        <g class="lat-node" opacity="0.6">
+          <circle cx="40" cy="250" r="3"/><circle cx="120" cy="90" r="3"/><circle cx="150" cy="270" r="3"/>
+          <circle cx="260" cy="140" r="3"/><circle cx="230" cy="60" r="3"/><circle cx="320" cy="200" r="3"/>
+        </g>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#lat)"/>
+  </svg>
+</div>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="brand" href="#"><b>CSIS</b><span class="bfull"> · Coordination Structural Integrity Suite</span></a>
+    <div class="tabs">
+      <a class="tab keep" href="#the-structure">The Structure</a>
+      <a class="tab" href="use.html">Use the Suite</a>
+      <a class="tab" href="standards.html">Standards</a>
+      <a class="tab keep" href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Repo ↗</a>
+      <div class="modes" role="group" aria-label="Appearance mode">
+        <button class="mode" data-mode="system" title="Follow the system">Sys</button>
+        <button class="mode" data-mode="light" title="Light">L</button>
+        <button class="mode" data-mode="soft-light" title="Soft Light">SL</button>
+        <button class="mode" data-mode="soft-dark" title="Soft Dark">SD</button>
+        <button class="mode" data-mode="dark" title="Dark">D</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+<div class="rail" aria-hidden="true"></div>
+
+<!-- ═══ 1 · RECOGNITION ═══ -->
+<header class="hero">
+  <div class="wrap hero-grid">
+   <div class="hero-text">
+    <div class="mono eyebrow rv">Ten open standards for coordination systems</div>
+    <h1 class="rv">Make coordination <em>hold.</em></h1>
+    <p class="lede rv">Every organization is built twice: once in intention, once in structure. The two drift apart, and when they drift, structure wins. CSIS makes intention and structure move in the same direction: ten open standards that find the failures every organization writes off as human nature, and repair them where they actually live.</p>
+    <div class="stats rv">
+      <span><b>10</b> standards</span><span><b>1</b> structural model</span><span><b>5-stage</b> gap analysis</span><span><b>5-minute</b> start</span><span>runs in <b>any AI</b></span><span><b>CC BY 4.0</b>, free</span>
+    </div>
+    <div class="solves rv">
+      <div class="solves-head mono">Solved at the structure</div>
+      <div class="solve"><span class="f">Conflict that keeps returning</span><span class="s">Conflict Transformation</span></div>
+      <div class="solve"><span class="f">The trusted-insider exploit</span><span class="s">Power Obligation · Consent Legibility · Information Asymmetry</span></div>
+      <div class="solve"><span class="f">Burnout treated as a personal decision</span><span class="s">Four Batteries · Regenerative Obligation</span></div>
+      <div class="solve"><span class="f">Rules that break at ten times the people</span><span class="s">Coordination Scaling</span></div>
+      <div class="solve"><span class="f">Power nobody is accountable for</span><span class="s">Structural Power Obligation</span></div>
+      <div class="solve"><span class="f">The warning everyone ignored</span><span class="s">Adverse-Signal Engagement</span></div>
+      <div class="solve"><span class="f">Meetings that never make sense of anything</span><span class="s">Sensemaking</span></div>
+      <div class="solve"><span class="f">Rules so vague no one can break them</span><span class="s">Precision-First Design</span></div>
+    </div>
+   </div>
+   <div class="hero-fig rv" aria-hidden="true">
+    <svg viewBox="290 150 420 470" fill="none">
+      <g class="cable" stroke-width="1.4">
+        <path d="M442 526 Q 415 486 391 424"/>
+        <path d="M391 424 Q 530 452 667 460"/>
+        <path d="M667 460 Q 552 502 442 526"/>
+        <path d="M609 301 Q 470 292 333 266"/>
+        <path d="M333 266 Q 442 224 558 200"/>
+        <path d="M558 200 Q 588 252 609 301"/>
+        <path d="M442 526 Q 378 400 333 266"/>
+        <path d="M391 424 Q 470 300 558 200"/>
+        <path d="M667 460 Q 645 380 609 301"/>
+      </g>
+      <g class="strut-bar" stroke-width="8.5" stroke-linecap="round">
+        <line x1="442" y1="526" x2="609" y2="301"/>
+        <line x1="391" y1="424" x2="333" y2="266"/>
+        <line x1="667" y1="460" x2="558" y2="200"/>
+      </g>
+      <g class="strut-core" stroke-width="2.4" stroke-linecap="round" opacity="0.85">
+        <line x1="442" y1="526" x2="609" y2="301"/>
+        <line x1="391" y1="424" x2="333" y2="266"/>
+        <line x1="667" y1="460" x2="558" y2="200"/>
+      </g>
+      <g class="node-fill">
+        <circle cx="442" cy="526" r="5.5"/><circle cx="391" cy="424" r="5.5"/><circle cx="667" cy="460" r="5.5"/>
+        <circle cx="609" cy="301" r="5.5"/><circle cx="333" cy="266" r="5.5"/><circle cx="558" cy="200" r="5.5"/>
+      </g>
+      <g class="node-ring" fill="none" stroke-width="1">
+        <circle cx="442" cy="526" r="10"/><circle cx="391" cy="424" r="10"/><circle cx="667" cy="460" r="10"/>
+        <circle cx="609" cy="301" r="10"/><circle cx="333" cy="266" r="10"/><circle cx="558" cy="200" r="10"/>
+      </g>
+    </svg>
+    <p class="fig-note"><b>A structure that holds while nothing touches.</b> The rigid bars never meet; the cables never slack. This page explains why your organization works, and fails, the same way.</p>
+   </div>
   </div>
 </header>
 
-<main>
-
-<!-- ════════════════════ GATEWAY ════════════════════ -->
-<section id="view-gateway" class="view active">
-  <div class="container">
-    <p class="gateway-description">Ten structural standards for coordination systems: tools for understanding what your organization's structure is actually doing, where it is missing, and what that means.</p>
-
-    <div class="gateway-cards">
-
-      <button class="gateway-card gateway-card--cyan" onclick="showSelected('explore', 'cyan')">
-        <span class="card-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 8v4l3 3"/>
-            <circle cx="12" cy="12" r="1" fill="#22d3ee"/>
-          </svg>
-        </span>
-        <h2>Guide Me Through Understanding My Organization's Situation</h2>
-        <p>Describe what's happening. The AI listens in plain language, helps you understand what's structurally occurring, and tells you where to go next.</p>
-        <span class="arrow">→</span>
-      </button>
-
-      <button class="gateway-card gateway-card--gold" onclick="showSelected('assessment-new', 'gold')">
-        <span class="card-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="5" y="2" width="14" height="20" rx="2"/>
-            <path d="M9 7h6M9 11h6M9 15h4"/>
-            <path d="M15 15l2 2 3-3" stroke="#f59e0b"/>
-          </svg>
-        </span>
-        <h2>Full Standards and Gap Analysis For My Organization</h2>
-        <p>A structured five-stage process across all ten coordination standards. Each session produces a document you bring to the next.</p>
-        <span class="arrow">→</span>
-      </button>
-
-      <button class="gateway-card gateway-card--green" onclick="showSelected('assessment-return', 'green')">
-        <span class="card-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-            <path d="M3 3v5h5"/>
-          </svg>
-        </span>
-        <h2>Pick Up Where I Left Off</h2>
-        <p>Have your last session's document ready to paste. The prompt resumes from where you stopped.</p>
-        <span class="arrow">→</span>
-      </button>
-
-      <button class="gateway-card gateway-card--muted" onclick="showView('library')">
-        <span class="card-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6b7a99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="5" width="18" height="2.5" rx="1"/>
-            <rect x="3" y="10.75" width="18" height="2.5" rx="1"/>
-            <rect x="3" y="16.5" width="18" height="2.5" rx="1"/>
-          </svg>
-        </span>
-        <h2>Explore the Full Prompt Library</h2>
-        <p>Browse and copy any prompt directly. All instruments across all ten standards.</p>
-        <span class="arrow">→</span>
-      </button>
-
-    </div>
-
-    <div class="foundation-block">
-      <p>The Coordination Structural Integrity Suite rests on two foundational commitments held together: precision and non-harming. Precision without non-harming becomes a control instrument: legibility in service of power rather than protection. Non-harming without precision becomes an attack surface: the good faith and informal trust that sufficiently adversarial actors exploit most reliably, operating in the spaces where formal instruments have no purchase. The fragility of those spaces is no longer a theoretical concern. It is the condition of the moment we are in.</p>
-      <p>Held together, they produce the structural conditions under which genuine presence is possible. For people who have been harmed by informality used against them, explicit structure is not a bureaucratic imposition. It is what trust requires before it can be extended again. The precision is the compassion. The suite is built on this foundation: not as a ceiling, but as what makes a ceiling possible.</p>
-    </div>
+<!-- ═══ 2 · THE BELIEF ═══ -->
+<section class="belief" id="the-belief">
+  <div class="wrap narrow">
+    <div class="mono eyebrow rv"><span class="n">01</span>The claim</div>
+    <h2 class="rv">Organizational failure is a structural problem. This is the structural answer.</h2>
+    <p class="body rv">Recurring conflict, exploited trust, burnout, opacity, collapse under scale: every organization meets them, and nearly every organization files them under human nature. Process gets tried and becomes bureaucracy; values get written down and change nothing; the retreat helps for a month. CSIS treats the same failures as engineering: each has a <strong>findable structural cause</strong>, a named standard that addresses it, and a specified repair.</p>
+    <blockquote class="rv"><p>The belief that a problem is just human nature is the problem's best protection, because <em>a failure no one believes is structural is never examined structurally.</em></p></blockquote>
+    <p class="body rv">These recurrences are not weather. Each one is produced by something specific and findable in how the <span class="term">coordination system<span class="tip"><span class="lbl">term</span>Any arrangement where people combine effort toward something none could do alone: a team, a DAO, a nonprofit, a co-op, a company, a community. The word is deliberately broad; the failures repeat across all of them.</span></span> is put together, usually by a load-bearing piece that is simply missing. Missing structure is invisible from inside, which is why the explanations keep landing on people. People are the only part you can see.</p>
   </div>
 </section>
 
-<!-- ════════════════════ SELECTED PROMPT ════════════════════ -->
-<section id="view-selected" class="view">
-  <div class="container">
-    <button class="back-btn" onclick="showView('gateway')">← Back</button>
-    <h2 class="selected-heading" id="selected-heading"></h2>
-    <p class="selected-sub" id="selected-sub"></p>
-    <div class="selected-instruction" id="selected-instruction"></div>
-    <button class="selected-copy-btn" id="selected-copy-btn" onclick="copySelected()">Copy Prompt</button>
-    <div class="selected-launchers" id="selected-launchers"></div>
-  </div>
-</section>
-
-<!-- ════════════════════ LIBRARY ════════════════════ -->
-<section id="view-library" class="view">
-  <div class="container">
-    <button class="back-btn" onclick="showView('gateway')">← Back</button>
-
-    <div class="instruction-banner">
-      <strong>How to use these prompts:</strong> Copy the prompt first, before opening your AI.
-      <div class="instruction-steps">
-        <div class="step"><div class="step-num">1</div>Click Copy Prompt</div>
-        <div class="step"><div class="step-num">2</div>Open your AI in a new tab</div>
-        <div class="step"><div class="step-num">3</div>Paste and send</div>
-        <div class="step"><div class="step-num">4</div>Then describe your situation</div>
+<!-- ═══ 3 · ONE REPAIR, WORKED ═══ -->
+<section class="repair" id="one-repair">
+  <div class="wrap">
+    <div class="mono eyebrow rv"><span class="n">02</span>One repair, worked</div>
+    <h2 class="rv">The insider who used the informality.</h2>
+    <div class="case rv">
+      <div class="case-step">
+        <span class="k">What happened</span>
+        <p>A community discovers that a trusted member has been quietly steering shared money toward their own circle for a year. The response is shock, then the question everyone asks: <b>how could a person we trusted do this?</b></p>
+      </div>
+      <div class="case-step">
+        <span class="k">The structure under it</span>
+        <p>Wrong question. The right one: <b>what made it possible for so long?</b> Every safeguard was informal: good faith, reputation, the assumption someone would notice. The exploit did not defeat the structure. It operated where structure had never been built, and informality gave it a year of cover.</p>
+      </div>
+      <div class="case-step">
+        <span class="k">The repair</span>
+        <p>Not better people, and not surveillance. <b>Make the visibility structural:</b> who can move what, and who must be able to see it, stated explicitly, before trust is extended. The exploit needed the informality. Remove the informality it needed, and keep the trust.</p>
       </div>
     </div>
-
-    <!-- Start Here -->
-    <div class="group">
-      <div class="group-heading">Start Here</div>
-      <div id="card-explore"></div>
-      <div id="card-triage"></div>
-    </div>
-
-    <!-- CSIS Assessment -->
-    <div class="group">
-      <div class="group-heading">Full Standards and Gap Analysis</div>
-      <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.85rem; line-height:1.5;">One prompt, five stages. Paste your prior session's output to resume where you left off. Start fresh and the prompt begins with Stage 1.</p>
-      <div id="card-assessment"></div>
-    </div>
-
-    <!-- Suite-Level -->
-    <div class="group">
-      <div class="group-heading">Suite-Level Assessments</div>
-      <div id="card-suite-compressive"></div>
-      <div id="card-suite-generative"></div>
-      <div id="card-suite-full"></div>
-    </div>
-
-    <!-- Suite Documents -->
-    <div class="group">
-      <div class="group-heading">Suite Documents</div>
-      <div id="card-architecture-orientation"></div>
-      <div id="card-structural-patterns-primer"></div>
-      <div id="card-integration-guide"></div>
-      <div id="card-deployment-contexts"></div>
-      <div id="card-conflict-preconditions"></div>
-      <div id="card-six-v"></div>
-    </div>
-
-    <!-- Dimensional Frame Language -->
-    <div class="group">
-      <div class="group-heading">Dimensional Frame Language</div>
-      <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.85rem; line-height:1.5;">The foundational vocabulary substrate the standards rest on (Frame Language for short). The audit checks a document's language for structural assumptions its stated purpose does not intend.</p>
-      <div id="card-frame-language"></div>
-    </div>
-
-    <!-- Compressive Standards -->
-    <div class="group">
-      <div class="group-heading">Tensegrity Compressive Standards</div>
-
-      <div class="group-sub">Precision-First Design Standard</div>
-      <div id="card-precision-general"></div>
-      <div id="card-precision-governance"></div>
-      <div id="card-precision-software"></div>
-
-      <div class="group-sub">Adverse Signal Engagement Principle Core Standard</div>
-      <div id="card-adverse-org"></div>
-      <div id="card-adverse-regulatory"></div>
-      <div id="card-adverse-ai"></div>
-
-      <div class="group-sub">Structural Consent Legibility Standard</div>
-      <div id="card-consent"></div>
-
-      <div class="group-sub">Information Asymmetry Classification Standard</div>
-      <div id="card-info-asymmetry"></div>
-
-      <div class="group-sub">Structural Power Obligation Standard</div>
-      <div id="card-power-distribution"></div>
-
-      <div class="group-sub">Regenerative Obligation Standard</div>
-      <div id="card-regenerative-accountability"></div>
-
-      <div class="group-sub">Coordination Scaling Standard</div>
-      <div id="card-coordination-scaling"></div>
-    </div>
-
-    <!-- Generative Standards -->
-    <div class="group">
-      <div class="group-heading">Tensegrity Generative Standards</div>
-      <div id="card-sensemaking"></div>
-      <div id="card-four-batteries"></div>
-      <div id="card-conflict-transformation"></div>
-    </div>
-
+    <p class="case-after rv">That is one repair, and even this one draws on four of the standards at once: who can move what is power made legible, who benefits is consent made verifiable, the insider's unshareable view is a named information asymmetry, and "stated explicitly" is the precision discipline under all of it. <b>The standards hold each other up,</b> and why that is the suite's actual design is the next section.</p>
   </div>
 </section>
 
-<!-- ════════════════════ GUIDED ════════════════════ -->
-<section id="view-guided" class="view">
-  <div class="container">
-    <button class="back-btn" onclick="showView('gateway')">← Back</button>
-    <p class="guided-heading">What best describes why you are here?</p>
+<!-- ═══ 4 · THE STRUCTURE ═══ -->
+<section class="structure" id="the-structure">
+  <div class="wrap">
+    <div class="mono eyebrow rv"><span class="n">03</span>Structural integrity, for coordination</div>
+    <h2 class="rv">The engineering discipline organizations never had.</h2>
+    <p class="body rv">A bridge gets load calculations before anyone crosses it. An organization gets a mission statement and a retreat. CSIS closes that gap with the model engineers use for structures that hold through opposing forces, because that is what an organization is.</p>
+    <p class="body rv">There is a class of structure held up by nothing you would expect: rigid bars that never touch each other, floating in a continuous net of cables. Engineers call it <span class="term">tensegrity<span class="tip"><span class="lbl">term</span>Tensional integrity: a structure of rigid parts under compression (struts) that do not touch, held in shape entirely by a continuous network of parts under tension (cables). Remove one cable and the whole structure sags; the members hold each other up.</span></span>. The bars push outward; the cables pull inward; each holds its shape only because the other is present. Remove a single cable and nothing snaps, but everything sags.</p>
+    <p class="body rv">Coordination holds the same way. Some of what an organization needs pushes back against force: explicit limits, stated rules, structure that resists exploitation. These are the <span class="term">compressive<span class="tip"><span class="lbl">term</span>The suite's word for standards that resist force: they hold their form under adversarial pressure, the way a strut holds under load. Seven of the ten standards are compressive.</span></span> members, the struts. And some of what it needs pulls the whole together: shared understanding, replenishment, the capacity to move through conflict rather than around it. These are the <span class="term">generative<span class="tip"><span class="lbl">term</span>The suite's word for standards that produce capacity rather than resist force: they carry tension the way cables do, connecting everything and keeping the rigid parts in relation. Three of the ten standards are generative.</span></span> members, the cables. Neither kind works alone, which is the quiet reason so many past fixes failed: a strut was installed where a cable was missing, or the other way around.</p>
 
-    <button class="guided-opt" onclick="selectGuided(this, 'explore',
-      'The Explore prompt listens to what you describe, addresses the conformance-assumption arrival pattern before any orientation work begins, and produces an exploration findings document you can carry forward.')">
-      I am new to this and want to understand what the suite is and whether it applies to my situation
-    </button>
-
-    <button class="guided-opt" onclick="selectGuided(this, 'assessment',
-      'The Full Standards and Gap Analysis is a five-stage structured process. It begins with process orientation and consent, works through all ten standards, and produces a gap map with an advancement plan.')">
-      I want to run a full standards and gap analysis of my organization
-    </button>
-
-    <button class="guided-opt" onclick="selectGuided(this, 'structural-patterns-primer',
-      'You can describe a recurring dynamic but not what is producing it. The Structural Patterns Primer identifies the structural pattern and tells you which standards address it.')">
-      I keep seeing the same problem in my organization and cannot explain what is producing it
-    </button>
-
-    <button class="guided-opt" onclick="selectGuided(this, 'architecture-orientation',
-      'The Architecture Orientation prompt explains what the suite is, why it has the shape it does: the tensegrity model, the compressive and generative distinction, and why each standard is where it is.')">
-      I want to understand the conceptual architecture of the suite before using it
-    </button>
-
-    <button class="guided-opt" onclick="selectGuided(this, 'deployment-contexts',
-      'You have a specific presenting situation and want the right standards combination for it. The Deployment Contexts prompt routes you to one of five named configurations.')">
-      I have a specific situation and want to know which standards combination to use
-    </button>
-
-    <button class="guided-opt" onclick="selectGuided(this, 'integration-guide',
-      'You are already adopting standards and want to know what to prioritize next. The Integration Guide identifies detection reliability concerns and names your next adoption step.')">
-      I am already using the suite and want to know what to do next
-    </button>
-
-    <button class="guided-opt" onclick="selectGuided(this, 'conflict-preconditions',
-      'You are planning a conflict transformation process. The Preconditions prompt produces a proceed/adjust/defer assessment for each structural precondition before you begin.')">
-      I am about to run a conflict transformation process and need to check readiness
-    </button>
-
-    <button class="guided-opt" onclick="selectGuided(this, 'six-v',
-      'You need to assess trust in a specific relationship or understand a past governance failure. The Six-V prompt walks the six-V sequence against your specific case.')">
-      I need to assess trust in a specific relationship or analyze a past failure
-    </button>
-
-    <button class="guided-opt" onclick="selectGuided(this, 'frame-language',
-      'The Frame Language Vocabulary Audit examines governance, charter, proposal, or regenerative documents for vocabulary that imports structural assumptions the stated purpose does not intend. It includes a regen-specific Regen Reality Check for documents making regenerative claims.')">
-      I want to check whether a document's language imports structural assumptions it does not intend
-    </button>
-
-    <div id="guided-result" class="result-panel">
-      <h3 id="result-name"></h3>
-      <p class="result-why" id="result-why"></p>
-      <p class="result-instruction">
-        <strong>Copy the prompt first.</strong> Then open your AI in a new tab, paste, and send. Once it responds, describe your situation.
-      </p>
-      <button class="result-copy-btn" id="result-copy-btn" onclick="copyResultPrompt()">Copy Prompt</button>
-      <div class="result-launchers" id="result-launchers"></div>
+    <div class="platewrap rv" id="platewrap">
+      <svg class="plate-svg" viewBox="0 0 1000 640" aria-label="A tensegrity figure: three struts that never touch, held by nine cables.">
+        <!-- ground shadow -->
+        <g class="shadowline" stroke-width="0.8" opacity="0.28" fill="none">
+          <path d="M330 596 l-12 15 M380 596 l-12 15 M430 596 l-12 15 M480 596 l-12 15 M530 596 l-12 15 M580 596 l-12 15 M630 596 l-12 15 M680 596 l-12 15"/>
+          <line x1="300" y1="596" x2="700" y2="596" stroke-width="1.2"/>
+        </g>
+        <!-- cables: continuous tension, the solved generative ink -->
+        <g class="cable" stroke-width="1.4" fill="none">
+          <!-- bottom triangle -->
+          <path d="M442 526 Q 415 486 391 424"/>
+          <path d="M391 424 Q 530 452 667 460"/>
+          <path d="M667 460 Q 552 502 442 526"/>
+          <!-- top triangle -->
+          <path d="M609 301 Q 470 292 333 266"/>
+          <path d="M333 266 Q 442 224 558 200"/>
+          <path d="M558 200 Q 588 252 609 301"/>
+          <!-- vertical run -->
+          <path d="M442 526 Q 378 400 333 266"/>
+          <path d="M391 424 Q 470 300 558 200"/>
+          <path d="M667 460 Q 645 380 609 301"/>
+        </g>
+        <!-- struts: discontinuous compression, the solved compressive ink -->
+        <g class="strut">
+          <g class="strut-bar" stroke-width="7.5" stroke-linecap="round">
+            <line x1="442" y1="526" x2="609" y2="301"/>
+            <line x1="391" y1="424" x2="333" y2="266"/>
+            <line x1="667" y1="460" x2="558" y2="200"/>
+          </g>
+          <g class="strut-core" stroke-width="2.2" stroke-linecap="round" opacity="0.85">
+            <line x1="442" y1="526" x2="609" y2="301"/>
+            <line x1="391" y1="424" x2="333" y2="266"/>
+            <line x1="667" y1="460" x2="558" y2="200"/>
+          </g>
+        </g>
+        <!-- nodes -->
+        <g class="node-fill">
+          <circle cx="442" cy="526" r="5"/><circle cx="391" cy="424" r="5"/><circle cx="667" cy="460" r="5"/>
+          <circle cx="609" cy="301" r="5"/><circle cx="333" cy="266" r="5"/><circle cx="558" cy="200" r="5"/>
+        </g>
+        <g class="node-ring" fill="none" stroke-width="1">
+          <circle cx="442" cy="526" r="9"/><circle cx="391" cy="424" r="9"/><circle cx="667" cy="460" r="9"/>
+          <circle cx="609" cy="301" r="9"/><circle cx="333" cy="266" r="9"/><circle cx="558" cy="200" r="9"/>
+        </g>
+        <!-- leader annotations -->
+        <g font-family="Geist Mono, monospace" font-size="12.5" letter-spacing="2">
+          <g class="lead-iron">
+            <line x1="620" y1="255" x2="760" y2="230" stroke-width="0.9"/>
+            <circle cx="596" cy="262" r="2.4"/>
+            <text x="770" y="227" class="lt-iron">COMPRESSIVE</text>
+            <text x="770" y="245" class="lt-faint" font-size="10.5">THE STRUTS · RESIST</text>
+          </g>
+          <g class="lead-gen">
+            <line x1="470" y1="375" x2="230" y2="410" stroke-width="0.9"/>
+            <circle cx="478" cy="373" r="2.4"/>
+            <text x="80" y="432" class="lt-gen">GENERATIVE</text>
+            <text x="80" y="450" class="lt-faint" font-size="10.5">THE CABLES · CONNECT</text>
+          </g>
+        </g>
+      </svg>
+      <div class="figcap">Plate I · <b>The struts never touch. The cables never slack.</b> Remove either kind and the other cannot hold.</div>
     </div>
 
+    <!-- the ten members -->
+    <div class="members">
+      <div class="member-col compressive rv" data-hl="strut">
+        <div class="colhead">
+          <svg class="glyph" viewBox="0 0 34 18"><line x1="3" y1="15" x2="31" y2="3" style="stroke:var(--iron)" stroke-width="5" stroke-linecap="round"/></svg>
+          <h3><em>Compressive</em> standards</h3><span class="sub">Seven struts</span>
+        </div>
+        <ul class="member-list">
+          <li><b>Precision-First Design</b>The suite's meta-standard: every term made operational, so a violation is detectable instead of arguable. All nine other standards rest on it.</li>
+          <li><b>Adverse-Signal Engagement</b>The unwelcome signal treated as a primary input, not noise to be minimized: engage it before it engages you.</li>
+          <li><b>Structural Consent Legibility</b>Consent you can verify, not just claim: who is acting and who benefits, made legible in every consent-bearing interaction.</li>
+          <li><b>Information Asymmetry Classification</b>Six named classes of informational advantage, so the gap you could not name can be detected, challenged, and closed.</li>
+          <li><b>Structural Power Obligation</b>Power measured on three independent dimensions, so concentration becomes detectable instead of indefinitely arguable.</li>
+          <li><b>Regenerative Obligation</b>What draws on contributors' capacity must return it: proportional, in kind, and inside the relationship it drew from.</li>
+          <li><b>Coordination Scaling</b>What holds at fifteen people breaks at fifty, and again at one hundred fifty; scaling is a structural event to design for.</li>
+        </ul>
+      </div>
+      <div class="member-col generative rv" data-hl="cable">
+        <div class="colhead">
+          <svg class="glyph" viewBox="0 0 34 18"><path d="M2 5 Q 17 18 32 5" fill="none" style="stroke:var(--ox)" stroke-width="2"/></svg>
+          <h3><em>Generative</em> standards</h3><span class="sub">Three cables</span>
+        </div>
+        <ul class="member-list">
+          <li><b>Sensemaking</b>The discipline that produces genuinely shared language, so coordination is real rather than a coincidence of motion.</li>
+          <li><b>Four Batteries</b>Personal, relational, contribution, mission: the four stores coordination runs on. Depletion is structural before it is personal.</li>
+          <li><b>Conflict Transformation</b>Moving through conflict so it reorganizes the structure, instead of around it so it returns.</li>
+        </ul>
+        <p class="members-note">Hover either column and the plate shows you which members you are reading. The full text of every standard lives in the repository; the practitioner tools live one page in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 5 · ONE DISCIPLINE ═══ -->
+<section class="discover" id="one-discipline">
+  <div class="wrap narrow">
+    <div class="mono eyebrow rv"><span class="n">04</span>Why one suite, and not one theory</div>
+    <h2 class="rv">The unity was found, not designed.</h2>
+    <p class="body rv">A claim that one framework solves coordination deserves your suspicion; frameworks that claim everything usually explain nothing. So it matters how this one was actually built: not downward from a theory, but sideways, one repair at a time. The same discipline of precision, applied to failure after failure across unlike communities, kept finding member after member of the same structure, the way the same load-bearing anatomy keeps turning up in funding programs that never learned from one another.</p>
+    <p class="big rv">The suite is not a theory that predicts the ten standards. It is <em>what accumulated</em> when the same rigor kept being applied wherever coordination failed.</p>
+  </div>
+</section>
+
+<!-- ═══ 6 · FOUNDATION ═══ -->
+<section class="foundation" id="foundation">
+  <div class="wrap narrow">
+    <div class="mono eyebrow rv"><span class="n">05</span>What the whole structure stands on</div>
+    <h2 class="rv">Two commitments, held together.</h2>
+    <div class="bind rv">
+      <p>The Coordination Structural Integrity Suite rests on two foundational commitments held together: precision and non-harming. <strong>Precision without non-harming becomes a control instrument:</strong> legibility in service of power rather than protection. <strong>Non-harming without precision becomes an attack surface:</strong> the good faith and informal trust that sufficiently adversarial actors exploit most reliably, operating in the spaces where formal instruments have no purchase. The fragility of those spaces is no longer a theoretical concern. It is the condition of the moment we are in.</p>
+      <p>Held together, they produce the structural conditions under which genuine presence is possible. For people who have been harmed by informality used against them, explicit structure is not a bureaucratic imposition. It is what trust requires before it can be extended again.</p>
+    </div>
+    <p class="cred rv">The precision <b>is</b> the compassion.</p>
+  </div>
+</section>
+
+<!-- ═══ 7 · HONEST EDGES ═══ -->
+<section class="edges" id="edges">
+  <div class="wrap narrow">
+    <div class="mono eyebrow rv"><span class="n">06</span>What this does not claim</div>
+    <h2 class="rv">The edges, stated plainly.</h2>
+    <ul class="rv">
+      <li><b>The standards establish structure, not verdicts.</b> They tell you what is missing and what holding it would require. Whether to build it, and what it is worth to you, stays your judgment; no standard here pretends to make it for you.</li>
+      <li><b>Structure does not replace trust; it is what lets trust be extended safely.</b> A community that adopts these and stops trusting has misread them.</li>
+      <li><b>Adoption is voluntary and gradual.</b> The standards are free, open, and usable one at a time (CC BY 4.0). Nothing requires the whole suite on day one; the plate just shows you what the missing members are doing to the ones you have.</li>
+      <li><b>Some problems really are people problems.</b> The claim is narrower and sharper: before concluding that, check the structure, because from inside, the two are indistinguishable.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ 8 · START, AND THE DOORS ═══ -->
+<section class="start" id="doors">
+  <div class="wrap">
+    <div class="mono eyebrow rv"><span class="n">07</span>Where to go from here</div>
+    <h2 class="rv">Start now. Free, open, five minutes.</h2>
+    <div class="startcard rv">
+      <div class="txt">
+        <div class="lvl">Five minutes, any AI</div>
+        <h3>Describe the problem. See its structure.</h3>
+        <p>One prompt: paste it into the AI you already use, then describe the problem in plain language. It shows you what is structurally producing it, which standard repairs it, and the smallest first repair.</p>
+      </div>
+      <button class="copybtn" id="explorecopy">Copy the prompt</button>
+    </div>
+    <div class="doors rv">
+      <a class="door" href="use.html">
+        <span class="k">For the practitioner</span>
+        <h3>Use the suite</h3>
+        <p>Guided routing from your situation, the full prompt library across all ten standards, and the five-stage gap analysis with session resumption.</p>
+      </a>
+      <a class="door" href="standards.html">
+        <span class="k">For the researcher</span>
+        <h3>Read the standards</h3>
+        <p>The full text of all ten standards, the architecture behind the compressive and generative distinction, and the vocabulary substrate they rest on.</p>
+      </a>
+      <a class="door" href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">
+        <span class="k">For anyone</span>
+        <h3>The repository ↗</h3>
+        <p>Everything is public and licensed CC BY 4.0. Take one standard, take the whole structure, adapt it to your community without permission or fee.</p>
+      </a>
+    </div>
   </div>
 </section>
 
 </main>
 
-<footer class="site-footer">
-  <a href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Standards repository</a>
-  &nbsp;·&nbsp; Coordination Structural Integrity Suite &nbsp;·&nbsp; CC BY 4.0
+<footer>
+  <div class="wrap foot">
+    <p class="foot-note">Coordination Structural Integrity Suite · ten structural standards for coordination systems, released CC BY 4.0. The standards establish the floor; the verdict stays yours. Color solved for every reader by TEMPER, the author's five-mode palette system; both inks hold their hue in every mode you can pick above.</p>
+    <div class="foot-links">
+      <a href="https://github.com/coordination-structural-integrity-suite/suite" target="_blank" rel="noopener">Standards repository ↗</a>
+      <a href="https://github.com/durgadasji/temper" target="_blank" rel="noopener">Tuned by TEMPER ↗</a>
+      <a href="use.html">Practitioner tools</a>
+      <a href="#the-structure">Plate I</a>
+    </div>
+  </div>
 </footer>
 
 <script>
-const BASE = 'https://raw.githubusercontent.com/coordination-structural-integrity-suite/suite/main/';
+  // TEMPER mode switcher: same storage shape as the tuner ({mode})
+  (function(){
+    var btns = document.querySelectorAll('.mode');
+    function mark(m){ btns.forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-mode') === m); }); }
+    btns.forEach(function(b){
+      b.addEventListener('click', function(){
+        var m = b.getAttribute('data-mode');
+        document.documentElement.dataset.theme = m;
+        try{ var s = JSON.parse(localStorage.getItem('temper')||'{}'); s.mode = m; localStorage.setItem('temper', JSON.stringify(s)); }catch(e){}
+        mark(m);
+      });
+    });
+    mark(document.documentElement.dataset.theme || 'system');
+  })();
 
-const AI_PLATFORMS = [
-  { name: 'Claude',      url: 'https://claude.ai/new' },
-  { name: 'ChatGPT',    url: 'https://chatgpt.com/' },
-  { name: 'Gemini',     url: 'https://gemini.google.com/' },
-  { name: 'Perplexity', url: 'https://www.perplexity.ai/' },
-];
+  // reader's lens: the lattice is always there; attention reveals it
+  (function(){
+    var idle;
+    document.addEventListener('pointermove', function(e){
+      document.documentElement.style.setProperty('--gx', e.clientX + 'px');
+      document.documentElement.style.setProperty('--gy', e.clientY + 'px');
+      document.body.classList.add('lens-on');
+      clearTimeout(idle);
+      idle = setTimeout(function(){ document.body.classList.remove('lens-on'); }, 1800);
+    }, {passive:true});
+  })();
 
-const PROMPTS = {
-  'explore': {
-    name: 'Explore the Coordination Structural Integrity Suite',
-    useOn: 'New to the suite, unsure whether it applies, or want to understand your structural situation before committing to a formal process. Addresses the conformance-assumption arrival pattern. Produces an exploration findings document you can carry into the assessment process.',
-    path: 'tensegrity-suite/prompts/suite/suite-explore-coordination-structural-integrity-suite-0_1_0.md'
-  },
-  'triage': {
-    name: 'Where Do I Start? - Routing Triage',
-    useOn: 'For direct routing when you already know which standard or prompt you need. Produces a findings document you can save and return to. If you are new or unsure, use the Explore prompt above instead.',
-    path: 'tensegrity-suite/prompts/suite/suite-triage-where-do-i-start-0_1_1.md'
-  },
-  'assessment': {
-    name: 'Full Standards and Gap Analysis',
-    useOn: 'One prompt, five stages: foundation check, self-assessment across all ten standards, gap mapping, and advancement planning. Paste your prior session output to resume. Start fresh and Stage 1 begins automatically.',
-    path: 'tensegrity-suite/prompts/suite/suite-assessment-0_1_1.md'
-  },
-  'suite-compressive': {
-    name: 'Compressive Audit',
-    useOn: 'Any coordination system; runs all seven Tensegrity Compressive Standards',
-    path: 'tensegrity-suite/prompts/suite/suite-compressive-audit-0_1_4.md'
-  },
-  'suite-generative': {
-    name: 'Generative Assessment',
-    useOn: 'Any coordination system; runs all three Tensegrity Generative Standards',
-    path: 'tensegrity-suite/prompts/suite/suite-generative-assessment-0_1_1.md'
-  },
-  'suite-full': {
-    name: 'Full Suite Audit',
-    useOn: 'Any coordination system; all ten standards with cross-layer interaction analysis',
-    path: 'tensegrity-suite/prompts/suite/suite-full-audit-0_1_2.md'
-  },
-  'architecture-orientation': {
-    name: 'Tensegrity Architecture Orientation',
-    useOn: 'Encountering the suite for the first time, or wanting to understand why it has the shape it does',
-    path: 'tensegrity-suite/prompts/tensegrity-architecture/tensegrity-architecture-orientation-0_1_0.md'
-  },
-  'structural-patterns-primer': {
-    name: 'Structural Patterns Primer',
-    useOn: 'When you can describe a recurring dynamic and want to know what structural pattern is producing it',
-    path: 'tensegrity-suite/prompts/structural-patterns-primer/structural-patterns-primer-recognition-0_1_0.md'
-  },
-  'integration-guide': {
-    name: 'Suite Integration Guide: Adoption Sequencing',
-    useOn: 'Already adopting standards and want to know what to prioritize next',
-    path: 'tensegrity-suite/prompts/integration-guide/integration-guide-adoption-sequencing-0_1_0.md'
-  },
-  'deployment-contexts': {
-    name: 'Suite Deployment Contexts: Combination Selection',
-    useOn: 'Ready to adopt and want a standards configuration matched to your specific context',
-    path: 'tensegrity-suite/prompts/deployment-contexts/deployment-contexts-combination-selection-0_1_0.md'
-  },
-  'conflict-preconditions': {
-    name: 'Conflict Transformation Preconditions',
-    useOn: 'Planning to run a conflict transformation process and need to check structural readiness',
-    path: 'tensegrity-suite/prompts/conflict-transformation-preconditions/conflict-transformation-preconditions-readiness-0_1_0.md'
-  },
-  'six-v': {
-    name: 'Six-V Trust Framework Application Guide',
-    useOn: 'Assessing a specific relationship for trust extension, or analyzing a past governance or security failure',
-    path: 'tensegrity-suite/prompts/six-v/six-v-application-guide-0_1_0.md'
-  },
-  'precision-general': {
-    name: 'Precision-First: General Audit',
-    useOn: 'Any document, specification, or standard',
-    path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-general-0_1_6.md'
-  },
-  'precision-governance': {
-    name: 'Precision-First: Governance Audit',
-    useOn: 'DAO proposals, bylaws, charters, policies, constitutions',
-    path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-governance-0_1_6.md'
-  },
-  'precision-software': {
-    name: 'Precision-First: Software Audit',
-    useOn: 'API contracts, requirements documents, schemas, technical designs',
-    path: 'tensegrity-suite/compressive/prompts/precision-first/precision-first-audit-software-0_1_6.md'
-  },
-  'adverse-org': {
-    name: 'Adverse Signal: Organizational Audit',
-    useOn: 'Governance documents, policies, process descriptions',
-    path: 'tensegrity-suite/compressive/prompts/adverse-signal/organizational-adverse-signal-audit-0_1_1.md'
-  },
-  'adverse-regulatory': {
-    name: 'Adverse Signal: Regulatory Compliance Audit',
-    useOn: 'Compliance frameworks, regulatory submissions',
-    path: 'tensegrity-suite/compressive/prompts/adverse-signal/regulatory-compliance-adverse-signal-audit-0_1_1.md'
-  },
-  'adverse-ai': {
-    name: 'Adverse Signal: AI Systems Audit',
-    useOn: 'AI system designs, model documentation, feedback architectures',
-    path: 'tensegrity-suite/compressive/prompts/adverse-signal/ai-adverse-signal-audit-0_1_1.md'
-  },
-  'consent': {
-    name: 'Structural Consent Legibility Audit',
-    useOn: 'Governance documents, participation terms, consent architecture',
-    path: 'tensegrity-suite/compressive/prompts/structural-consent/structural-consent-audit-0_1_1.md'
-  },
-  'info-asymmetry': {
-    name: 'Information Asymmetry Classification Audit',
-    useOn: 'Coordination system descriptions, governance documents, platform architecture',
-    path: 'tensegrity-suite/compressive/prompts/information-asymmetry/information-asymmetry-audit-0_1_1.md'
-  },
-  'power-distribution': {
-    name: 'Structural Power Obligation Audit',
-    useOn: 'Governance documents, organizational descriptions, protocol architecture',
-    path: 'tensegrity-suite/compressive/prompts/structural-power-obligation/structural-power-obligation-audit-0_1_2.md'
-  },
-  'regenerative-accountability': {
-    name: 'Regenerative Obligation Audit',
-    useOn: 'Organizations or protocols; assesses return to harm-bearing parties against three validity conditions; includes cross-reference to Frame Language Vocabulary Audit for documents making regenerative claims',
-    path: 'tensegrity-suite/compressive/prompts/regenerative-obligation/regenerative-obligation-audit-0_1_4.md'
-  },
-  'coordination-scaling': {
-    name: 'Coordination Scaling Audit',
-    useOn: 'Any coordination unit; assesses whether Board conditions for all crossed Radius thresholds are installed and Dome conditions are absent',
-    path: 'tensegrity-suite/compressive/prompts/coordination-scaling/coordination-scaling-audit-0_1_0.md'
-  },
-  'sensemaking': {
-    name: 'Sensemaking Presence Assessment',
-    useOn: 'Coordination systems, organizations, or processes',
-    path: 'tensegrity-suite/generative/prompts/sensemaking/sensemaking-presence-assessment-0_1_2.md'
-  },
-  'four-batteries': {
-    name: 'Four Batteries Presence Assessment',
-    useOn: 'Coordination systems or organizations',
-    path: 'tensegrity-suite/generative/prompts/four-batteries/four-batteries-presence-assessment-0_1_2.md'
-  },
-  'conflict-transformation': {
-    name: 'Conflict Transformation Presence Assessment',
-    useOn: 'Coordination systems or organizations',
-    path: 'tensegrity-suite/generative/prompts/conflict-transformation/conflict-transformation-presence-assessment-0_1_2.md'
-  },
-  'frame-language': {
-    name: 'Frame Language Vocabulary Audit',
-    useOn: 'Governance documents, charters, constitutions, proposal templates, dispute resolution processes, or regenerative/regen community documents; audits for vocabulary that imports structural assumptions the document\'s stated purpose does not intend; includes a regen-specific audit (Regen Reality Check) for documents making regenerative claims',
-    path: 'tensegrity-suite/prompts/frame-language/frame-language-vocabulary-audit-0_1_0.md'
-  },
-};
+  // scroll reveals
+  (function(){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, {threshold: 0.12});
+    document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+  })();
 
-// ── Selected prompt view ──
-const SELECTED_CONFIG = {
-  'explore': {
-    promptId: 'explore',
-    color: 'cyan',
-    heading: 'Guide Me Through Understanding My Organization\'s Situation',
-    sub: 'The AI listens to what you describe in plain language and helps you understand what\'s structurally occurring.',
-    instruction: '<strong>After sending this prompt, describe your organization and situation in your own words.</strong> What is happening, what brought you here, and what you are trying to understand. The AI will orient from there and tell you where to go next.'
-  },
-  'assessment-new': {
-    promptId: 'assessment',
-    color: 'gold',
-    heading: 'Full Standards and Gap Analysis For My Organization',
-    sub: 'A five-stage structured process across all ten coordination standards, with a downloadable output at each stage.',
-    instruction: '<strong>Starting fresh?</strong> Send this prompt, then describe your organization. The AI will begin Stage 1 (process orientation and consent) before any assessment work begins. If you have completed the Explore prompt, mention that and paste your exploration findings document.'
-  },
-  'assessment-return': {
-    promptId: 'assessment',
-    color: 'green',
-    heading: 'Pick Up Where I Left Off',
-    sub: 'The prompt identifies where you are and resumes from there.',
-    instruction: '<strong>Have your most recent stage output document ready.</strong> Send this prompt, then paste that document in your next message. The AI will read it, confirm where you are in the five-stage process, and continue from there. You do not need to re-run any prior stages.'
-  }
-};
+  // member highlighting: reading a column lights its members in the plate
+  (function(){
+    var plate = document.getElementById('platewrap');
+    document.querySelectorAll('.member-col').forEach(function(col){
+      var mode = col.getAttribute('data-hl');
+      col.addEventListener('mouseenter', function(){ plate.classList.add('hl-' + mode); });
+      col.addEventListener('mouseleave', function(){ plate.classList.remove('hl-strut','hl-cable'); });
+    });
+  })();
 
-let currentSelectedConfig = null;
+  // term tooltips on touch
+  document.querySelectorAll('.term').forEach(function(t){
+    t.addEventListener('click', function(e){ t.classList.toggle('open'); e.stopPropagation(); });
+  });
+  document.addEventListener('click', function(){ document.querySelectorAll('.term.open').forEach(function(t){ t.classList.remove('open'); }); });
 
-function showSelected(configKey, color) {
-  const cfg = SELECTED_CONFIG[configKey];
-  currentSelectedConfig = cfg;
-
-  document.getElementById('selected-heading').textContent = cfg.heading;
-  document.getElementById('selected-sub').textContent = cfg.sub;
-
-  const instrEl = document.getElementById('selected-instruction');
-  instrEl.innerHTML = cfg.instruction;
-  instrEl.className = 'selected-instruction selected-instruction--' + cfg.color;
-
-  const btn = document.getElementById('selected-copy-btn');
-  btn.textContent = 'Copy Prompt';
-  btn.className = 'selected-copy-btn selected-copy-btn--' + cfg.color;
-  btn.disabled = false;
-
-  document.getElementById('selected-launchers').classList.remove('visible');
-  document.getElementById('selected-launchers').innerHTML =
-    '<span class="ai-launchers-label">Then open your AI:</span>' +
-    AI_PLATFORMS.map(p => `<a href="${p.url}" target="_blank" rel="noopener" class="ai-btn">${p.name} ↗</a>`).join('');
-
-  showView('selected');
-}
-
-async function copySelected() {
-  if (!currentSelectedConfig) return;
-  const p = PROMPTS[currentSelectedConfig.promptId];
-  const btn = document.getElementById('selected-copy-btn');
-  btn.disabled = true;
-  btn.textContent = 'Loading…';
-  try {
-    const res = await fetch(BASE + p.path);
-    if (!res.ok) throw new Error('fetch failed');
-    const text = await res.text();
-    await navigator.clipboard.writeText(text);
-    btn.textContent = '✓ Copied!';
-    btn.classList.add('copied');
-    document.getElementById('selected-launchers').classList.add('visible');
-    setTimeout(() => {
-      btn.textContent = 'Copy Prompt';
-      btn.classList.remove('copied');
-      btn.disabled = false;
-    }, 3500);
-  } catch {
-    btn.textContent = 'Failed, try again';
-    btn.disabled = false;
-  }
-}
-
-// ── Render all library prompt cards ──
-function aiLaunchersHTML() {
-  return '<span class="ai-launchers-label">Open your AI:</span>' +
-    AI_PLATFORMS.map(p =>
-      `<a href="${p.url}" target="_blank" rel="noopener" class="ai-btn">${p.name} ↗</a>`
-    ).join('');
-}
-
-function renderCard(id) {
-  const p = PROMPTS[id];
-  if (!p) return;
-  const el = document.getElementById('card-' + id);
-  if (!el) return;
-  el.innerHTML = `
-    <div class="prompt-card">
-      <div class="prompt-card-row">
-        <div class="prompt-card-info">
-          <h3>${p.name}</h3>
-          <p class="use-on">${p.useOn}</p>
-        </div>
-        <button class="copy-btn" onclick="copyCard('${id}', this, this.closest('.prompt-card').querySelector('.ai-launchers'))">
-          Copy Prompt
-        </button>
-      </div>
-      <div class="ai-launchers">${aiLaunchersHTML()}</div>
-    </div>
-  `;
-}
-
-Object.keys(PROMPTS).forEach(renderCard);
-
-// ── View switching ──
-function showView(id) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-' + id).classList.add('active');
-  window.scrollTo(0, 0);
-}
-
-// ── Copy helpers ──
-async function fetchAndCopy(path) {
-  const res = await fetch(BASE + path);
-  if (!res.ok) throw new Error('fetch failed');
-  const text = await res.text();
-  await navigator.clipboard.writeText(text);
-  return text;
-}
-
-async function copyCard(id, btn, launchersEl) {
-  const p = PROMPTS[id];
-  if (!p) return;
-  btn.disabled = true;
-  btn.textContent = 'Loading…';
-  try {
-    await fetchAndCopy(p.path);
-    btn.textContent = '✓ Copied!';
-    btn.classList.add('copied');
-    launchersEl.classList.add('visible');
-    setTimeout(() => {
-      btn.textContent = 'Copy Prompt';
-      btn.classList.remove('copied');
-      btn.disabled = false;
-    }, 3500);
-  } catch {
-    btn.textContent = 'Failed, try again';
-    btn.disabled = false;
-  }
-}
-
-// ── Guided path ──
-let currentGuidedId = null;
-
-function selectGuided(optEl, promptId, why) {
-  document.querySelectorAll('.guided-opt').forEach(o => o.classList.remove('selected'));
-  optEl.classList.add('selected');
-  currentGuidedId = promptId;
-
-  const p = PROMPTS[promptId];
-  document.getElementById('result-name').textContent = p.name;
-  document.getElementById('result-why').textContent = why;
-
-  const btn = document.getElementById('result-copy-btn');
-  btn.textContent = 'Copy Prompt';
-  btn.classList.remove('copied');
-  btn.disabled = false;
-
-  const launchers = document.getElementById('result-launchers');
-  launchers.classList.remove('visible');
-  launchers.innerHTML = aiLaunchersHTML();
-
-  document.getElementById('guided-result').classList.add('visible');
-  document.getElementById('guided-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-async function copyResultPrompt() {
-  if (!currentGuidedId) return;
-  const p = PROMPTS[currentGuidedId];
-  const btn = document.getElementById('result-copy-btn');
-  btn.disabled = true;
-  btn.textContent = 'Loading…';
-  try {
-    await fetchAndCopy(p.path);
-    btn.textContent = '✓ Copied!';
-    btn.classList.add('copied');
-    document.getElementById('result-launchers').classList.add('visible');
-    setTimeout(() => {
-      btn.textContent = 'Copy Prompt';
-      btn.classList.remove('copied');
-      btn.disabled = false;
-    }, 3500);
-  } catch {
-    btn.textContent = 'Failed, try again';
-    btn.disabled = false;
-  }
-}
+  // explore prompt: live fetch from the suite repository, with a local fallback
+  (function(){
+    var BASE = 'https://raw.githubusercontent.com/coordination-structural-integrity-suite/suite/main/';
+    var PATH = 'tensegrity-suite/prompts/suite/suite-explore-coordination-structural-integrity-suite-0_1_0.md';
+    var FALLBACK = 'I want to explore the Coordination Structural Integrity Suite (ten structural standards for coordination systems, github.com/coordination-structural-integrity-suite/suite). Start by listening: I will describe a recurring problem in my organization in plain language. Help me understand what is structurally producing it, which of the ten standards addresses it, and what the smallest first repair would be. Establish what is actually there; leave the judgment of what it is worth to me.';
+    var btn = document.getElementById('explorecopy');
+    btn.addEventListener('click', function(){
+      fetch(BASE + PATH).then(function(r){ if(!r.ok) throw 0; return r.text(); })
+        .catch(function(){ return FALLBACK; })
+        .then(function(text){ return navigator.clipboard.writeText(text); })
+        .then(function(){
+          btn.textContent = 'Copied ✓'; btn.classList.add('done');
+          setTimeout(function(){ btn.textContent = 'Copy the prompt'; btn.classList.remove('done'); }, 2000);
+        });
+    });
+  })();
 </script>
-
 </body>
 </html>
