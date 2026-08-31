@@ -14,7 +14,7 @@ No accounts, logins, or credits are required. You use your own AI: copy a prompt
 
 ## Design
 
-Color is solved by [TEMPER](https://github.com/durgadasji/temper), a five-mode semantic palette system (System, Light, Soft Light, Soft Dark, Dark; the switcher is in the nav). The suite's two member classes carry the site's two inks: iron for the compressive standards, oxblood for the generative, both held to their hue in every mode. The pages are static single files with no build step; `temper-theme.css` is vendored from the TEMPER repository.
+Color is solved by [TEMPER](https://github.com/Polymathie-Studio/temper), a five-mode semantic palette system (System, Light, Soft Light, Soft Dark, Dark; the switcher is in the nav). The suite's two member classes carry the site's two inks: iron for the compressive standards, oxblood for the generative, both held to their hue in every mode. The pages are static single files with no build step; `temper-theme.css` is vendored from the TEMPER repository.
 
 ## Standards repository
 
